@@ -2,10 +2,20 @@ import React, { useState } from 'react'
 
 const CreateTask = () => {
 
+  const [task, settask] = useState({})
+
   const SubmitHandler = (e) => {
     e.preventDefault()
-
+    settask({taskTitle, taskDate, category, taskDescription, active:false, newTask:true, completed:false, failed:false})
     console.log("Task Created")
+
+    
+
+    // settaskTitle('')
+    // settaskDate('')
+    // setassignTo('')
+    // setcategory('')
+    // settaskDescription('')
   }
 
   const [taskTitle, settaskTitle] = useState('')
@@ -83,5 +93,4 @@ const CreateTask = () => {
   </div>
   )
 }
-
 export default CreateTask
