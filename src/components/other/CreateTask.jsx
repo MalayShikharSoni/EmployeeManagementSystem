@@ -1,28 +1,42 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { AuthContext } from '../../context/AuthProvider'
 
 const CreateTask = () => {
 
-  const [task, settask] = useState({})
-
-  const SubmitHandler = (e) => {
-    e.preventDefault()
-    settask({taskTitle, taskDate, category, taskDescription, active:false, newTask:true, completed:false, failed:false})
-    console.log("Task Created")
-
-    
-
-    // settaskTitle('')
-    // settaskDate('')
-    // setassignTo('')
-    // setcategory('')
-    // settaskDescription('')
-  }
-
+  const [userData, setuserData] = useContext(AuthContext)
+  
   const [taskTitle, settaskTitle] = useState('')
   const [taskDate, settaskDate] = useState('')
   const [assignTo, setassignTo] = useState('')
   const [category, setcategory] = useState('')
-  const [taskDescription, settaskDescription] = useState('')
+  const [description, setdescription] = useState('')
+
+  const [newTask, setnewTask] = useState({})
+
+  const SubmitHandler = (e) => {
+    e.preventDefault()
+    setnewTask({taskTitle, taskDate, category, description, active:false, newTask:true, completed:false, failed:false})
+    console.log("Task Created")
+    const data = userData.employees
+
+    data.forEach((ele) => {
+      if(assignTo == ele.firstname){
+        ele.tasks.push(newTask)
+
+        ele.taskNumbers.newTask += 1
+      }
+    })
+
+    console.log(data)
+    
+
+    settaskTitle('')
+    settaskDate('')
+    setassignTo('')
+    setcategory('')
+    setdescription('')
+  }
+
 
   return (
     <div className='p-5 mt-7 rounded bg-[#1C1C1C]'>
@@ -77,9 +91,9 @@ const CreateTask = () => {
       <div className='bg-[#1C1C1C] flex flex-col items-start w-2/5'>
         <h3 className='bg-[#1C1C1C] text-sm text-gray-300 mb-0.5'>Description</h3>
         <textarea
-        value={taskDescription}
+        value={description}
         onChange={(e)=>{
-          settaskDescription(e.target.value)
+          setdescription(e.target.value)
         }}
          className='bg-[#1C1C1C] w-full h-44 text-sm px-4 py-2 rounded outline-none bg-transparent border-[1px] border-gray-400' name="" id="" cols="30" rows="10"></textarea>
         <button className='bg-emerald-500 py-3 hover:bg-emerald-600 px-5 rounded text-sm mt-4 w-full'>Create Task</button>
