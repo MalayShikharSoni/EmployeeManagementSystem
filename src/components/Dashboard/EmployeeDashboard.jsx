@@ -2,6 +2,7 @@ import React from 'react'
 import Header from '../other/Header'
 import TaskListNumbers from '../other/TaskListNumbers'
 import TaskList from '../TaskList/TaskList'
+import NameForm from '../other/NameForm'
 
 const EmployeeDashboard = (props) => {
   return (
@@ -9,6 +10,7 @@ const EmployeeDashboard = (props) => {
         <Header changeUser={props.changeUser} data={props.data} user={props.user}/>
         <TaskListNumbers data={props.data} />
         <TaskList data={props.data} />
+        <NameForm />
     </div>
   )
 }

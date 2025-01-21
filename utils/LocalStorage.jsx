@@ -10,7 +10,7 @@ const employees = [
       firstname: "Aarav",
       tasks: [
           {
-              active: true,
+              active: false,
               newTask: true,
               completed: false,
               failed: false,
@@ -41,9 +41,9 @@ const employees = [
           },
       ],
       taskNumbers: {
-          active: 1,
+          active: 0,
           newTask: 1,
-          completed: 3,
+          completed: 1,
           failed: 1,
       },
   },
@@ -55,7 +55,7 @@ const employees = [
       tasks: [
           {
               active: true,
-              newTask: true,
+              newTask: false,
               completed: false,
               failed: false,
               title: "Database Optimization",
@@ -86,7 +86,7 @@ const employees = [
       ],
       taskNumbers: {
           active: 1,
-          newTask: 1,
+          newTask: 0,
           completed: 1,
           failed: 1,
       },
@@ -98,7 +98,7 @@ const employees = [
       firstname: "Meera",
       tasks: [
           {
-              active: true,
+              active: false,
               newTask: true,
               completed: false,
               failed: false,
@@ -129,7 +129,7 @@ const employees = [
           },
       ],
       taskNumbers: {
-          active: 1,
+          active: 0,
           newTask: 1,
           completed: 1,
           failed: 1,
@@ -143,7 +143,7 @@ const employees = [
       tasks: [
           {
               active: true,
-              newTask: true,
+              newTask: false,
               completed: false,
               failed: false,
               title: "Client Presentation",
@@ -174,7 +174,7 @@ const employees = [
       ],
       taskNumbers: {
           active: 1,
-          newTask: 1,
+          newTask: 0,
           completed: 1,
           failed: 1,
       },
