@@ -7,11 +7,14 @@ import TaskList from './components/TaskList/TaskList'
 import AdminDashboard from './components/Dashboard/AdminDashboard'
 import { getLocalStorage, setLocalStorage } from '../utils/localstorage'
 import { AuthContext } from './context/AuthProvider'
+import CustomCursor from './components/CustomCursor'
 
 
 const App = () => {
   
   const [user, setUser] = useState(null)
+  const [xAxis, setXAxis] = useState()
+  const [yAxis, setYAxis] = useState()
   const [loggedInUserData, setLoggedInUserData] = useState(null)
 
   const [userData, setUserData] = useContext(AuthContext)
@@ -52,8 +55,15 @@ const App = () => {
 
   return (
     <>
+    <div onMouseMove={(e) => {
+      setXAxis(e.clientX);
+      setYAxis(e.clientY);
+     } } className='relative' >
+    <CustomCursor x={xAxis} y={yAxis} />      
     {/* {localStorage.clear()} */}
+    {/* {console.log("x and y", xAxis, yAxis)} */}
     {!user ? <Login handleLogin={handleLogin} /> : user == "admin"  ? <AdminDashboard setuserData={setUserData} changeUser={setUser}/> : <EmployeeDashboard changeUser={setUser} data={loggedInUserData}  user={user} />}
+    </div>
     
     
     </>

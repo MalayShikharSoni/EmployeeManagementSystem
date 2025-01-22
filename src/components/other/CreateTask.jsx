@@ -3,12 +3,17 @@ import { AuthContext } from '../../context/AuthProvider'
 import { setLocalStorage } from '../../../utils/localstorage';
 
 const CreateTask = (props) => {
-
+  const [title, settitle] = useState('')
+  const [taskDate, settaskDate] = useState('')
+  const [assignTo, setassignTo] = useState('')
+  const [category, setcategory] = useState('')
+  const [description, setdescription] = useState('')
   
   
 
   useEffect(() => {
    
+    
     const storedUserData = localStorage.getItem('userData');
     if (storedUserData) {
       props.setuserData(JSON.parse(storedUserData)); 
@@ -29,11 +34,7 @@ const CreateTask = (props) => {
 
   const [userData, setuserData] = useContext(AuthContext)
   
-  const [title, settitle] = useState('')
-  const [taskDate, settaskDate] = useState('')
-  const [assignTo, setassignTo] = useState('')
-  const [category, setcategory] = useState('')
-  const [description, setdescription] = useState('')
+  
 
   // const [newTask, setnewTask] = useState({})
 
@@ -56,14 +57,17 @@ const CreateTask = (props) => {
     data.forEach((ele) => {
       if(assignTo == ele.firstname){
         
-        console.log(title)
+        console.log(title, ele.firstname)
         ele.taskNumbers.newTask = ele.taskNumbers.newTask + 1
         console.log(ele.taskNumbers.newTask)
         ele.tasks.push(currentTask)
+        console.log(ele)
 
       }
     })
-    localStorage.setItem('userData', JSON.stringify(userData));
+    localStorage.removeItem('userData')
+    localStorage.removeItem('employees');
+    localStorage.setItem('employees', JSON.stringify(userData));
     console.log(data)
     
 
@@ -86,7 +90,10 @@ const CreateTask = (props) => {
           <h3 className='bg-[#1C1C1C] text-sm text-gray-300 mb-0.5'>Task Title</h3>
           <input
           value={title}
-          onChange={handleChange2} 
+          onChange={(e)=>{
+            settitle(e.target.value)
+            
+          }}
           className='text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent border-[1px] border-gray-400 mb-4' type="text" placeholder='Make a UI Design' />
         </div>
 

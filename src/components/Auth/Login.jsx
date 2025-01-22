@@ -9,7 +9,6 @@ const Login = ({handleLogin}) => {
         
         e.preventDefault()
         handleLogin(email,password)
-        // console.log("Typ Shi")
         console.log("email is ",email)
         console.log("psw is ",password)
 
