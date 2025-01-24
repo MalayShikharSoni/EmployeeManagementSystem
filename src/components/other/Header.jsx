@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
 
-const Header = (props) => {
-  useEffect(()=>{
 
-  }, [])
+const Header = (props) => {
+
+
  
+  
   const LogOutUser = () => {
     localStorage.setItem('loggedInUser','')
     // window.location.reload()

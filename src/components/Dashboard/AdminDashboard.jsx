@@ -3,6 +3,7 @@ import Header from '../other/Header'
 import CreateTask from '../other/CreateTask'
 import AllTasks from '../other/AllTasks'
 import { AuthContext } from '../../context/AuthProvider'
+import { data } from 'autoprefixer'
 
 const AdminDashboard = (props) => {
   const [userData, setuserData] = useContext(AuthContext)
@@ -15,10 +16,10 @@ const AdminDashboard = (props) => {
     }
   }, [setuserData]);
   
-  console.log(userData)
+
   return (
     <div className='h-screen w-full p-7'>
-      <Header changeUser={props.changeUser} />
+      <Header data={props.data} changeUser={props.changeUser} />
       <CreateTask setuserData={props.setuserData}/>
       <AllTasks />
     </div>

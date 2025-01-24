@@ -10,8 +10,8 @@ const employees = [
       firstname: "Aarav",
       tasks: [
           {
-              active: false,
-              newTask: true,
+              active: true,
+              newTask: false,
               completed: false,
               failed: false,
               title: "Code Review",
@@ -41,8 +41,8 @@ const employees = [
           },
       ],
       taskNumbers: {
-          active: 0,
-          newTask: 1,
+          active: 1,
+          newTask: 0,
           completed: 1,
           failed: 1,
       },
@@ -184,9 +184,10 @@ const employees = [
 
 
 const admin = {
-      "id": 1,
-      "email": "admin@example.com",
-      "password": "123"
+      id: 1,
+      email: "admin@example.com",
+      password: "123",
+      firstname: "Admin"
     }
 
 

@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../../context/AuthProvider'
 import { setLocalStorage } from '../../../utils/localstorage';
 
+
 const CreateTask = (props) => {
   const [title, settitle] = useState('')
   const [taskDate, settaskDate] = useState('')
@@ -65,7 +66,6 @@ const CreateTask = (props) => {
 
       }
     })
-    localStorage.removeItem('userData')
     localStorage.removeItem('employees');
     localStorage.setItem('employees', JSON.stringify(userData));
     console.log(data)
