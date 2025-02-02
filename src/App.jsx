@@ -11,12 +11,15 @@ import CustomCursor from './components/CustomCursor';
 
 const App = () => {
   const [user, setUser] = useState(null);
-  const [xAxis, setXAxis] = useState();
-  const [yAxis, setYAxis] = useState();
   const [loggedInUserData, setLoggedInUserData] = useState(null);
   const [changes, setChanges] = useState(0);
   const [userData, setUserData] = useContext(AuthContext);
+  
+  // console.log('usecontext wala userData hai: ',userData);
 
+  const [xAxis, setXAxis] = useState();
+  const [yAxis, setYAxis] = useState();
+  
   useEffect(() => {
     console.log(changes)
     const loggedInUser = localStorage.getItem('loggedInUser');

@@ -6,13 +6,18 @@ export const AuthContext = createContext()
 const AuthProvider = ({children}) => {
   // localStorage.clear()
     const [userData, setUserData] = useState(null)
-
+    const employees = null;
     useEffect(() => {
         
-        const {employees} = getLocalStorage()
-        setUserData({employees})
+        const employees = getLocalStorage()
+        console.log('authprovider ka employees: ',employees)
+        setUserData(employees)
+        console.log('useeffect ke andar: ',employees)
       
     }, [])
+    
+
+    console.log('useeffect ke bahar: ',employees || "none")
     
 
   return (
