@@ -13,12 +13,25 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [loggedInUserData, setLoggedInUserData] = useState(null);
   const [changes, setChanges] = useState(0);
-  const [userData, setUserData] = useContext(AuthContext);
+  const [xAxis, setXAxis] = useState();
+  const [yAxis, setYAxis] = useState();
+  // const [userData, setUserData] = useContext(AuthContext);
   
   // console.log('usecontext wala userData hai: ',userData);
 
-  const [xAxis, setXAxis] = useState();
-  const [yAxis, setYAxis] = useState();
+  const [userData, setUserData] = useContext(AuthContext)
+  // console.log('App se userData: ',userData)
+  
+  useEffect(()=>{
+    const loggedInUser = localStorage.getItem('loggedInUser')
+
+    if(loggedInUser){
+      const userData = JSON.parse(loggedInUser)
+      setUser(userData.role)
+      setLoggedInUserData(userData.data)
+    }
+  }, [])
+  //yaha authData passed tha
   
   useEffect(() => {
     console.log(changes)
