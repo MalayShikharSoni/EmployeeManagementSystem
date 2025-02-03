@@ -1,5 +1,8 @@
 import React from 'react'
 
+const [userData, setuserData] = useContext(AuthContext)
+
+
 const NewTask = ({data}) => {
   return (
 
