@@ -10,16 +10,17 @@ const CreateTask = (props) => {
   const [category, setcategory] = useState('')
   const [description, setdescription] = useState('')
   
+  const [userData, setuserData] = useContext(AuthContext)
+  console.log('CreateTask ka usecontext: ',userData)
   
 
   useEffect(() => {
-   
-    
-    const storedUserData = localStorage.getItem('userData');
-    if (storedUserData) {
-      props.setuserData(JSON.parse(storedUserData)); 
+    const storedEmployees = localStorage.getItem('employees');
+    // console.log('existence hai? ',storedEmployees)
+    if (storedEmployees) {
+      setuserData({ employees: JSON.parse(storedEmployees) });
     }
-  }, [props.setuserData]);
+  }, []);
 
   const handleChange1 = (event) => {
     const inputValue = event.target.value;
@@ -33,11 +34,10 @@ const CreateTask = (props) => {
     console.log(inputValue);
   };
 
-  const [userData, setuserData] = useContext(AuthContext)
   
   
 
-  // const [newTask, setnewTask] = useState({})
+
 
   const SubmitHandler = (e) => {
     e.preventDefault()
@@ -53,22 +53,23 @@ const CreateTask = (props) => {
     }
     console.log("current task is: ", currentTask)
     console.log("Task Created, it is:")
-    const data = userData.employees
+    // const data = [...userData.employees]
     
-    data.forEach((ele) => {
-      if(assignTo == ele.firstname){
-        
-        console.log(title, ele.firstname)
-        ele.taskNumbers.newTask = ele.taskNumbers.newTask + 1
-        console.log(ele.taskNumbers.newTask)
-        ele.tasks.push(currentTask)
-        console.log(ele)
+    
+    // Update the employees array
+  const updatedEmployees = userData.employees.map((ele) => {
+    if (assignTo === ele.firstname) {
+      ele.taskNumbers.newTask += 1;
+      ele.tasks.push(currentTask);
+    }
+    return ele;
+  });
 
-      }
-    })
-    localStorage.removeItem('employees');
-    localStorage.setItem('employees', JSON.stringify(userData));
-    console.log(data)
+  // Update the localStorage with the updated employees array
+  localStorage.setItem('employees', JSON.stringify(updatedEmployees));
+
+  // Update the state with the new employees array
+  setuserData({ employees: updatedEmployees });
     
 
     settitle('')

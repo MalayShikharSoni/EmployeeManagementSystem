@@ -1,13 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../context/AuthProvider';
 
-const NewTask = ({ setuserData, data, wholeData, AcceptClickButton }) => {
-  const [userData, setUserData] = useContext(AuthContext);
 
-  useEffect(() => {
-    // You could perform any effect based on `userData` here if needed
-  }, [userData]);
 
+  // const [userData, setuserData] = useContext(AuthContext)
+
+
+const NewTask = ({data}) => {
   return (
     <div className='flex-shrink-0 h-[300px] w-[300px] bg-blue-400 rounded-xl ml-2'>
       <div className='bg-transparent flex justify-between items-center p-2'>
