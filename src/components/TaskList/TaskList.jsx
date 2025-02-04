@@ -10,7 +10,7 @@ const TaskList = (props) => {
         
         {props.data.tasks.map((ele, idx)=>{
             if(ele.newTask){
-                return <NewTask key={idx} data={ele} wholeData={props.data} AcceptClickButton={props.AcceptClickButton} setuserData={props.setuserData}/>
+                return <NewTask key={idx} data={ele} wholeData={props.data} AcceptClickButton={props.AcceptClickButton} setuserData={props.setuserData} setLoggedInUserData={props.setLoggedInUserData}/>
             }
             if(ele.active){
                 return <AcceptedTask key={idx} data={ele} wholeData={props.data} setuserData={props.setuserData}/>

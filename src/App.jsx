@@ -15,6 +15,9 @@ const App = () => {
   const [changes, setChanges] = useState(0);
   const [xAxis, setXAxis] = useState();
   const [yAxis, setYAxis] = useState();
+
+  // setLocalStorage();
+  
   // const [userData, setUserData] = useContext(AuthContext);
   
   // console.log('usecontext wala userData hai: ',userData);
@@ -22,16 +25,6 @@ const App = () => {
   const [userData, setUserData] = useContext(AuthContext)
   // console.log('App se userData: ',userData)
   
-  useEffect(()=>{
-    const loggedInUser = localStorage.getItem('loggedInUser')
-
-    if(loggedInUser){
-      const userData = JSON.parse(loggedInUser)
-      setUser(userData.role)
-      setLoggedInUserData(userData.data)
-    }
-  }, [])
-  //yaha authData passed tha
   
   useEffect(() => {
     console.log(changes)
@@ -46,31 +39,31 @@ const App = () => {
     }
   }, [changes]);
 
-  const AcceptClickButton = (firstname, title) => {
-    const dataa = localStorage.getItem('employees');
-    const data = JSON.parse(dataa);
-    console.log(data)
+  // const AcceptClickButton = (firstname, title) => {
+  //   const dataa = localStorage.getItem('employees');
+  //   const data = JSON.parse(dataa);
+  //   console.log(data)
 
-    data.forEach((ele) => {
-      if (ele.firstname === firstname) {
-        const allTasks = ele.tasks;
-        allTasks.forEach((elem) => {
-          if (elem.title === title) {
-            elem.newTask = false;
-            elem.completed = false;
-            elem.failed = false;
-            elem.active = true;
+  //   data.forEach((ele) => {
+  //     if (ele.firstname === firstname) {
+  //       const allTasks = ele.tasks;
+  //       allTasks.forEach((elem) => {
+  //         if (elem.title === title) {
+  //           elem.newTask = false;
+  //           elem.completed = false;
+  //           elem.failed = false;
+  //           elem.active = true;
 
-            ele.taskNumbers.newTask -= 1;
-            ele.taskNumbers.active += 1;
-          }
-        });
-        setLoggedInUserData(ele);
-      }
-    });
-    localStorage.setItem('employees', JSON.stringify(data));
-    setChanges((prev) => prev + 1);
-  };
+  //           ele.taskNumbers.newTask -= 1;
+  //           ele.taskNumbers.active += 1;
+  //         }
+  //       });
+  //       setLoggedInUserData(ele);
+  //     }
+  //   });
+  //   localStorage.setItem('employees', JSON.stringify(data));
+  //   setChanges((prev) => prev + 1);
+  // };
 
   const adminData = {
     firstname: "Admin",
@@ -107,7 +100,7 @@ const App = () => {
         ) : user === "admin" ? (
           <AdminDashboard setUserData={setUserData} data={adminData} changeUser={setUser} />
         ) : (
-          <EmployeeDashboard setUserData={setUserData} AcceptClickButton={AcceptClickButton} changeUser={setUser} data={loggedInUserData} user={user} />
+          <EmployeeDashboard setUserData={setUserData}  changeUser={setUser} data={loggedInUserData} user={user} setLoggedInUserData={setLoggedInUserData}/>
         )}
       </div>
     </>

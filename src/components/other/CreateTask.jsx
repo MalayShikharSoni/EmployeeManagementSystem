@@ -22,23 +22,8 @@ const CreateTask = (props) => {
     }
   }, []);
 
-  const handleChange1 = (event) => {
-    const inputValue = event.target.value;
-    setassignTo(inputValue);
-    console.log(inputValue);
-  };
-
-  const handleChange2 = (event) => {
-    const inputValue = event.target.value;
-    settitle(inputValue);
-    console.log(inputValue);
-  };
-
+ 
   
-  
-
-
-
   const SubmitHandler = (e) => {
     e.preventDefault()
     const currentTask = {
@@ -57,20 +42,20 @@ const CreateTask = (props) => {
     
     
     // Update the employees array
-  const updatedEmployees = userData.employees.map((ele) => {
-    if (assignTo === ele.firstname) {
-      ele.taskNumbers.newTask += 1;
-      ele.tasks.push(currentTask);
-    }
-    return ele;
-  });
+    const updatedEmployees = userData.employees.map((ele) => {
+      if (assignTo === ele.firstname) {
+        ele.taskNumbers.newTask += 1;
+        ele.tasks.push(currentTask);
+      }
+      return ele;
+    });
 
-  // Update the localStorage with the updated employees array
-  localStorage.setItem('employees', JSON.stringify(updatedEmployees));
+    // Update the localStorage with the updated employees array
+    localStorage.setItem('employees', JSON.stringify(updatedEmployees));
 
-  // Update the state with the new employees array
-  setuserData({ employees: updatedEmployees });
-    
+    // Update the state with the new employees array
+    setuserData({ employees: updatedEmployees });
+      
 
     settitle('')
     settaskDate('')
@@ -112,8 +97,9 @@ const CreateTask = (props) => {
         <h3 className='bg-[#1C1C1C] text-sm text-gray-300 mb-0.5'>Assign to</h3>
         <input
         value={assignTo}
-        onChange={
-          handleChange1
+        onChange={(e)=>{
+          setassignTo(e.target.value)
+        }
         }
          className=' text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent border-[1px] border-gray-400 mb-4' type='text' placeholder="employee name" />
         </div>

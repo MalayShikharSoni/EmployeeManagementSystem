@@ -1,0 +1,12 @@
+* [33m83cef85[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m resolved conflicts
+*   [33m8bc6d50[m Merge commit '3367997'
+[32m|[m[33m\[m  
+[32m|[m * [33m3367997[m fixed CreateTask again
+* [33m|[m [33m894c161[m[33m ([m[1;31morigin/main[m[33m)[m probably gonna revert
+* [33m|[m [33mb54dcd5[m Accept button fixed
+* [33m|[m [33m0cfa965[m new task updation implemented
+[33m|[m[33m/[m  
+* [33m7393d37[m Task Creation fixed
+* [33m327945a[m task assignment functionality
+* [33m811c749[m logout button fixed
+* [33md0810ad[m first commit
