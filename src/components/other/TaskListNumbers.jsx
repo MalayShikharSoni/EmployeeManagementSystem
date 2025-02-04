@@ -1,14 +1,16 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../../context/AuthProvider';
 
-const TaskListNumbers = ({ data }) => {
-    const { taskNumbers } = data;
+const TaskListNumbers = () => {
+    // const { taskNumbers } = data;
 
     // console.log(taskNumbers)
 
     const [userData, setuserData] = useContext(AuthContext)
 
     const CurrentUser  = userData.loggedInUser;
+
+
 
     // console.log('TaskListNumbers ka userData: ',CurrentUser?.data.taskNumbers.newTask)
     // console.log('uska taskNumbers: ',userData.loggedInUser.data.taskNumbers)

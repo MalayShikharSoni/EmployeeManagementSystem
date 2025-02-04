@@ -9,9 +9,8 @@ const EmployeeDashboard = ({ changeUser, data, user, setuserData, AcceptClickBut
   return (
     <div className='p-10 bg-[#1C1C1C]'>
       <Header changeUser={changeUser} data={data} user={user} />
-      <TaskListNumbers data={data} />
+      <TaskListNumbers />
       <TaskList setuserData={setuserData} data={data} AcceptClickButton={AcceptClickButton} setLoggedInUserData={setLoggedInUserData} />
-      <NameForm />
     </div>
   );
 };
