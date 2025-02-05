@@ -32,20 +32,15 @@ const NewTask = ({ data, wholeData }) => {
     const storedEmployees = localStorage.getItem('employees');
     const storedLoggedInUser = localStorage.getItem('loggedInUser');
 
-    if (storedEmployees) {
+    if (storedEmployees || storedLoggedInUser) {
       setuserData((prevState) => ({
         ...prevState,
-        employees: JSON.parse(storedEmployees),
+        employees: storedEmployees ? JSON.parse(storedEmployees) : prevState.employees,
+        loggedInUser: storedLoggedInUser ? JSON.parse(storedLoggedInUser) : prevState.loggedInUser,
       }));
     }
+}, []);
 
-    if (storedLoggedInUser) {
-      setuserData((prevState) => ({
-        ...prevState,
-        loggedInUser: JSON.parse(storedLoggedInUser),
-      }));
-    }
-  }, [data, wholeData]);
 
   // ACCEPT CLICK BUTTON FUNCTION
   const AcceptClickButton = (firstname, title) => {
