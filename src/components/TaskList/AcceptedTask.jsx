@@ -1,7 +1,19 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { AuthContext } from '../../context/AuthProvider';
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
+
+
 
 const AcceptedTask = ({ data, wholeData }) => {
+
+  const yellowBox = useRef();
+  useGSAP(() => {
+    gsap.from(yellowBox.current, {
+      x:100,
+
+    })
+  })
   // console.log(data);
 
   // const MarkAsCompletedClickButton = () => {
@@ -154,7 +166,7 @@ const AcceptedTask = ({ data, wholeData }) => {
 
 
   return (
-    <div className='flex-shrink-0 h-[300px] w-[300px] bg-yellow-400 rounded-xl ml-2'>
+    <div ref={yellowBox} className='flex-shrink-0 h-[300px] w-[300px] bg-yellow-400 rounded-xl ml-2'>
     <div className='bg-transparent flex justify-between items-center p-2'>
         <h3 className='bg-red-600 px-3 py-1 text-sm rounded'>{dataa?.category}</h3>
         <h4 className='bg-transparent text-sm'>{dataa?.date}</h4>

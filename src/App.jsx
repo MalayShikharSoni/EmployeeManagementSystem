@@ -9,7 +9,13 @@ import { getLocalStorage, setLocalStorage } from '../utils/localstorage';
 import { AuthContext } from './context/AuthProvider';
 import CustomCursor from './components/CustomCursor';
 
+import { ToastContainer, toast } from 'react-toastify';
+import { useGSAP } from '@gsap/react';
+
 const App = () => {
+
+
+
   const [user, setUser] = useState(null);
   const [loggedInUserData, setLoggedInUserData] = useState(null);
   const [changes, setChanges] = useState(0);
@@ -69,16 +75,21 @@ const App = () => {
     firstname: "Admin",
   };
 
+  const loginNotification = () => toast('Logged In Successfully!');
+
   const handleLogin = (email, password) => {
     if (email === 'admin@me.com' && password === '123') {
       setUser("admin");
       localStorage.setItem('loggedInUser', JSON.stringify({ role: 'admin', data: userData.admin }));
+      loginNotification();
+
     } else if (userData) {
       const employee = userData.employees.find((e) => e.email === email && e.password === password);
       if (employee) {
         setUser(email);
         setLoggedInUserData(employee);
         localStorage.setItem('loggedInUser', JSON.stringify({ role: 'employee', data: employee }));
+        loginNotification();
       }
     } else {
       alert("Invalid credentials");
@@ -95,6 +106,9 @@ const App = () => {
         className='relative'
       >
         <CustomCursor x={xAxis} y={yAxis} />
+
+        <button onClick={loginNotification}>toastiiiifyyy</button>
+
         {!user ? (
           <Login handleLogin={handleLogin} />
         ) : user === "admin" ? (
@@ -102,7 +116,11 @@ const App = () => {
         ) : (
           <EmployeeDashboard setUserData={setUserData}  changeUser={setUser} data={loggedInUserData} user={user} setLoggedInUserData={setLoggedInUserData}/>
         )}
+      <ToastContainer/>
       </div>
+
+
+
     </>
   );
 };

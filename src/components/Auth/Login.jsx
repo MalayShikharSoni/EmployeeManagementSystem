@@ -29,14 +29,14 @@ const Login = ({handleLogin}) => {
                 onChange={(e)=>{
                     setemail(e.target.value)
                 }}
-                className='border-2 m-2 border-emerald-600 rounded-full px-3 py-3 text-xl placeholder:text-gray-400 w-full' type="email" placeholder='Enter your Email' />
+                className='border-2 m-2 border-emerald-600 rounded-full px-3 py-3 text-xl placeholder:text-gray-400 w-full focus: outline-none' type="email" placeholder='Enter your Email' />
                 <input 
                 value={password}
                 required
                 onChange={(e)=>{
                     setpassword(e.target.value)
                 }}
-                 className='border-2 m-2 border-emerald-600 rounded-full px-3 py-3 text-xl placeholder:text-gray-400 w-full' type="password" placeholder='Enter your password' />
+                 className='border-2 m-2 border-emerald-600 rounded-full px-3 py-3 text-xl placeholder:text-gray-400 w-full focus:outline-none' type="password" placeholder='Enter your password' />
                 <button className='border-none mt-5 bg-emerald-600 rounded-full px-3 py-3 text-xl  w-full'>Log in</button>
             </form>
         </div>

@@ -2,8 +2,37 @@ import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../../context/AuthProvider'
 import { setLocalStorage } from '../../../utils/localstorage';
 
+import { Slide, ToastContainer, toast } from 'react-toastify';
+
+
+
 
 const CreateTask = (props) => {
+
+  // const taskCreatedNotification = () => toast.info('🦄 Wow so easy!', {
+  //   position: "top-right",
+  //   autoClose: 5000,
+  //   hideProgressBar: false,
+  //   closeOnClick: false,
+  //   pauseOnHover: true,
+  //   draggable: true,
+  //   progress: undefined,
+  //   theme: "colored",
+  //   transition: Slide,
+  //   });
+
+  const taskCreatedNotification = () => toast.info('Task Assigned Successfully!', {
+    position: "bottom-right",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: false,
+    // pauseOnHover: true,
+    draggable: false,
+    progress: undefined,
+    theme: "dark",
+    transition: Slide,
+  });
+
   const [title, settitle] = useState('')
   const [taskDate, settaskDate] = useState('')
   const [assignTo, setassignTo] = useState('')
@@ -26,6 +55,7 @@ const CreateTask = (props) => {
   
   const SubmitHandler = (e) => {
     e.preventDefault()
+
     const currentTask = {
       title,
       taskDate,
@@ -55,7 +85,8 @@ const CreateTask = (props) => {
 
     // Update the state with the new employees array
     setuserData({ employees: updatedEmployees });
-      
+
+    taskCreatedNotification();
 
     settitle('')
     settaskDate('')
@@ -67,6 +98,8 @@ const CreateTask = (props) => {
 
   return (
     <div className='p-5 mt-7 rounded bg-[#1C1C1C]'>
+
+    
     <form onSubmit={(e)=>{
       SubmitHandler(e)
     }} className='p-10 flex flex-wrap w-full items-start justify-between bg-[#1C1C1C]'>
@@ -100,7 +133,7 @@ const CreateTask = (props) => {
         onChange={(e)=>{
           setassignTo(e.target.value)
         }
-        }
+      }
          className=' text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent border-[1px] border-gray-400 mb-4' type='text' placeholder="employee name" />
         </div>
 
@@ -133,6 +166,36 @@ const CreateTask = (props) => {
         
       
     </form>
+
+    <ToastContainer
+
+
+
+    // position="top-right"
+    // autoClose={2000}
+    // hideProgressBar={false}
+    // newestOnTop={false}
+    // closeOnClick={false}
+    // rtl={false}
+    // pauseOnFocusLoss
+    // draggable
+    // pauseOnHover
+    // theme="colored"
+    // transition={Slide}
+
+    autoClose={2000}
+    hideProgressBar={false}
+    newestOnTop={false}
+    closeOnClick={false}
+    rtl={false}
+    pauseOnFocusLoss
+    draggable
+    pauseOnHover
+    theme='dark'
+    transition={Slide}
+    />    
+
+
   </div>
   )
 }
