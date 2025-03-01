@@ -8,8 +8,9 @@ import AdminDashboard from './components/Dashboard/AdminDashboard';
 import { getLocalStorage, setLocalStorage } from '../utils/localstorage';
 import { AuthContext } from './context/AuthProvider';
 import CustomCursor from './components/CustomCursor';
+import TVStaticEffect from './pages/TVStaticEffect';
 
-import { ToastContainer, toast } from 'react-toastify';
+// import { ToastContainer, toast } from 'react-toastify';
 import { useGSAP } from '@gsap/react';
 
 const App = () => {
@@ -75,7 +76,7 @@ const App = () => {
     firstname: "Admin",
   };
 
-  const loginNotification = () => toast('Logged In Successfully!');
+  // const loginNotification = () => toast('Logged In Successfully!');
 
   const handleLogin = (email, password) => {
     if (email === 'admin@me.com' && password === '123') {
@@ -105,9 +106,10 @@ const App = () => {
         }}
         className='relative'
       >
+        <TVStaticEffect />
         <CustomCursor x={xAxis} y={yAxis} />
 
-        <button onClick={loginNotification}>toastiiiifyyy</button>
+        {/* <button onClick={loginNotification}>toastiiiifyyy</button> */}
 
         {!user ? (
           <Login handleLogin={handleLogin} />
@@ -116,7 +118,7 @@ const App = () => {
         ) : (
           <EmployeeDashboard setUserData={setUserData}  changeUser={setUser} data={loggedInUserData} user={user} setLoggedInUserData={setLoggedInUserData}/>
         )}
-      <ToastContainer/>
+      {/* <ToastContainer/> */}
       </div>
 
 

@@ -9,11 +9,15 @@
   background-color: #111;
   color: #fff;
   cursor: none;
+  /* cursor: url('/src/assets/CustomLinuxCursor.svg'), auto; */
 }
+
+
 
 *:hover{
   
   cursor: none;
+  /* cursor: url('/src/assets/CustomLinuxCursor.svg'), auto; */
 }
 html, body{
   overflow: hidden;

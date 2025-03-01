@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../../context/AuthProvider'
 import { setLocalStorage } from '../../../utils/localstorage';
 
-import { Slide, ToastContainer, toast } from 'react-toastify';
+// import { Slide, ToastContainer, toast } from 'react-toastify';
 
 
 
@@ -21,17 +21,7 @@ const CreateTask = (props) => {
   //   transition: Slide,
   //   });
 
-  const taskCreatedNotification = () => toast.info('Task Assigned Successfully!', {
-    position: "bottom-right",
-    autoClose: 2000,
-    hideProgressBar: false,
-    closeOnClick: false,
-    // pauseOnHover: true,
-    draggable: false,
-    progress: undefined,
-    theme: "dark",
-    transition: Slide,
-  });
+
 
   const [title, settitle] = useState('')
   const [taskDate, settaskDate] = useState('')
@@ -86,7 +76,7 @@ const CreateTask = (props) => {
     // Update the state with the new employees array
     setuserData({ employees: updatedEmployees });
 
-    taskCreatedNotification();
+    // taskCreatedNotification();
 
     settitle('')
     settaskDate('')
@@ -167,33 +157,7 @@ const CreateTask = (props) => {
       
     </form>
 
-    <ToastContainer
-
-
-
-    // position="top-right"
-    // autoClose={2000}
-    // hideProgressBar={false}
-    // newestOnTop={false}
-    // closeOnClick={false}
-    // rtl={false}
-    // pauseOnFocusLoss
-    // draggable
-    // pauseOnHover
-    // theme="colored"
-    // transition={Slide}
-
-    autoClose={2000}
-    hideProgressBar={false}
-    newestOnTop={false}
-    closeOnClick={false}
-    rtl={false}
-    pauseOnFocusLoss
-    draggable
-    pauseOnHover
-    theme='dark'
-    transition={Slide}
-    />    
+    
 
 
   </div>
