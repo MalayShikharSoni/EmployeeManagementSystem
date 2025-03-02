@@ -20,7 +20,7 @@
   /* cursor: url('/src/assets/CustomLinuxCursor.svg'), auto; */
 }
 html, body{
-  overflow: hidden;
+  overflow-x: hidden;
   width: 100%;
   height: 100%;
   
