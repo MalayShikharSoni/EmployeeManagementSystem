@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import gsap from "gsap";
 
 const TVStaticEffect = () => {
   const canvasRef = useRef(null);
@@ -6,7 +7,6 @@ const TVStaticEffect = () => {
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
-
 
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
@@ -31,9 +31,13 @@ const TVStaticEffect = () => {
       requestAnimationFrame(animate);
     };
 
+    // Resize handling
     window.addEventListener("resize", resizeCanvas);
     resizeCanvas();
     animate();
+
+    // GSAP fade-in effect
+   
 
     return () => {
       window.removeEventListener("resize", resizeCanvas);
@@ -50,7 +54,7 @@ const TVStaticEffect = () => {
         width: "100vw",
         height: "100vh",
         pointerEvents: "none",
-        opacity: 0.04,
+        opacity: 0.08,
         mixBlendMode: "difference",
       }}
     />

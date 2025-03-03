@@ -15,97 +15,7 @@ import { useGSAP } from '@gsap/react';
 import LandingPage from './pages/LandingPage';
 const App = () => {
 
-  useGSAP(() => {
-    let tl1 = gsap.timeline();
-    let tl2 = gsap.timeline();
-    let tl3 = gsap.timeline();
-    let tl4 = gsap.timeline();
-    let tl5 = gsap.timeline();
-    let tl6 = gsap.timeline();
-    let tl7 = gsap.timeline();
-
-
-    tl1.from(".logo6", {
-      x: -1000,
-      duration: 1.4,
-      scale: -0,
-      opacity: 0,
-      
-      ease: "back.out",
-    })
-
-    tl2.from(".logo5", {
-      x: -1000,
-      duration: 1.4,
-      delay: 0.1,
-      scale: 0,
-      opacity: 0,
-      
-      ease: "back.out",
-    })
-
-    tl3.from(".logo4", {
-      x: -1000,
-      duration: 1.4,
-      delay: 0.2,
-      scale: 0,
-      opacity: 0,
-      
-      ease: "back.out",
-    })
-
-    tl4.from(".logo3", {
-      x: -1000,
-      duration: 1.4,
-      delay: 0.3,
-      scale: 0,
-      opacity: 0,
-      
-      ease: "back.out",
-    })
-
-    tl5.from(".logo2", {
-      x: -1000,
-      duration: 1.4,
-      delay: 0.4,
-      scale: 0,
-      opacity: 0,
-      
-      ease: "back.out",
-    })
-
-    tl6.from(".logo1", {
-      x: -1000,
-      duration: 1.4,
-      delay: 0.5,
-      scale: 0,
-      opacity: 0,
-      
-      ease: "back.out",
-    })
-
-    tl6.to(".logo-container", {
-      y: -200,
-      x: -500,
-      scale: 0.1,
-      // autoAlpha: 0,
-    })
-
-    tl6.to(".loading-screen", {
-      // zIndex: -1,
-      // display: "none",
-      // autoAlpha: 0,
-      // display: "none",
-      opacity: 0,
-      // backgroundColor: "transparent",
-    })
-
-    
-
-
-
-    
-  });
+  
 
   const [user, setUser] = useState(null);
   const [loggedInUserData, setLoggedInUserData] = useState(null);
@@ -196,10 +106,11 @@ const App = () => {
         }}
         className='relative'
       >
-        <TVStaticEffect />
+        
         <CustomCursor x={xAxis} y={yAxis} />
 
         <LandingPage />
+
 
         {/* <button onClick={loginNotification}>toastiiiifyyy</button> */}
 
@@ -215,6 +126,7 @@ const App = () => {
 
 
 
+        <TVStaticEffect /> 
     </>
   );
 };

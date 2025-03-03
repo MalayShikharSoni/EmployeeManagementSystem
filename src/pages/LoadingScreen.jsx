@@ -5,7 +5,8 @@ const LoadingScreen = () => {
 
   return (
     <>
-        <div className="loading-screen relative w-screen h-screen bg-red-500 flex items-center justify-center">
+        {/* <TVStaticEffect /> */}
+        <div className="loading-screen relative w-screen h-screen bg-transparent flex items-center justify-center">
             <div className="logo-container flex items-center bg-transparent">
             <img src="/src/assets/WorkWaveLogo1.svg" alt="1" className="logo1 bg-transparent w-auto h-[250.0000px] pr-4" />
             <img src="/src/assets/WorkWaveLogo2.svg" alt="2" className="logo2 bg-transparent w-auto h-[250.0000px] -mr-2.5" />
