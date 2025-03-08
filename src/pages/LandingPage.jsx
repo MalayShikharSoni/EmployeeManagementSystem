@@ -170,17 +170,27 @@ const LandingPage = () => {
       {x: 0},
 
       {
-        x: window.innerWidth,
+        x: "42.5vw",
         ease:"none",
         scrollTrigger: {
           trigger: ".landing-page",
           start: "top top",
           end: "bottom top",
           scrub: 1,
-          markers: true,
+          markers: false,
         },
       }
     );
+
+    // MARQUEE
+
+    gsap.to(".marque", {
+      x: "-111vw",
+      repeat: -1,
+      duration: 8,
+      ease: "none",
+      
+    })
     
 
   }, []);
@@ -194,39 +204,93 @@ const LandingPage = () => {
         <HeaderHomePage ref={{firstWaveRef, thirdWaveRef}}/>
 
         <div className="pt-[16vh]  bg-transparent flex flex-col justify-center items-center h-full w-full relative">
+        
+        
+          {/* WORK */}
           
-          
+          <div className="WORK bg-transparent"  style={{ mixBlendMode: "difference" }}>
+            <img src="/src/assets/WORK.svg" alt="WORK" className="bg-transparent w-auto h-[20vh]"/>
+          </div>
+          {/* WAVE */}
+          <div className="WAVE mt-[3vh] bg-transparent mb-30"  style={{ mixBlendMode: "difference" }}>
+            <img src="/src/assets/WAVE.svg" alt="W" className="bg-transparent w-auto h-[20vh]" />
+          </div>
 
-            {/* WORK */}
+
+          {/* BLACKBOX */}
+          <div className="flex justify-between items-center bg-[#cec0ad] mt-16 w-[80vw] h-[130px]"  style={{ mixBlendMode: "difference" }}>
+              
+            {/* FLATLINE WAVE BOX */}
+            <div className="mx-[1rem] bg-[#0b7494] rounded-md w-[35%] h-[80%]" style={{mixBlendMode: "none"}}>
             
 
-            <div className="WORK bg-transparent">
-              <img src="/src/assets/WORK.svg" alt="" className="bg-transparent w-auto h-[20vh]" />
-            </div>
+              <div className="relative flex items-center justify-center bg-transparent w-[100%] h-[100%] overflow-hidden"  style={{ isolation: "isolate" }}>
+                <svg
+                  className=" bg-transparent w-[110%] h-auto self-center"
+                  //500,200
+                    // width="900px" height="150px"
+                    // preserveAspectRatio="xMidYMid meet"
+                    
+                  viewBox="10 0 450 200" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    // transform="scale(1.5)"
+                    // transformOrigin="center"
+                  ref={pathRef} d="M 10 100 L 100 100 L 120 50 L 140 150 L 160 100 L 300 100 L 320 50 L 340 150 L 360 100 L 490 100"
+                  stroke="white" strokeWidth="9" fill="none"/>
+                </svg>
 
-            {/* WAVE */}
-            <div className="WAVE mt-[3vh] bg-transparent">
-              <img src="/src/assets/WAVE.svg" alt="" className="bg-transparent w-auto h-[20vh]" />
-            </div>
+              </div>
 
+            </div> 
 
-            <div className="bg-transparent">
-              <svg
-                className="bg-transparent"
-                width="500" height="200" viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg">
-                <path ref={pathRef} d="M 10 100 L 100 100 L 120 50 L 140 150 L 160 100 L 300 100 L 320 50 L 340 150 L 360 100 L 490 100"
-                stroke="black" strokeWidth="3" fill="none"/>
-              </svg>
+            {/* MARQUEE */}
+            <div className="flex items-center gap-10 bg-[#cec0ad] h-full w-full overflow-hidden">
 
-            </div>
+              <div className="flex marque flex-shrink-0 text-black font-bold text-5xl bg-[#cec0ad] h-full justify-center items-center">EFFICIENT AMPLITUDE</div>
+
+              <div className="flex marque flex-shrink-0 bg-[#cec0ad] h-full justify-center items-center">
+                <img src="/src/assets/Waveform.svg" alt="Waveform" className="bg-transparent w-auto h-[7vh]"/>
+              </div>
+
+              <div className="flex marque flex-shrink-0 text-black font-bold text-5xl bg-[#cec0ad] h-full justify-center items-center">PRODUCTIVE PHASE</div>
+
+              <div className="flex marque flex-shrink-0 bg-[#cec0ad] h-full justify-center items-center">
+                <img src="/src/assets/Waveform.svg" alt="Waveform" className="bg-transparent w-auto h-[7vh]"/>
+              </div>
+
+              <div className="marque flex flex-shrink-0 text-black font-bold text-5xl bg-[#cec0ad] h-full justify-center items-center">FLAWLESS FREQUENCY</div>
+
+              <div className="flex marque flex-shrink-0 bg-[#cec0ad] h-full justify-center items-center">
+                <img src="/src/assets/Waveform.svg" alt="Waveform" className="bg-transparent w-auto h-[7vh]"/>
+              </div>
+
+              <div className="flex marque flex-shrink-0 text-black font-bold text-5xl bg-[#cec0ad] h-full justify-center items-center">EFFICIENT AMPLITUDE</div>
+
+              <div className="flex marque flex-shrink-0 bg-[#cec0ad] h-full justify-center items-center">
+                <img src="/src/assets/Waveform.svg" alt="Waveform" className="bg-transparent w-auto h-[7vh]"/>
+              </div>
+
+              <div className="flex marque flex-shrink-0 text-black font-bold text-5xl bg-[#cec0ad] h-full justify-center items-center">PRODUCTIVE PHASE</div>
+
+              <div className="flex marque flex-shrink-0 bg-[#cec0ad] h-full justify-center items-center">
+                <img src="/src/assets/Waveform.svg" alt="Waveform" className="bg-transparent w-auto h-[7vh]"/>
+              </div>
+
+              
             
+            </div>
 
+            
           
           </div>
           
-        </div>
-
         
+        </div>
+          
+      </div>
+
+      
+      <div className="w-screen h-screen bg-[#0b7494]"></div>
 
       
       

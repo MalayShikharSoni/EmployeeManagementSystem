@@ -21,6 +21,7 @@
 }
 html, body{
   overflow-x: hidden;
+  overscroll-behavior: none;
   width: 100%;
   height: 100%;
   
@@ -28,6 +29,11 @@ html, body{
 
 ::selection{
   color: rgb(116, 74, 116);
+}
+
+
+*::-webkit-scrollbar {
+  display: none;
 }
 
 #tasklist::-webkit-scrollbar {
@@ -39,4 +45,9 @@ html, body{
 }
 #allTasks::-webkit-scrollbar {
   display: none;
+}
+
+img, svg {
+  /* mix-blend-mode: difference; */
+  /* background: white; */
 }

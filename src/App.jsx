@@ -13,6 +13,7 @@ import gsap from 'gsap';
 // import { ToastContainer, toast } from 'react-toastify';
 import { useGSAP } from '@gsap/react';
 import LandingPage from './pages/LandingPage';
+import Footer from './pages/Footer';
 const App = () => {
 
   
@@ -99,6 +100,7 @@ const App = () => {
 
   return (
     <>
+          <CustomCursor x={xAxis} y={yAxis} />
       <div
         onMouseMove={(e) => {
           setXAxis(e.clientX);
@@ -107,7 +109,6 @@ const App = () => {
         className='relative'
       >
         
-        <CustomCursor x={xAxis} y={yAxis} />
 
         <LandingPage />
 
@@ -125,7 +126,7 @@ const App = () => {
       </div>
 
 
-
+        <Footer />
         <TVStaticEffect /> 
     </>
   );
