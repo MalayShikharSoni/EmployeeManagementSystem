@@ -123,6 +123,13 @@ const LandingPage = () => {
       ease: "sine",
     }, "-=1");
 
+    tl7.from(".blackbox",{
+      opacity: 0,
+      duration: 0.5,
+      scale: 0.9,
+      ease: "sine",
+    })
+
     const path = pathRef.current;
     const pathLength = path.getTotalLength();
     gsap.set(pathRef.current, { strokeDasharray: pathLength, strokeDashoffset: pathLength });
@@ -191,6 +198,45 @@ const LandingPage = () => {
       ease: "none",
       
     })
+
+  
+
+
+    // HORIZONTAL SCROLL
+    // const sections = gsap.utils.toArray(".scrollContainer .section");
+
+    // gsap.to(".section", {
+    //   xPercent: -100 * (sections.length - 1),
+    //   // transform: "translateX(-100%)",
+    //   duration:5,
+    //   ease: "none",
+    //   scrollTrigger: {
+    //     trigger: ".scrollContainer",
+    //     // start: "bottom bottom",
+    //     pin: true,
+    //     scrub: 1,
+    //     // snap: 1 / (sections.length - 1),
+    //     // start: "-=100vh",
+    //     end: "+=3000",
+    //     markers: true,
+    //   }
+    // })
+
+    // sections.forEach(section => {
+    //   gsap.from(".texts", {
+    //     y: 100,
+    //     opacity: 0,
+    //     duration: 2,
+    //     ease: "elastic",
+    //     stagger: 0.5,
+    //     scrollTrigger: {
+    //       trigger: section,
+    //       containerAnimation: scrollTween,
+    //       start: "left center",
+    //       markers: true,
+    //     },
+    //   })
+    // })
     
 
   }, []);
@@ -218,7 +264,7 @@ const LandingPage = () => {
 
 
           {/* BLACKBOX */}
-          <div className="flex justify-between items-center bg-[#cec0ad] mt-16 w-[80vw] h-[130px]"  style={{ mixBlendMode: "difference" }}>
+          <div className="blackbox flex justify-between items-center bg-[#cec0ad] mt-16 w-[80vw] h-[130px]"  style={{ mixBlendMode: "difference" }}>
               
             {/* FLATLINE WAVE BOX */}
             <div className="mx-[1rem] bg-[#0b7494] rounded-md w-[35%] h-[80%]" style={{mixBlendMode: "none"}}>
@@ -289,9 +335,44 @@ const LandingPage = () => {
           
       </div>
 
-      
-      <div className="w-screen h-screen bg-[#0b7494]"></div>
+      {/* HORIZONTAL SCROLL SECTION */}
+      <div className="wrapper h-[100vh] overflow-x-hidden bg-[#0b7494]">
+        <div className="scrollContainer w-[400vw] flex h-[100vh] bg-[#852b5e]">
 
+          <div className="section flex items-center justify-center w-[100vw] h-[100vh] bg-[#940b0b]">
+      
+            <div className="texts">
+              1
+            </div>
+
+          </div>
+
+          <div className="section flex items-center justify-center w-[100vw] h-[100vh] bg-[#94660b]">
+            
+            <div className="texts">
+              2
+            </div>
+
+          </div>
+
+          <div className="section flex items-center justify-center w-[100vw] h-[100vh] bg-[#0b9414]">
+            
+            <div className="texts">
+              3
+            </div>
+
+          </div>
+
+          <div className="section flex items-center justify-center w-[100vw] h-[100vh] bg-[#940b8f]">
+            
+            <div className="texts">
+              4
+            </div>
+
+          </div>
+
+        </div>
+      </div>
       
       
     </>

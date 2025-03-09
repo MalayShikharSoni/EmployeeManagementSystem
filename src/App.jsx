@@ -100,33 +100,34 @@ const App = () => {
 
   return (
     <>
-          <CustomCursor x={xAxis} y={yAxis} />
-      <div
-        onMouseMove={(e) => {
-          setXAxis(e.clientX);
-          setYAxis(e.clientY);
-        }}
-        className='relative'
-      >
-        
+        <CustomCursor x={xAxis} y={yAxis} />
+        <div
+          onMouseMove={(e) => {
+            setXAxis(e.clientX);
+            setYAxis(e.clientY);
+          }}
+          className='relative'
+        >
+          
 
-        <LandingPage />
-
-
-        {/* <button onClick={loginNotification}>toastiiiifyyy</button> */}
-
-        {!user ? (
-          <Login handleLogin={handleLogin} />
-        ) : user === "admin" ? (
-          <AdminDashboard setUserData={setUserData} data={adminData} changeUser={setUser} />
-        ) : (
-          <EmployeeDashboard setUserData={setUserData}  changeUser={setUser} data={loggedInUserData} user={user} setLoggedInUserData={setLoggedInUserData}/>
-        )}
-      {/* <ToastContainer/> */}
-      </div>
+          <LandingPage />
 
 
+          {/* <button onClick={loginNotification}>toastiiiifyyy</button> */}
+
+          {!user ? (
+            <Login handleLogin={handleLogin} />
+          ) : user === "admin" ? (
+            <AdminDashboard setUserData={setUserData} data={adminData} changeUser={setUser} />
+          ) : (
+            <EmployeeDashboard setUserData={setUserData}  changeUser={setUser} data={loggedInUserData} user={user} setLoggedInUserData={setLoggedInUserData}/>
+          )}
+        {/* <ToastContainer/> */}
         <Footer />
+
+        </div>
+
+
         <TVStaticEffect /> 
     </>
   );
