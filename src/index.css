@@ -12,6 +12,9 @@
   /* cursor: url('/src/assets/CustomLinuxCursor.svg'), auto; */
 }
 
+.wrapper{
+  pointer-events: none;
+}
 
 
 *:hover{
@@ -25,6 +28,16 @@ html, body{
   width: 100%;
   height: 100%;
   
+  
+}
+
+html{
+  scrollbar-color: red;
+  
+}
+
+body{
+  scrollbar-color: blue;
 }
 
 ::selection{
@@ -32,6 +45,7 @@ html, body{
 }
 
 
+/* 
 *::-webkit-scrollbar {
   display: none;
 }
@@ -45,7 +59,7 @@ html, body{
 }
 #allTasks::-webkit-scrollbar {
   display: none;
-}
+} */
 
 img, svg {
   /* mix-blend-mode: difference; */

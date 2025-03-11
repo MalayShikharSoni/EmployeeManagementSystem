@@ -99,7 +99,7 @@ const App = () => {
   };
 
   return (
-    <>
+    <div>
         <CustomCursor x={xAxis} y={yAxis} />
         <div
           onMouseMove={(e) => {
@@ -124,12 +124,13 @@ const App = () => {
           )}
         {/* <ToastContainer/> */}
         <Footer />
+      
 
         </div>
 
 
         <TVStaticEffect /> 
-    </>
+    </div>
   );
 };
 

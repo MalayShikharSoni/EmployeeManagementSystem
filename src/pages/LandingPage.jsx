@@ -203,24 +203,27 @@ const LandingPage = () => {
 
 
     // HORIZONTAL SCROLL
-    // const sections = gsap.utils.toArray(".scrollContainer .section");
+    const sections = gsap.utils.toArray(".scrollContainer .section");
 
-    // gsap.to(".section", {
-    //   xPercent: -100 * (sections.length - 1),
-    //   // transform: "translateX(-100%)",
-    //   duration:5,
-    //   ease: "none",
-    //   scrollTrigger: {
-    //     trigger: ".scrollContainer",
-    //     // start: "bottom bottom",
-    //     pin: true,
-    //     scrub: 1,
-    //     // snap: 1 / (sections.length - 1),
-    //     // start: "-=100vh",
-    //     end: "+=3000",
-    //     markers: true,
-    //   }
-    // })
+    gsap.to(".scrollContainer", {
+      xPercent: -300,
+      // transform: "translateX(-100%)",
+      duration:5,
+      ease: "none",
+      scrollTrigger: {
+        scroller: "html",
+        trigger: ".scrollContainer",
+        start: "top top",
+        // end: "top 50%", 
+        // start: "bottom bottom",
+        pin: true,
+        scrub: 1,
+        // snap: 1 / (sections.length - 1),
+        // start: "-=100vh",
+        // end: "+=3000",
+        // markers: true,
+      }
+    })
 
     // sections.forEach(section => {
     //   gsap.from(".texts", {
@@ -336,7 +339,7 @@ const LandingPage = () => {
       </div>
 
       {/* HORIZONTAL SCROLL SECTION */}
-      <div className="wrapper h-[100vh] overflow-x-hidden bg-[#0b7494]">
+      <div className="wrapper h-[100vh] overflow-x-hidden overflow-y-hidden bg-[#0b7494]">
         <div className="scrollContainer w-[400vw] flex h-[100vh] bg-[#852b5e]">
 
           <div className="section flex items-center justify-center w-[100vw] h-[100vh] bg-[#940b0b]">
