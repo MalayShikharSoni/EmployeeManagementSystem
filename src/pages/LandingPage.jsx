@@ -16,6 +16,7 @@ const LandingPage = () => {
   const pathRef = useRef(null);
   const firstWaveRef = useRef(null);
   const thirdWaveRef = useRef(null);
+  const horizontalWaveRef = useRef(null); 
 
   useGSAP(() => {
     let tl1 = gsap.timeline();
@@ -205,14 +206,16 @@ const LandingPage = () => {
     // HORIZONTAL SCROLL
     const sections = gsap.utils.toArray(".scrollContainer .section");
 
+    
     gsap.to(".scrollContainer", {
-      xPercent: -300,
-      // transform: "translateX(-100%)",
+      // xPercent: -100,
+      // transform: "translateX(-400vw)",
+      x: "-200vw",
       duration:5,
       ease: "none",
       scrollTrigger: {
         scroller: "html",
-        trigger: ".scrollContainer",
+        trigger: ".wrapper",
         start: "top top",
         // end: "top 50%", 
         // start: "bottom bottom",
@@ -220,10 +223,31 @@ const LandingPage = () => {
         scrub: 1,
         // snap: 1 / (sections.length - 1),
         // start: "-=100vh",
-        // end: "+=3000",
+        // end: "+=300",
         // markers: true,
       }
     })
+    
+    let horizontalWaveLength = horizontalWaveRef.current.getTotalLength();
+
+    gsap.set(".horizontalWavePath", {
+      strokeDasharray: horizontalWaveLength,
+    })
+    gsap.fromTo(".horizontalWavePath", {
+      strokeDashoffset: horizontalWaveLength,
+      }, 
+      {
+      strokeDashoffset: 0,
+      duration: 20,
+      scrollTrigger: {
+        trigger: ".scrollContainer",
+        scrub: 4,
+        start: "top left",
+        markers: true,
+      }
+      }
+    )
+    
 
     // sections.forEach(section => {
     //   gsap.from(".texts", {
@@ -240,6 +264,9 @@ const LandingPage = () => {
     //     },
     //   })
     // })
+    
+    // console.log(horizontalWaveLength)
+
     
 
   }, []);
@@ -340,7 +367,12 @@ const LandingPage = () => {
 
       {/* HORIZONTAL SCROLL SECTION */}
       <div className="wrapper h-[100vh] overflow-x-hidden overflow-y-hidden bg-[#0b7494]">
-        <div className="scrollContainer w-[400vw] flex h-[100vh] bg-[#852b5e]">
+        <div className="relative scrollContainer w-[300vw] flex h-[100vh] bg-[#852b5e]">
+
+        <svg className="horizontalWave absolute bg-transparent" width="4016" height="871" viewBox="0 0 4016 871" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path className="horizontalWavePath" ref={horizontalWaveRef} d="M1 570.5L680 710.5L1044.5 356L1409 1.5L1968 570.5L2816.5 431L3116 870L3675.5 381L4015 810" stroke="black"/>
+        </svg>
+
 
           <div className="section flex items-center justify-center w-[100vw] h-[100vh] bg-[#940b0b]">
       
@@ -366,6 +398,10 @@ const LandingPage = () => {
 
           </div>
 
+
+        </div>
+      </div>
+      
           <div className="section flex items-center justify-center w-[100vw] h-[100vh] bg-[#940b8f]">
             
             <div className="texts">
@@ -373,10 +409,6 @@ const LandingPage = () => {
             </div>
 
           </div>
-
-        </div>
-      </div>
-      
       
     </>
   );
