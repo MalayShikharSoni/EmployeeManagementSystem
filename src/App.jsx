@@ -115,13 +115,13 @@ const App = () => {
 
           {/* <button onClick={loginNotification}>toastiiiifyyy</button> */}
 
-          {!user ? (
+          {/* {!user ? (
             <Login handleLogin={handleLogin} />
           ) : user === "admin" ? (
             <AdminDashboard setUserData={setUserData} data={adminData} changeUser={setUser} />
           ) : (
             <EmployeeDashboard setUserData={setUserData}  changeUser={setUser} data={loggedInUserData} user={user} setLoggedInUserData={setLoggedInUserData}/>
-          )}
+          )} */}
         {/* <ToastContainer/> */}
         <Footer />
       

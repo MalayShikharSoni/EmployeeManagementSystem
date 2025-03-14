@@ -133,7 +133,7 @@ const Footer = () => {
                 trigger: ".foooter",
                 start: "top 80%",
                 end: "top 50%", 
-                markers: false, 
+                // markers: true, 
                 toggleActions: "play reverse play reverse",
 
             }
