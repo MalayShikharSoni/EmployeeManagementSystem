@@ -95,6 +95,7 @@ const LandingPage = () => {
       duration: 0.7,
       onComplete: () => {
         setLoading(false);
+        window.dispatchEvent(new Event("resize"));
         gsap.to(pageRef.current, { //  Use ref to fade in the landing page
           opacity: 1,
           duration: 1.2,
@@ -452,9 +453,9 @@ const LandingPage = () => {
   
   return (
     <div className="mainLandingPage">
-      {/* {loading && <LoadingScreen className="loading-screen" />} */}
+      {loading && <LoadingScreen className="loading-screen" />}
 
-      <div ref={pageRef} className="landing-page bg-[#cec0ad] w-screen h-screen opacity-1">
+      <div ref={pageRef} className="landing-page bg-[#cec0ad] w-screen h-screen opacity-0">
         {/* HEADER */}
         <HeaderHomePage ref={{firstWaveRef, thirdWaveRef}}/>
 
