@@ -116,8 +116,9 @@ const Footer = () => {
             stagger: { each: 0.2, from: "start" },
             scrollTrigger: {
                 trigger: ".foooter",
-                start: "top 80%",
-                end: "top 50%", 
+                start: "top bottom",
+                // start: "top 80%",
+                // end: "top 50%", 
                 markers: false, 
                 toggleActions: "play reverse play reverse",
 
@@ -131,8 +132,9 @@ const Footer = () => {
             stagger: { each: 0.2, from: "end" },
             scrollTrigger: {
                 trigger: ".foooter",
-                start: "top 80%",
-                end: "top 50%", 
+                start: "top bottom",
+                // start: "top 80%",
+                // end: "top 50%", 
                 // markers: true, 
                 toggleActions: "play reverse play reverse",
 

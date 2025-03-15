@@ -50,11 +50,11 @@ body{
   color: rgb(116, 74, 116);
 }
 
-
-/* 
 *::-webkit-scrollbar {
   display: none;
 }
+
+/* 
 
 #tasklist::-webkit-scrollbar {
   display: none;
