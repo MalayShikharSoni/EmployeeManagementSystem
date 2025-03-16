@@ -7,6 +7,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import TVStaticEffect from "./TVStaticEffect";
 import HeaderHomePage from "./HeaderHomePage";
+import Footer from "./Footer";
+import { Link } from "react-router-dom";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -391,7 +393,7 @@ const LandingPage = () => {
         trigger: ".part3",
         markers: false,
         start: `right-=${230}px left`,
-        markers: false,
+        
       }
     })
 
@@ -407,7 +409,7 @@ const LandingPage = () => {
         trigger: ".part3",
         markers: false,
         start: `right-=${230}px left`,
-        markers: false,
+        
       }
     })
 
@@ -423,7 +425,7 @@ const LandingPage = () => {
         trigger: ".part3",
         markers: false,
         start: `right-=${230}px left`,
-        markers: false,
+        
       }
     })
 
@@ -757,25 +759,27 @@ const LandingPage = () => {
       </div>
 
           {/* GET STARTED BUTTON */}
-          <div className="part4 section flex flex-row items-center justify-center w-[100vw] h-[30vh] bg-[#cec0ad]">
-            
-            <div className="getStartedDivs flex items-center justify-center bg-[#ad9676] w-[300px] h-[100px] rounded-es-[35px] ">
+          <Link to="/main">
+            <div className="part4 section flex flex-row items-center justify-center w-[100vw] h-[30vh] bg-[#cec0ad]">
               
-              <div className="bg-transparent text-[#cec0ad] font-black text-3xl">
-                GET STARTED
+              <div className="getStartedDivs flex items-center justify-center bg-[#ad9676] w-[300px] h-[100px] rounded-es-[35px] ">
+                
+                <div className="bg-transparent text-[#cec0ad] font-black text-3xl">
+                  GET STARTED
+                </div>
+
               </div>
 
+              <div className="getStartedDivs getStartedDiv1 bg-[#ad9676] w-[25px] h-[100px] rounded-e-[60%] ml-[6px]"></div>
+              <div className="getStartedDivs bg-[#ad9676] w-[20px] h-[80px] rounded-[40%] ml-[-1px]"></div>
+              <div className="getStartedDivs bg-[#ad9676] w-[10px] h-[50px] rounded-[100%] ml-[1px]"></div>
+              <div className="getStartedDivs bg-[#ad9676] w-[5px] h-[30px] rounded-[200%] ml-[1px]"></div>
+
+
+
             </div>
-
-            <div className="getStartedDivs bg-[#ad9676] w-[25px] h-[100px] rounded-e-[60%] ml-[6px]"></div>
-            <div className="getStartedDivs bg-[#ad9676] w-[20px] h-[80px] rounded-[40%] ml-[-1px]"></div>
-            <div className="getStartedDivs bg-[#ad9676] w-[10px] h-[50px] rounded-[100%] ml-[1px]"></div>
-            <div className="getStartedDivs bg-[#ad9676] w-[5px] h-[30px] rounded-[200%] ml-[1px]"></div>
-
-
-
-          </div>
-      
+          </Link>
+      {/* <Footer /> */}
     </div>
   );
 };

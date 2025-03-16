@@ -1,7 +1,10 @@
 import {forwardRef, react} from "react"
+import { Link } from "react-router-dom";
 
 const HeaderHomePage = forwardRef(({ }, ref) => {
     const {firstWaveRef, thirdWaveRef} = ref || {};
+
+
 
     return (
         <>
@@ -11,10 +14,12 @@ const HeaderHomePage = forwardRef(({ }, ref) => {
                     <div className="bg-transparent pl-[3rem]">
                     <img src="/src/assets/WorkWaveLogo.svg" alt="" className="bg-transparent w-auto h-12" />
                     </div>
-
-                    <div className="bg-transparent pr-[3rem]">
-                    <img src="/src/assets/LogIn.svg" alt="" className="bg-transparent w-auto h-16" />
-                    </div>
+                    
+                    <Link to='/main' className="bg-transparent">
+                        <div className="bg-transparent pr-[3rem]">
+                        <img src="/src/assets/LogIn.svg" alt="" className="bg-transparent w-auto h-16" />
+                        </div>
+                    </Link>
 
                     <div className="absolute w-[95%] h-[2.5px] bottom-[0%] left-[2.5%] rounded-md bg-[#cec0ad]"></div>
 
