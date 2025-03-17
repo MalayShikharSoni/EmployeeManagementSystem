@@ -18,7 +18,7 @@ const TaskListNumbers = () => {
     
 
     return (
-        <div className='flex p-10 mt-10 justify-between gap-5 screen'>
+        <div className='flex p-10 justify-between gap-5 screen bg-transparent'>
             <div className='rounded-xl w-[45%] px-9 py-6 bg-blue-400'>
                 <h2 className='bg-blue-400 text-3xl font-semibold'>
                     {CurrentUser?.data.taskNumbers.newTask}

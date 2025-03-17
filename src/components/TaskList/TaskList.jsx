@@ -24,27 +24,91 @@ const TaskList = (props) => {
     
 
     const tasks = userData.loggedInUser?.data?.tasks;
+    const CurrentUser = userData.loggedInUser;
     
   return (
-    <div id='tasklist' className='flex overflow-x-auto gap-5 flex-nowrap items-center justify-start h-[55%]  w-full py-5 mt-10'>
+    <div className='bg-transparent'>
+    
+      <div className='flex items-baseline bg-transparent border-[4px] border-[#ad9676] rounded-se-[35px] rounded-es-[35px] rounded-ee-[35px] w-[290px] h-[100px] ml-[3vw]'>
+          <span className='bg-transparent ml-[20px] mt-[5px] font-bold text-[#ad9676] text-7xl'>
+            {CurrentUser?.data.taskNumbers.newTask}
+          </span>
+          <span className='bg-transparent ml-[40px] font-medium text-[#ad9676] text-3xl'>
+            New Tasks
+          </span>
+        </div>
+      <div id='tasklist' className='bg-transparent flex overflow-x-auto gap-5 flex-nowrap items-center justify-start h-[55%]  w-full py-5 mt-10'>
         
+
         {tasks?.map((ele, idx)=>{
             if(ele.newTask){
                 return <NewTask key={idx} data={ele} wholeData={props.data} AcceptClickButton={props.AcceptClickButton} setuserData={props.setuserData} setLoggedInUserData={props.setLoggedInUserData}/>
             }
+        })}
+
+      </div>
+
+      <div className='flex items-baseline bg-transparent border-[4px] border-[#ad9676] rounded-se-[35px] rounded-es-[35px] rounded-ee-[35px] w-[290px] h-[100px] ml-[3vw]'>
+          <span className='bg-transparent ml-[20px] mt-[5px] font-bold text-[#ad9676] text-7xl'>
+            {CurrentUser?.data.taskNumbers.active}
+          </span>
+          <span className='bg-transparent ml-[40px] font-medium text-[#ad9676] text-3xl'>
+            Active Tasks
+          </span>
+        </div>
+      <div id='tasklist' className='bg-transparent flex overflow-x-auto gap-5 flex-nowrap items-center justify-start h-[55%]  w-full py-5 mt-10'>
+        
+
+        {tasks?.map((ele, idx)=>{
+          
             if(ele.active){
                 return <AcceptedTask key={idx} data={ele} wholeData={props.data} setuserData={props.setuserData}/>
             }
+            
+        })}
+
+      </div>
+
+      <div className='flex items-baseline bg-transparent border-[4px] border-[#ad9676] rounded-se-[35px] rounded-es-[35px] rounded-ee-[35px] w-[290px] h-[100px] ml-[3vw]'>
+          <span className='bg-transparent ml-[20px] mt-[5px] font-bold text-[#ad9676] text-7xl'>
+            {CurrentUser?.data.taskNumbers.completed}
+          </span>
+          <span className='bg-transparent ml-[33px]  font-medium text-[#ad9676] text-[23px]'>
+            Completed Tasks
+          </span>
+        </div>
+      <div id='tasklist' className='bg-transparent flex overflow-x-auto gap-5 flex-nowrap items-center justify-start h-[55%]  w-full py-5 mt-10'>
+        
+
+        {tasks?.map((ele, idx)=>{
+            
             if(ele.completed){
                 return <CompletedTask key={idx} data={ele} wholeData={props.data} setuserData={props.setuserData}/>
             }
+            
+        })}
+
+      </div>
+
+      <div className='flex items-baseline bg-transparent border-[4px] border-[#ad9676] rounded-se-[35px] rounded-es-[35px] rounded-ee-[35px] w-[290px] h-[100px] ml-[3vw]'>
+          <span className='bg-transparent ml-[20px] mt-[5px] font-bold text-[#ad9676] text-7xl'>
+            {CurrentUser?.data.taskNumbers.failed}
+          </span>
+          <span className='bg-transparent ml-[40px] font-medium text-[#ad9676] text-3xl'>
+            Failed Tasks
+          </span>
+        </div>
+      <div id='tasklist' className='bg-transparent flex overflow-x-auto gap-5 flex-nowrap items-center justify-start h-[55%]  w-full py-5 mt-10'>
+        
+
+        {tasks?.map((ele, idx)=>{
+            
             if(ele.failed){
                 return <FailedTask key={idx} data={ele} wholeData={props.data} setuserData={props.setuserData}/>
             }
         })}
 
-        {/* <NewTask />
-        <AcceptedTask /> */}
+      </div>
 
     </div>
   )

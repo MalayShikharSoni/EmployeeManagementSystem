@@ -1,8 +1,67 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { AuthContext } from '../../context/AuthProvider';
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
+
 
 
 const NewTask = ({ data, wholeData }) => {
+
+  const newTaskBoxRef = useRef(null);
+  const hoverTransitionRef = useRef(null);
+
+  useGSAP(()=>{
+
+    newTaskBoxRef.current?.addEventListener("mousemove", (e) => {
+        const boxRect = newTaskBoxRef.current.getBoundingClientRect();
+        let x = e.clientX - boxRect.left;
+        let y = e.clientY - boxRect.top;
+
+        hoverTransitionRef.current.style.left = `${x}px`;
+        hoverTransitionRef.current.style.top = `${y}px`;
+    });
+
+    newTaskBoxRef.current?.addEventListener("mouseenter", () => {
+        gsap.to(hoverTransitionRef.current, {
+            duration: 0.9,
+            width: '800px',
+            height: '800px'
+        });
+
+      
+
+        // gsap.to(newTaskBoxRef.current.querySelector(".prev-content"), {
+        //     opacity: 0,
+        //     duration: 0.4,
+        // });
+
+        // gsap.to(newTaskBoxRef.current.querySelector(".next-content"), {
+        //     opacity: 1,
+        //     duration: 0.5,
+        // });
+    });
+
+    newTaskBoxRef.current?.addEventListener("mouseleave", () => {
+        gsap.to(hoverTransitionRef.current, {
+            duration: 0.5,
+            width: '0px',
+            height: '0px',
+        });
+
+    
+
+        // gsap.to(newTaskBoxRef.current.querySelector(".prev-content"), {
+        //     opacity: 1,
+        //     duration: 1,
+        // });
+
+        // gsap.to(newTaskBoxRef.current.querySelector(".next-content"), {
+        //     opacity: 0,
+        //     duration: 0.4,
+        // });
+    });
+
+  })
   
   const [userData, setuserData] = useContext(AuthContext);
 
@@ -95,9 +154,12 @@ const NewTask = ({ data, wholeData }) => {
 
 
   return (
-    <div className='flex-shrink-0 h-[300px] w-[300px] bg-blue-400 rounded-xl ml-2'>
+    <div ref={newTaskBoxRef} className='overflow-hidden relative flex-shrink-0 h-[300px] w-[300px] bg-[#ad9676] rounded-se-[42px] rounded-es-[42px] rounded-ee-[42px] ml-2'>
+
+      <div ref={hoverTransitionRef} className='hoverTransition bg-blue-200 rounded-full w-[0px] h-[0px] -translate-x-1/2 -translate-y-1/2 absolute'></div>
+
       <div className='bg-transparent flex justify-between items-center p-2'>
-        <h3 className='bg-red-600 px-3 py-1 text-sm rounded'>{dataa?.category}</h3>
+        <h3 className='bg-[#8b6c3e] rounded-se-[13px] rounded-es-[13px] rounded-ee-[13px] px-3 py-1 text-sm'>{dataa?.category}</h3>
         <h4 className='bg-transparent text-sm'>{dataa?.date}</h4>
       </div>
       <h2 className='p-2 bg-transparent mt-5 text-2xl font-semibold'>{dataa?.title}</h2>

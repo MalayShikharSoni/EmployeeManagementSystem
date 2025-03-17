@@ -7,6 +7,7 @@ import TVStaticEffect from './pages/TVStaticEffect';
 import CustomCursor from './components/CustomCursor';
 import Footer from './pages/Footer';
 import Signup from './components/Auth/Signup';
+import HoverEffect from './components/HoverEffect';
 const App = () => {
 
   const [xAxis, setXAxis] = useState();
@@ -22,14 +23,14 @@ const App = () => {
         setXAxis(e.clientX);
         setYAxis(e.clientY);
       }}
-      className='relative'
+      className='relative appContainer'
       >
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/main" element={<MainPage />} />
           <Route path="/signup" element={<Signup />} />
         </Routes>
-
+        {/* <HoverEffect /> */}
         <Footer />  
       </div>
       <TVStaticEffect />

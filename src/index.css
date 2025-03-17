@@ -47,7 +47,7 @@ body{
 }
 
 ::selection{
-  color: rgb(116, 74, 116);
+  color: #7a5622;
 }
 
 *::-webkit-scrollbar {
