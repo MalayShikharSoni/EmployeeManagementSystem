@@ -24,7 +24,7 @@ const CreateTask = (props) => {
 
 
   const [title, settitle] = useState('')
-  const [taskDate, settaskDate] = useState('')
+  const [date, setdate] = useState('')
   const [assignTo, setassignTo] = useState('')
   const [category, setcategory] = useState('')
   const [description, setdescription] = useState('')
@@ -48,7 +48,7 @@ const CreateTask = (props) => {
 
     const currentTask = {
       title,
-      taskDate,
+      date,
       category,
       description,
       active: false,
@@ -79,7 +79,7 @@ const CreateTask = (props) => {
     // taskCreatedNotification();
 
     settitle('')
-    settaskDate('')
+    setdate('')
     setassignTo('')
     setcategory('')
     setdescription('')
@@ -109,9 +109,9 @@ const CreateTask = (props) => {
         <div className='bg-[#1C1C1C]'>
         <h3 className='bg-[#1C1C1C] text-sm text-gray-300 mb-0.5'>Date</h3>
         <input
-        value={taskDate}
+        value={date}
         onChange={(e)=>{
-          settaskDate(e.target.value)
+          setdate(e.target.value)
         }}
          className=' text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent border-[1px] border-gray-400 mb-4' type="date" />
         </div>

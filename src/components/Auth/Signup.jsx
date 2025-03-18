@@ -7,12 +7,12 @@ import gsap from 'gsap';
 const Signup = () => {
 
 
-    useGSAP(()=> {
-        gsap.from("body", {
-            opacity: 0,
-            duration: 0.7,
-        })
-    })
+    // useGSAP(()=> {
+    //     gsap.from(".containerr", {
+    //         opacity: 0,
+    //         duration: 0.7,
+    //     })
+    // })
 
     const [firstname, setFirstname] = useState("");
     const [email, setEmail] = useState("");

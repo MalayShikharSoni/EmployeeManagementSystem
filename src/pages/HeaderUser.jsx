@@ -20,6 +20,9 @@ const HeaderUser = forwardRef((props, ref) => {
                     <img src="/src/assets/WorkWaveLogo.svg" alt="" className="bg-transparent w-auto h-12" />
                     </div>
                     
+                    <div className='absolute bg-transparent left-[13vw] flex items-center font-extrabold text-5xl text-[#cec0ad]'>
+                        Welcome, {props.data.firstname}
+                    </div>
                     
                     <div className="bg-transparent pr-[7rem]" onClick={LogOutUser}>
                         <img src="/src/assets/LogOut.svg" alt="" className="bg-transparent w-auto h-16" />

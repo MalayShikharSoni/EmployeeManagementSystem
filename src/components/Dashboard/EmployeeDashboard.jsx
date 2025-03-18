@@ -62,12 +62,10 @@ const EmployeeDashboard = ({ changeUser, data, user, setuserData, AcceptClickBut
   })
 
   return (
-    <div className='employeeDashboard p-10 bg-[#cec0ad]'>
+    <div className='employeeDashboard p-10 bg-[#cec0ad] pt-[25vh]'>
       <HeaderUser ref={{firstWaveRef, thirdWaveRef}} changeUser={changeUser} data={data} user={user} />
 
-      <div className='flex items-center bg-transparent w-[screen] h-[16vh] mt-[18vh] font-bold text-6xl text-[#ad9676] ml-[3vw]'>
-        Welcome, {data.firstname}
-      </div>
+      
 
       
 

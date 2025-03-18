@@ -6,16 +6,16 @@ import gsap from 'gsap';
 
 const Login = ({handleLogin}) => {
 
-    useGSAP(()=>{
+    // useGSAP(()=>{
 
         
 
-        gsap.from("body", {
-            opacity: 0,
-            duration: 0.7,
-        })
+    //     gsap.from(".containerr", {
+    //         opacity: 0,
+    //         duration: 0.7,
+    //     })
 
-    })
+    // })
 
     const [email, setemail] = useState("");
     const [password, setpassword] = useState("");

@@ -27,17 +27,17 @@ const TaskList = (props) => {
     const CurrentUser = userData.loggedInUser;
     
   return (
-    <div className='bg-transparent'>
+    <div className='bg-transparent ml-[3vw]'>
     
-      <div className='flex items-baseline bg-transparent border-[4px] border-[#ad9676] rounded-se-[35px] rounded-es-[35px] rounded-ee-[35px] w-[290px] h-[100px] ml-[3vw]'>
-          <span className='bg-transparent ml-[20px] mt-[5px] font-bold text-[#ad9676] text-7xl'>
+      <div className='flex items-baseline bg-transparent border-[4px] border-[#9c815a] rounded-se-[35px] rounded-es-[35px] rounded-ee-[35px] w-[290px] h-[100px] '>
+          <span className='bg-transparent ml-[20px] mt-[5px] font-bold text-[#9c815a] text-7xl'>
             {CurrentUser?.data.taskNumbers.newTask}
           </span>
-          <span className='bg-transparent ml-[40px] font-medium text-[#ad9676] text-3xl'>
+          <span className='bg-transparent ml-[40px] font-medium text-[#9c815a] text-3xl'>
             New Tasks
           </span>
         </div>
-      <div id='tasklist' className='bg-transparent flex overflow-x-auto gap-5 flex-nowrap items-center justify-start h-[55%]  w-full py-5 mt-10'>
+      <div id='tasklist' className='bg-transparent flex overflow-x-auto gap-5 flex-nowrap items-center justify-start h-[55%]  w-full py-5 mt-10 mb-[20vh]'>
         
 
         {tasks?.map((ele, idx)=>{
@@ -48,11 +48,11 @@ const TaskList = (props) => {
 
       </div>
 
-      <div className='flex items-baseline bg-transparent border-[4px] border-[#ad9676] rounded-se-[35px] rounded-es-[35px] rounded-ee-[35px] w-[290px] h-[100px] ml-[3vw]'>
-          <span className='bg-transparent ml-[20px] mt-[5px] font-bold text-[#ad9676] text-7xl'>
+      <div className='flex items-baseline bg-transparent border-[4px] border-[#9c815a] rounded-se-[35px] rounded-es-[35px] rounded-ee-[35px] w-[290px] h-[100px] '>
+          <span className='bg-transparent ml-[20px] mt-[5px] font-bold text-[#9c815a] text-7xl'>
             {CurrentUser?.data.taskNumbers.active}
           </span>
-          <span className='bg-transparent ml-[40px] font-medium text-[#ad9676] text-3xl'>
+          <span className='bg-transparent ml-[40px] font-medium text-[#9c815a] text-3xl'>
             Active Tasks
           </span>
         </div>
@@ -69,11 +69,11 @@ const TaskList = (props) => {
 
       </div>
 
-      <div className='flex items-baseline bg-transparent border-[4px] border-[#ad9676] rounded-se-[35px] rounded-es-[35px] rounded-ee-[35px] w-[290px] h-[100px] ml-[3vw]'>
-          <span className='bg-transparent ml-[20px] mt-[5px] font-bold text-[#ad9676] text-7xl'>
+      <div className='flex items-baseline bg-transparent border-[4px] border-[#9c815a] rounded-se-[35px] rounded-es-[35px] rounded-ee-[35px] w-[290px] h-[100px] '>
+          <span className='bg-transparent ml-[20px] mt-[5px] font-bold text-[#9c815a] text-7xl'>
             {CurrentUser?.data.taskNumbers.completed}
           </span>
-          <span className='bg-transparent ml-[33px]  font-medium text-[#ad9676] text-[23px]'>
+          <span className='bg-transparent ml-[33px]  font-medium text-[#9c815a] text-[23px]'>
             Completed Tasks
           </span>
         </div>
@@ -90,11 +90,11 @@ const TaskList = (props) => {
 
       </div>
 
-      <div className='flex items-baseline bg-transparent border-[4px] border-[#ad9676] rounded-se-[35px] rounded-es-[35px] rounded-ee-[35px] w-[290px] h-[100px] ml-[3vw]'>
-          <span className='bg-transparent ml-[20px] mt-[5px] font-bold text-[#ad9676] text-7xl'>
+      <div className='flex items-baseline bg-transparent border-[4px] border-[#9c815a] rounded-se-[35px] rounded-es-[35px] rounded-ee-[35px] w-[290px] h-[100px] '>
+          <span className='bg-transparent ml-[20px] mt-[5px] font-bold text-[#9c815a] text-7xl'>
             {CurrentUser?.data.taskNumbers.failed}
           </span>
-          <span className='bg-transparent ml-[40px] font-medium text-[#ad9676] text-3xl'>
+          <span className='bg-transparent ml-[40px] font-medium text-[#9c815a] text-3xl'>
             Failed Tasks
           </span>
         </div>
