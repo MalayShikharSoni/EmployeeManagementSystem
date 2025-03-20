@@ -5,7 +5,7 @@ import gsap from 'gsap';
 
 const CompletedTask = ({data}) => {
 
-  const newTaskBoxRef = useRef(null);
+  const taskBoxRef = useRef(null);
   const hoverTransitionRef = useRef(null);
 
   const titleRef = useRef(null);
@@ -18,8 +18,16 @@ const CompletedTask = ({data}) => {
 
   useGSAP(()=>{
 
-    newTaskBoxRef.current?.addEventListener("mousemove", (e) => {
-        const boxRect = newTaskBoxRef.current.getBoundingClientRect();
+    gsap.from(taskBoxRef.current, {
+      scale: 0,
+      duration: 0.6,
+      delay: 0.4,
+      translateX: "-160px",
+      translateY: "-150px",
+    })
+
+    taskBoxRef.current?.addEventListener("mousemove", (e) => {
+        const boxRect = taskBoxRef.current.getBoundingClientRect();
         let x = e.clientX - boxRect.left;
         let y = e.clientY - boxRect.top;
 
@@ -27,7 +35,7 @@ const CompletedTask = ({data}) => {
         hoverTransitionRef.current.style.top = `${y}px`;
     });
 
-    newTaskBoxRef.current?.addEventListener("mouseenter", (e) => {
+    taskBoxRef.current?.addEventListener("mouseenter", (e) => {
 
       // TRANSITION CIRCLE
         gsap.to(hoverTransitionRef.current, {
@@ -70,7 +78,7 @@ const CompletedTask = ({data}) => {
 
     });
 
-    newTaskBoxRef.current?.addEventListener("mouseleave", () => {
+    taskBoxRef.current?.addEventListener("mouseleave", () => {
 
         // TRANSITION CIRCLE
         gsap.to(hoverTransitionRef.current, {
@@ -207,7 +215,7 @@ const CompletedTask = ({data}) => {
 
 
   return (
-    <div ref={newTaskBoxRef} className='overflow-hidden relative flex-shrink-0 h-[300px] w-[320px] bg-[#ad9676] rounded-se-[42px] rounded-es-[42px] rounded-ee-[42px] ml-2 z-1'>
+    <div ref={taskBoxRef} className='overflow-hidden relative flex-shrink-0 h-[300px] w-[320px] bg-[#ad9676] rounded-se-[42px] rounded-es-[42px] rounded-ee-[42px] ml-2 z-1'>
 
 
       <div className='bg-transparent absolute z-10 h-full w-full'>

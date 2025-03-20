@@ -62,15 +62,14 @@ const EmployeeDashboard = ({ changeUser, data, user, setuserData, AcceptClickBut
   })
 
   return (
-    <div className='employeeDashboard p-10 bg-[#cec0ad] pt-[25vh]'>
+    <div className='w-screen'>
+    
       <HeaderUser ref={{firstWaveRef, thirdWaveRef}} changeUser={changeUser} data={data} user={user} />
 
-      
-
-      
-
-      {/* <TaskListNumbers /> */}
-      <TaskList setuserData={setuserData} data={data} AcceptClickButton={AcceptClickButton} setLoggedInUserData={setLoggedInUserData} />
+      <div className='employeeDashboard bg-[#cec0ad] p-10 pt-[25vh]'>
+        {/* <TaskListNumbers /> */}
+        <TaskList setuserData={setuserData} data={data} AcceptClickButton={AcceptClickButton} setLoggedInUserData={setLoggedInUserData} />
+      </div>
     </div>
   );
 };

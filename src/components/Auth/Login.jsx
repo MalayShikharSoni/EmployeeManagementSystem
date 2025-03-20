@@ -60,15 +60,15 @@ const Login = ({handleLogin}) => {
                     onChange={(e)=>{
                         setemail(e.target.value)
                     }}
-                    className='border-[3px] border-[#ad9676] m-2 rounded-se-[25px] rounded-es-[25px] rounded-ee-[25px] px-3 py-3 text-xl placeholder:text-[#ad9676] font-bold text-[#ad9676] placeholder:text-opacity-70 placeholder:font-bold w-full focus:outline-none focus:border-[#8b6c3e] bg-[#cec0ad]' type="email" placeholder='Enter your Email' />
+                    className='border-[3px] border-[#ad9676] m-2 rounded-se-[25px] rounded-es-[25px] rounded-ee-[25px] px-3 py-3 text-xl placeholder:text-[#ad9676] font-bold text-[#8b6c3e] placeholder:text-opacity-70 placeholder:font-bold w-full focus:outline-none focus:border-[#8b6c3e] bg-[#cec0ad]' type="email" placeholder='Enter your Email' />
                     <input 
                     value={password}
                     required
                     onChange={(e)=>{
                         setpassword(e.target.value)
                     }}
-                    className='border-[3px] border-[#ad9676] m-2 rounded-se-[25px] rounded-es-[25px] rounded-ee-[25px] px-3 py-3 text-xl placeholder:text-[#ad9676] font-bold text-[#ad9676] placeholder:text-opacity-70 placeholder:font-bold w-full focus:outline-none focus:border-[#8b6c3e] bg-[#cec0ad]' type="password" placeholder='Enter your password' />
-                    <button className='border-none mt-10  rounded-se-[25px] rounded-es-[25px] rounded-ee-[25px] px-3 py-3 text-xl text-[#cec0ad] font-bold  w-full bg-[#ad9676]'>Log in</button>
+                    className='border-[3px] border-[#ad9676] m-2 rounded-se-[25px] rounded-es-[25px] rounded-ee-[25px] px-3 py-3 text-xl placeholder:text-[#ad9676] font-bold text-[#8b6c3e] placeholder:text-opacity-70 placeholder:font-bold w-full focus:outline-none focus:border-[#8b6c3e] bg-[#cec0ad]' type="password" placeholder='Enter your password' />
+                    <button className='border-none mt-10  rounded-se-[25px] rounded-es-[25px] rounded-ee-[25px] px-3 py-3 text-xl text-[#cec0ad] font-bold  w-full bg-[#ad9676] focus:bg-[#8b6c3e]'>Log in</button>
 
 
                     <div

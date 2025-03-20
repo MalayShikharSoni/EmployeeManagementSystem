@@ -357,6 +357,7 @@ const LandingPage = () => {
     gsap.to(".circle", {
       y: "37.5vh",
       ease: "bounce",
+      stagger: 0.2,
       duration: 1.8,
       delay: 1.6,
 

@@ -88,7 +88,7 @@ const Signup = () => {
                 onChange={(e)=>{
                     setFirstname(e.target.value)
                 }}
-                className='border-[3px] border-[#ad9676] m-2 rounded-se-[25px] rounded-es-[25px] rounded-ee-[25px] px-3 py-3 text-xl placeholder:text-[#ad9676] placeholder:font-bold w-full focus:outline-none focus:border-[#8b6c3e] text-[#a58c68]  placeholder:text-opacity-70 font-bold bg-[#cec0ad]' type="text" placeholder='Enter your Name' />
+                className='border-[3px] border-[#ad9676] m-2 rounded-se-[25px] rounded-es-[25px] rounded-ee-[25px] px-3 py-3 text-xl placeholder:text-[#ad9676] placeholder:font-bold w-full focus:outline-none focus:border-[#8b6c3e] text-[#8b6c3e]  placeholder:text-opacity-70 font-bold bg-[#cec0ad]' type="text" placeholder='Enter your Name' />
                 
                 <input
                 value={email}
@@ -96,16 +96,16 @@ const Signup = () => {
                 onChange={(e)=>{
                     setEmail(e.target.value)
                 }}
-                className='border-[3px] border-[#ad9676] m-2 rounded-se-[25px] rounded-es-[25px] rounded-ee-[25px] px-3 py-3 text-xl placeholder:text-[#ad9676] placeholder:font-bold w-full focus:outline-none focus:border-[#8b6c3e] text-[#a58c68] placeholder:text-opacity-70 font-bold bg-[#cec0ad]' type="email" placeholder='Enter your Email' />
+                className='border-[3px] border-[#ad9676] m-2 rounded-se-[25px] rounded-es-[25px] rounded-ee-[25px] px-3 py-3 text-xl placeholder:text-[#ad9676] placeholder:font-bold w-full focus:outline-none focus:border-[#8b6c3e] text-[#8b6c3e] placeholder:text-opacity-70 font-bold bg-[#cec0ad]' type="email" placeholder='Enter your Email' />
                 <input 
                 value={password}
                 required
                 onChange={(e)=>{
                     setPassword(e.target.value)
                 }}
-                 className='border-[3px] border-[#ad9676] m-2 rounded-se-[25px] rounded-es-[25px] rounded-ee-[25px] px-3 py-3 text-xl placeholder:text-[#ad9676] placeholder:font-bold w-full focus:outline-none focus:border-[#8b6c3e] text-[#a58c68] placeholder:text-opacity-70 font-bold bg-[#cec0ad]' type="password" placeholder='Enter your password' />
+                 className='border-[3px] border-[#ad9676] m-2 rounded-se-[25px] rounded-es-[25px] rounded-ee-[25px] px-3 py-3 text-xl placeholder:text-[#ad9676] placeholder:font-bold w-full focus:outline-none focus:border-[#8b6c3e] text-[#8b6c3e] placeholder:text-opacity-70 font-bold bg-[#cec0ad]' type="password" placeholder='Enter your password' />
                 {/* <Link to={'/main'} className='bg-transparent'> */}
-                    <button className='border-none mt-10  rounded-se-[25px] rounded-es-[25px] rounded-ee-[25px] px-3 py-3 text-xl text-[#cec0ad] font-bold  w-full bg-[#ad9676]'>Signup</button>
+                    <button className='border-none mt-10  rounded-se-[25px] rounded-es-[25px] rounded-ee-[25px] px-3 py-3 text-xl text-[#cec0ad] font-bold  w-full bg-[#ad9676] focus:bg-[#8b6c3e]'>Signup</button>
                 {/* </Link> */}
 
 
