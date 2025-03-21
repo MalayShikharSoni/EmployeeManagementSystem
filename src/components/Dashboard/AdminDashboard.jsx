@@ -77,7 +77,7 @@ const AdminDashboard = (props) => {
           </div>
         </div>
 
-        <div className='flex flex-col gap-[20px] rounded-es-[200px] bg-[#ad9676] h-full w-[30vw] mt-[16vh] overflow-hidden '>
+        <div className='flex flex-col gap-[20px] h-full rounded-es-[200px] bg-[#ad9676] mb-[16vh] w-[30vw] mt-[16vh] overflow-hidden '>
 
           <div className='titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto'>
 
@@ -177,10 +177,163 @@ const AdminDashboard = (props) => {
             <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
           </div>
 
-          
+          <div className='titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto'>
 
+
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/A.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/V.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/E.svg" alt="" />
+
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/O.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/R.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/K.svg" alt="" />
+          </div>
+
+          <div className='titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto'>
+
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/A.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/V.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/E.svg" alt="" />
+
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/O.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/R.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/K.svg" alt="" />
+
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
+          </div>
+
+          <div className='titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto'>
+
+
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/A.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/V.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/E.svg" alt="" />
+
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/O.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/R.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/K.svg" alt="" />
+          </div>
+
+          <div className='titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto'>
+
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/A.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/V.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/E.svg" alt="" />
+
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/O.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/R.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/K.svg" alt="" />
+
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
+          </div>
+
+          <div className='titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto'>
+
+
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/A.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/V.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/E.svg" alt="" />
+
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/O.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/R.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/K.svg" alt="" />
+          </div>
+
+          <div className='titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto'>
+
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/A.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/V.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/E.svg" alt="" />
+
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/O.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/R.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/K.svg" alt="" />
+
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
+          </div>
+
+          <div className='titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto'>
+
+
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/A.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/V.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/E.svg" alt="" />
+
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/O.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/R.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/K.svg" alt="" />
+          </div>
+
+          <div className='titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto'>
+
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/A.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/V.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/E.svg" alt="" />
+
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/O.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/R.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/K.svg" alt="" />
+
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
+          </div>
+
+          <div className='titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto'>
+
+
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/A.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/V.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/E.svg" alt="" />
+
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/O.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/R.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/K.svg" alt="" />
+          </div>
+
+          <div className='titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto'>
+
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/A.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/V.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/E.svg" alt="" />
+
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/O.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/R.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/K.svg" alt="" />
+
+            <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
+          </div>
+
+          <div className='titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto'>
+
+
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/A.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/V.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/E.svg" alt="" />
+
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/O.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/R.svg" alt="" />
+            <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/K.svg" alt="" />
+          </div>
           
         </div>
+
+        
 
         
 

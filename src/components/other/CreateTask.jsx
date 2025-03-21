@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { AuthContext } from '../../context/AuthProvider'
 import { setLocalStorage } from '../../../utils/localstorage';
 import { useGSAP } from '@gsap/react';
@@ -11,17 +11,6 @@ import gsap from 'gsap';
 
 const CreateTask = (props) => {
 
-  // const taskCreatedNotification = () => toast.info('🦄 Wow so easy!', {
-  //   position: "top-right",
-  //   autoClose: 5000,
-  //   hideProgressBar: false,
-  //   closeOnClick: false,
-  //   pauseOnHover: true,
-  //   draggable: true,
-  //   progress: undefined,
-  //   theme: "colored",
-  //   transition: Slide,
-  //   });
 
 
 
@@ -30,10 +19,87 @@ const CreateTask = (props) => {
   const [assignTo, setassignTo] = useState('')
   const [category, setcategory] = useState('')
   const [description, setdescription] = useState('')
+
+  const taskBoxRef = useRef(null);
+  const hoverTransitionRef = useRef(null);
+  const createButtonTextRef = useRef(null);
   
   const [userData, setuserData] = useContext(AuthContext)
   // console.log('CreateTask ka usecontext: ',userData)
   
+  useGSAP(()=> {
+    gsap.from(taskBoxRef.current, {
+      // scale: 1,
+      duration: 0.6,
+      delay: 0.4,
+      translateX: "0px",
+      translateY: "0px",
+    })
+
+    taskBoxRef.current?.addEventListener("mousemove", (e) => {
+
+        const boxRect = taskBoxRef.current.getBoundingClientRect();
+        let x = e.clientX - boxRect.left;
+        let y = e.clientY - boxRect.top;
+
+        hoverTransitionRef.current.style.left = `${x}px`;
+        hoverTransitionRef.current.style.top = `${y}px`;
+
+    });
+
+    taskBoxRef.current?.addEventListener("mouseenter", (e) => {
+
+      // TRANSITION CIRCLE
+        gsap.to(hoverTransitionRef.current, {
+            duration: 0.6,
+            width: '800px',
+            height: '800px',
+        });
+
+
+        
+        
+
+        
+
+        // AFTER HOVER ELEMENTS
+        gsap.to(createButtonTextRef.current, {
+          // scale: 1.1,
+          color: "#ded5c8",
+          duration: 0.4,
+        })
+
+        
+        
+
+
+    });
+
+    taskBoxRef.current?.addEventListener("mouseleave", () => {
+
+        // TRANSITION CIRCLE
+        gsap.to(hoverTransitionRef.current, {
+            duration: 0.4,
+            width: '0px',
+            height: '0px',
+        });
+
+        // BEFORE HOVER ELEMENTS
+        
+
+
+        
+        gsap.to(createButtonTextRef.current, {
+          scale: 1,
+          duration: 0.4,
+          color: "#9c815a",
+        })
+        
+
+    
+    });
+
+  })
 
   useEffect(() => {
     const storedEmployees = localStorage.getItem('employees');
@@ -160,181 +226,280 @@ const CreateTask = (props) => {
 
 
   return (
-    <div className='w-auto h-full rounded bg-[#cec0ad]'>
+    <div className='bg-[#cec0ad] pt-[24vh]'>
 
-      <div className='flex flex-row bg-transparent pt-[16vh]'>
+      <div className='bg-transparent  text-[#9c815a] mb-[12vh] text-7xl font-black ml-[3vw]'>
+        Assign a Task
+      </div>
+
+      <div className=' bg-transparent'>
 
           <form onSubmit={(e)=>{
              SubmitHandler(e)
-            }} className='p-10 flex flex-wrap w-[70%] h-full pt-[24vh] items-start justify-between bg-[#cec0ad]'>
+            }} className='ml-[3vw] flex flex-wrap w-[70%] h-full items-start justify-between bg-[#cec0ad]'>
 
-          <div className='w-1/2 bg-[#cec0ad]'>
-            <div className='bg-[#cec0ad]'>
-              <h3 className='bg-[#cec0ad] text-sm text-gray-300 mb-0.5'>Task Title</h3>
-              <input
-              value={title}
-              onChange={(e)=>{
-                settitle(e.target.value)
+              <div className='flex flex-col gap-[5vh] bg-transparent'>
+
+                {/* NAME AND CATEGORY */}
+                <div className='nameAndCategory flex flex-row gap-[4vw] bg-transparent'>
+
+
+                  {/* NAME */}
+                  <div className='bg-transparent'>
+                    <div className='idCard w-[450px] h-[300px] bg-[#ad9676] rounded-[10px] flex flex-col overflow-hidden'>
+
+                      <div className='flex flex-row gap-[10px] items-center justify-center h-[10%] w-full bg-[#9c815a]'>
+
+                        <div className='w-[10px] h-[10px] rounded-full bg-[#cec0ad]'></div>
+
+                        <div className='w-[70px] h-[10px] rounded-full bg-[#cec0ad]'></div>
+
+                        <div className='w-[10px] h-[10px] rounded-full bg-[#cec0ad]'></div>
+
+
+                      </div>
+
+                      {/* ID CARD */}
+                      <div className='flex flex-row items-center h-[90%] justify-center bg-transparent'>
+
+                        {/* PFP */}
+                        <div className='relative w-[40%] m-[10px] h-[150px] bg-[#cec0ad] overflow-hidden'>
+
+                          <div className='absolute top-[30%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70px] h-[70px] rounded-full bg-[#ded5c8]'></div>
+                          <div className='absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-[125px] h-[125px] rounded-full bg-[#ded5c8]'></div>
+
+                          
+                        </div>
+
+                        <div className='bg-transparent w-full h-full flex flex-col'>
+
+                          <div className='bg-transparent font-black text-[35px] pl-[15px] text-[#cec0ad] w-full mt-[10px]'>
+                            Assign To :
+                          </div>
+
+                          <input
+                            value={assignTo}
+                            onChange={(e)=>{
+                              setassignTo(e.target.value)
+                            }
+                          }
+                            className='bg-[#cec0ad] w-[87%] h-[50%] mt-[6px] rounded-[5px] pl-[10px] font-black text-[#9c815a] text-[22px] placeholder:font-bold placeholder:text-[#bdab91] placeholder:text-[22px] outline-none focus:bg-[#ded5c8]' type='text' placeholder="Enter Employee Name" />
+
+                          {/* FILLER */}
+                          <div className='filler flex flex-col gap-[18px] mt-[30px] bg-transparent h-full'>
+
+                            <div className='bg-transparent flex flex-row gap-[8px]'>
+
+                              <div className='bg-[#cec0ad] h-[5px] w-[84px] rounded-full'></div>
+                              <div className='bg-[#cec0ad] h-[5px] w-[84px] rounded-full'></div>
+                              <div className='bg-[#cec0ad] h-[5px] w-[84px] rounded-full'></div>
+                              
+                            </div>
+
+                            <div className='bg-transparent flex flex-row gap-[8px]'>
+
+                              <div className='bg-[#cec0ad] h-[5px] w-[130px] rounded-full'></div>
+                              <div className='bg-[#cec0ad] h-[5px] w-[130px] rounded-full'></div>
+                              {/* <div className='bg-[#cec0ad] h-[5px] w-[84px] rounded-full'></div> */}
+                              
+                            </div>
+
+                            <div className='bg-transparent flex flex-row gap-[8px]'>
+
+                              <div className='bg-[#cec0ad] h-[5px] w-[84px] rounded-full'></div>
+                              <div className='bg-[#cec0ad] h-[5px] w-[84px] rounded-full'></div>
+                              <div className='bg-[#cec0ad] h-[5px] w-[84px] rounded-full'></div>
+                              
+                            </div>
+
+                            
+
+                          </div>
+
+                        </div>
+
+                        
+
+
+                      </div>
+
+                    </div>
+                  </div>
+
+
+                  {/* CATEGORY */}
+                  {/* <div className='bg-[#9c815a] w-[300px] h-[300px] flex flex-row items-center justify-center rounded-full'>
+                    <input
+                    value={category}
+                    onChange={(e)=>{
+                      setcategory(e.target.value)
+                    }}
+                    className='bg-[#ad9676] outline-none w-[280px] h-[280px] rounded-full text-center font-black text-[#9c815a] text-[30px] placeholder:text-center placeholder:font-black placeholder:text-[#cec0ad] placeholder:text-[30px]' type="text" placeholder="Enter Category" />
+
+                  </div> */}
+
+                  <div className='relative bg-[#ad9676] rounded-[10px] w-[450px] h-[300px] flex flex-col items-start justify-center'>
+                    {/* NOTEPAD SPIRAL */}
+                    <div className='absolute top-[-10px] flex flex-row items-center justify-around w-[450px] bg-transparent'>
+
+                      <div className='bg-[#9c815a] rounded-[3px] w-[8px] h-[40px]'></div>
+                      <div className='bg-[#9c815a] rounded-[3px] w-[8px] h-[40px]'></div>
+                      <div className='bg-[#9c815a] rounded-[3px] w-[8px] h-[40px]'></div>
+                      <div className='bg-[#9c815a] rounded-[3px] w-[8px] h-[40px]'></div>
+                      <div className='bg-[#9c815a] rounded-[3px] w-[8px] h-[40px]'></div>
+                      <div className='bg-[#9c815a] rounded-[3px] w-[8px] h-[40px]'></div>
+          
+                    </div>
+
+                    {/* NOTEPAD CIRCLES */}
+                    <div className='top-[-10px]  flex flex-row items-center justify-around w-[450px] bg-transparent mt-[8px]'>
+
+                      <div className='bg-[#cec0ad] rounded-full w-[35px] h-[35px]'></div>
+                      <div className='bg-[#cec0ad] rounded-full w-[35px] h-[35px]'></div>
+                      <div className='bg-[#cec0ad] rounded-full w-[35px] h-[35px]'></div>
+                      <div className='bg-[#cec0ad] rounded-full w-[35px] h-[35px]'></div>
+                      <div className='bg-[#cec0ad] rounded-full w-[35px] h-[35px]'></div>
+                      <div className='bg-[#cec0ad] rounded-full w-[35px] h-[35px]'></div>
+          
+                    </div>
+
+                    <div className='relative h-full w-full flex flex-col items-center justify-center bg-transparent'>
+
+                      <div className='absolute flex flex-col gap-[40px] w-full h-full items-center justify-center bg-transparent opacity-[40%] '>
+
+                        <div className='bg-[#cec0ad] w-full h-[2px] '></div>
+                        <div className='bg-[#cec0ad] w-full h-[2px] '></div>
+                        <div className='bg-[#cec0ad] w-full h-[2px] '></div>
+                        <div className='bg-[#cec0ad] w-full h-[2px] '></div>
+                        <div className='bg-[#cec0ad] w-full h-[2px] '></div>
+                        <div className='bg-[#cec0ad] w-full h-[2px] '></div>
+                        <div className='bg-[#cec0ad] w-full h-[2px] '></div>
+
+
+
+                      </div>
+
+                      <input
+                      value={category}
+                      onChange={(e)=>{
+                        setcategory(e.target.value)
+                      }}
+                      className='translate-y-[-13px] mb-[22.5px] w-full h-full bg-transparent outline-none text-center font-black text-[#ded5c8] text-[38px] placeholder:text-center placeholder:font-black placeholder:text-[#cec0ad] placeholder:text-[38px] placeholder:text-opacity-[70%] z-10' type="text" placeholder="Enter Category" />
+                    </div>
+
+                  </div>
+                    
+
+                </div>
+
+                {/* TITLE, DESCRIPTION, DATE */}
+                <div className='flex flex-col items-center w-full h-[300px] rounded-[10px] bg-[#9c815a]'>
+                  
+                  {/* WINDOW TITLE BAR */}
+                  <div className='flex flex-row gap-[10px] translate-y-[4px] justify-end items-center w-full h-[35px] px-[10px] bg-transparent'>
+                      
+                    <div className='h-[3.5px] w-[20px] rounded-full bg-[#cec0ad]'></div>
+                    <div className='h-[18px] w-[18px] border-[3.5px] border-[#cec0ad] bg-transparent'></div>
+                    <div className='h-[20px] w-[20px] rounded-full border-[3.5px] border-[#cec0ad] bg-transparent'></div>
+
+                  </div>
+
+                  {/* MAIN WINDOW */}
+                  <div className='bg-[#9c815a] rounded-[10px] flex flex-row gap-[0%] justify-center items-center p-[10px] h-full w-full '>
+                  
+                  <div className='flex rounded-ss-[10px] rounded-es-[10px] flex-col w-[70%] h-full bg-[#ad9676] p-[20px]'>
+                      
+                    {/* INPUT FIELDS */}
+                    <div className='flex flex-col bg-transparent h-full w-full'>
+                      
+                      {/* TITLE AND DATE */}
+                      <div className='flex flex-row w-full h-[40%] bg-transparent'>
+                        
+                        {/* TITLE */}
+                        <div className='flex items-center justify-center p-[10px] bg-transparent w-[84%] h-full'>
+
+                          <input
+                            value={title}
+                            onChange={(e)=>{
+                              settitle(e.target.value)
+                              
+                            }}
+                          className='bg-[#cec0ad] pl-[25px] w-full h-full rounded-[10px] outline-none font-black text-[#9c815a] text-[35px] placeholder:font-bold placeholder:text-[35px] placeholder:text-[#bdab91]' type="text" placeholder='Enter Task Title' />
+                        </div>
+
+                        {/* DATE */}
+                        <div className='flex flex-col h-full w-[16%] items-center justify-center bg-transparent'>
+
+                          <input
+                            value={date}
+                            onChange={(e)=>{
+                              setdate(e.target.value)
+                            }}                                        
+                          className='appearance-none flex justify-center items-center bg-[#cec0ad] outline-none w-[65px] h-[65px] rounded-full text-[#9c815a]' type="date" placeholder=' dddd' style={{
+                            color: "#9c815a", // Change selected date text color
+                            backgroundColor: "#cec0ad", // Change background color
+                          }}/>
+              
+
+                        <div className='bg-transparent font-bold text-[16px] text-[#9c815a]'>{date}</div>
+
+                        
+ 
+
+                        </div>
+
+              
+
+                      </div>
+
+                      {/* DESCREPTION */}
+                      <div className='flex bg-transparent h-full w-full p-[10px]'>
+                        <textarea
+                          value={description}
+                          onChange={(e)=>{
+                            setdescription(e.target.value)
+                          }}
+                          className='outline-none w-full h-full bg-[#cec0ad] rounded-[10px] font-bold text-[22px] text-[#9c815a] placeholder:text-[#bdab91] resize-none' placeholder='Enter Task Description' />
+              
+                      </div>
+
+                    </div>
+
+                    {/* SUBMIT BUTTON */}
+
+                    
+                     
+                  </div>
+
+                  <div className='flex items-center justify-center bg-[#ad9676] rounded-ee-[10px] rounded-se-[10px] h-full w-[30%]'>
+                    <button ref={taskBoxRef} onClick={animateWavyLetters} className='relative overflow-hidden bg-[#cec0ad] w-[230px] h-[230px] rounded-full '>
+                        <div ref={createButtonTextRef} className='bg-transparent text-[#9c815a] font-black text-[55px]'>
+                          Create <br /> Task  
+                        </div>
+                    <div ref={hoverTransitionRef} className='hoverTransition  bg-[#7a5622] rounded-full w-[0px] h-[0px] -translate-x-1/2 -translate-y-1/2 absolute -z-10'></div>
+                    </button>   
+
+
+                  </div>  
+                    
+                </div>
+
+              </div>
+          
+              
+
+            
                 
-              }}
-              className='text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent border-[1px] border-gray-400 mb-4' type="text" placeholder='Make a UI Design' />
-            </div>
-
-            <div className='bg-[#cec0ad]'>
-            <h3 className='bg-[#cec0ad] text-sm text-gray-300 mb-0.5'>Date</h3>
-            <input
-            value={date}
-            onChange={(e)=>{
-              setdate(e.target.value)
-            }}
-            className=' text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent border-[1px] border-gray-400 mb-4' type="date" />
-            </div>
-
-            <div className='bg-[#cec0ad]'>
-            <h3 className='bg-[#cec0ad] text-sm text-gray-300 mb-0.5'>Assign to</h3>
-            <input
-            value={assignTo}
-            onChange={(e)=>{
-              setassignTo(e.target.value)
-            }
-          }
-            className=' text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent border-[1px] border-gray-400 mb-4' type='text' placeholder="employee name" />
-            </div>
-
-            <div className='bg-[#cec0ad]'>
-            <h3 className='bg-[#cec0ad] text-sm text-gray-300 mb-0.5'>Category</h3>
-            <input
-            value={category}
-            onChange={(e)=>{
-              setcategory(e.target.value)
-            }}
-            className='bg-[#cec0ad] text-sm py-1 px-2 w-4/5 rounded outline-none  border-[1px] border-gray-400 mb-4' type="text" placeholder="design, dev, etc." />
-            </div>
-          </div>
 
             
 
-          <div className='bg-[#cec0ad] flex flex-col items-start w-2/5'>
-            <h3 className='bg-[#cec0ad] text-sm text-gray-300 mb-0.5'>Description</h3>
-            <textarea
-            value={description}
-            onChange={(e)=>{
-              setdescription(e.target.value)
-            }}
-            className='bg-[#cec0ad] w-full h-44 text-sm px-4 py-2 rounded outline-none bg-transparent border-[1px] border-gray-400' name="" id="" cols="30" rows="10"></textarea>
-            <button onClick={animateWavyLetters} className='bg-emerald-500 py-3 hover:bg-emerald-600 px-5 rounded text-sm mt-4 w-full'>Create Task</button>
-          </div>
+              </div>  
 
-          
-
-          
+              
         
       </form>
 
-      {/* <div className='flex flex-col gap-[20px] bg-[#ad9676] h-screen w-[30vw] overflow-hidden '>
-
-        <div className='titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto'>
-
-          <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/V.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/E.svg" alt="" />
-
-          <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/O.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/R.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/K.svg" alt="" />
-
-          <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/A.svg" alt="" />
-        </div>
-
-        <div className='titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto'>
-
-          <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/O.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/R.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/K.svg" alt="" />
-
-          <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/A.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/V.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/E.svg" alt="" />
-
-        </div>
-
-        <div className='titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto'>
-
-          <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/O.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/R.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/K.svg" alt="" />
-
-          <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/A.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/V.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/E.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
-
-        </div>
-
-        <div className='titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto'>
-
-          <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/R.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/K.svg" alt="" />
-
-          <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/A.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/V.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/E.svg" alt="" />
-
-          <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/O.svg" alt="" />
-        </div>
-
-        <div className='titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto'>
-
-          <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/K.svg" alt="" />
-
-          <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/A.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/V.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/E.svg" alt="" />
-
-          <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/O.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/R.svg" alt="" />
-        </div>
-
-        <div className='titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto'>
-
-
-          <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/A.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/V.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/E.svg" alt="" />
-
-          <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/O.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/R.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]" src="/src/assets/K.svg" alt="" />
-        </div>
-
-        <div className='titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto'>
-
-          <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/A.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/V.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/E.svg" alt="" />
-
-          <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/O.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/R.svg" alt="" />
-          <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/K.svg" alt="" />
-
-          <img className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]" src="/src/assets/W.svg" alt="" />
-        </div>
-
-        
-
-        
-      </div> */}
+      
 
     </div>
 

@@ -72,3 +72,14 @@ img, svg {
   /* background: white; */
 }
 
+input[type="date"]::-webkit-datetime-edit {
+  display: none;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  scale: 2.5;  /* Adjust size */
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(51%) sepia(43%) saturate(294%) hue-rotate(352deg);
+}

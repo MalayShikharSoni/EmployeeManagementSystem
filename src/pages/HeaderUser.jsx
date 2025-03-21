@@ -14,7 +14,7 @@ const HeaderUser = forwardRef((props, ref) => {
 
     return (
         <>
-            <div className="fixed z-[9999] bg-transparent top-0 w-full h-[16vh] "  style={{ mixBlendMode: "difference" }}>
+            <div className="fixed z-[999] bg-[#cec0ad] top-0 w-full h-[16vh] "  >
                 <div className="relative flex items-center justify-between h-[100%] w-[100%] bg-transparent" >
                 
                     <div className="bg-transparent pl-[3rem]">
@@ -32,7 +32,7 @@ const HeaderUser = forwardRef((props, ref) => {
                     </div>
                     
 
-                    <div className="absolute w-[95%] h-[2.5px] bottom-[0%] translate-x-[2.5%] rounded-md bg-[#cec0ad]"></div>
+                    <div className="absolute w-[95%] h-[2.5px] bottom-[0%] translate-x-[2.5%] rounded-md bg-[#000000]"></div>
 
                     <div ref={firstWaveRef} className="absolute top-[calc(100%-22px)] left-[calc(50%+29px-45px)] translate-x-[-50%] h-[0px] w-[150px] bg-transparent" >
                         <img src="/src/assets/HeaderWave1.svg" alt="" className="bg-transparent w-auto h-[40px]" />

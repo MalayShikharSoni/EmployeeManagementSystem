@@ -45,7 +45,7 @@ const TVStaticEffect = () => {
   }, []);
 
   return (
-    <canvas
+    <canvas className="z-[999]"
       ref={canvasRef}
       style={{
         position: "fixed",
@@ -54,7 +54,7 @@ const TVStaticEffect = () => {
         width: "100vw",
         height: "100vh",
         pointerEvents: "none",
-        opacity: 0.08,
+        opacity: .028,
         mixBlendMode: "difference",
       }}
     />
