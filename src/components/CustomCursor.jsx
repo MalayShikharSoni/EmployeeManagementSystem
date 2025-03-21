@@ -2,12 +2,11 @@ import { useEffect } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
-
 const CustomCursor = (props) => {
   useGSAP(() => {
     const handleClick = () => {
       gsap.to(".cursorr", {
-        scale: 0.9, 
+        scale: 0.9,
         translateX: -1,
         translateY: -1,
         duration: 0.1,

@@ -37,7 +37,6 @@ const TVStaticEffect = () => {
     animate();
 
     // GSAP fade-in effect
-   
 
     return () => {
       window.removeEventListener("resize", resizeCanvas);
@@ -45,7 +44,8 @@ const TVStaticEffect = () => {
   }, []);
 
   return (
-    <canvas className="z-[999]"
+    <canvas
+      className="z-[999]"
       ref={canvasRef}
       style={{
         position: "fixed",
@@ -54,7 +54,7 @@ const TVStaticEffect = () => {
         width: "100vw",
         height: "100vh",
         pointerEvents: "none",
-        opacity: .028,
+        opacity: 0.028,
         mixBlendMode: "difference",
       }}
     />

@@ -1,14 +1,21 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import Header from '../other/Header';
-import TaskListNumbers from '../other/TaskListNumbers';
-import TaskList from '../TaskList/TaskList';
-import NameForm from '../other/NameForm';
-import HeaderUser from '../../pages/HeaderUser';
-import { useGSAP } from '@gsap/react';
-import gsap from 'gsap';
-import { AuthContext } from '../../context/AuthProvider';
+import React, { useContext, useEffect, useRef, useState } from "react";
+import Header from "../other/Header";
+import TaskListNumbers from "../other/TaskListNumbers";
+import TaskList from "../TaskList/TaskList";
+import NameForm from "../other/NameForm";
+import HeaderUser from "../../pages/HeaderUser";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { AuthContext } from "../../context/AuthProvider";
 
-const EmployeeDashboard = ({ changeUser, data, user, setuserData, AcceptClickButton, setLoggedInUserData }) => {
+const EmployeeDashboard = ({
+  changeUser,
+  data,
+  user,
+  setuserData,
+  AcceptClickButton,
+  setLoggedInUserData,
+}) => {
   // console.log(newData)
 
   const firstWaveRef = useRef(null);
@@ -18,36 +25,36 @@ const EmployeeDashboard = ({ changeUser, data, user, setuserData, AcceptClickBut
   const CurrentUser = userData.loggedInUser;
 
   useGSAP(() => {
-
-    if(!firstWaveRef.current || !thirdWaveRef.current){
+    if (!firstWaveRef.current || !thirdWaveRef.current) {
       console.log("waveRef is null");
       return;
-    }
-    else{
+    } else {
       console.log("waveRef is not null");
     }
 
-    gsap.fromTo(firstWaveRef.current, 
-      {x: 0},
+    gsap.fromTo(
+      firstWaveRef.current,
+      { x: 0 },
 
       {
         x: "-40vw",
-        ease:"none",
+        ease: "none",
         scrollTrigger: {
           trigger: ".employeeDashboard",
           start: "top top",
           end: "bottom top",
           scrub: 1,
         },
-      }
+      },
     );
 
-    gsap.fromTo(thirdWaveRef.current, 
-      {x: 0},
+    gsap.fromTo(
+      thirdWaveRef.current,
+      { x: 0 },
 
       {
         x: "42.5vw",
-        ease:"none",
+        ease: "none",
         scrollTrigger: {
           trigger: ".employeeDashboard",
           start: "top top",
@@ -55,20 +62,27 @@ const EmployeeDashboard = ({ changeUser, data, user, setuserData, AcceptClickBut
           scrub: 1,
           markers: false,
         },
-      }
+      },
     );
-
-
-  })
+  });
 
   return (
-    <div className='w-screen'>
-    
-      <HeaderUser ref={{firstWaveRef, thirdWaveRef}} changeUser={changeUser} data={data} user={user} />
+    <div className="w-screen">
+      <HeaderUser
+        ref={{ firstWaveRef, thirdWaveRef }}
+        changeUser={changeUser}
+        data={data}
+        user={user}
+      />
 
-      <div className='employeeDashboard bg-[#cec0ad] p-10 pt-[25vh]'>
+      <div className="employeeDashboard bg-[#cec0ad] p-10 pt-[25vh]">
         {/* <TaskListNumbers /> */}
-        <TaskList setuserData={setuserData} data={data} AcceptClickButton={AcceptClickButton} setLoggedInUserData={setLoggedInUserData} />
+        <TaskList
+          setuserData={setuserData}
+          data={data}
+          AcceptClickButton={AcceptClickButton}
+          setLoggedInUserData={setLoggedInUserData}
+        />
       </div>
     </div>
   );

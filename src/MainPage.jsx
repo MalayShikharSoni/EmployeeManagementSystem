@@ -1,43 +1,37 @@
-import React, { useContext, useEffect, useState } from 'react';
-import Login from './components/Auth/Login';
-import Header from './components/other/Header';
-import EmployeeDashboard from './components/Dashboard/EmployeeDashboard';
-import TaskListNumbers from './components/other/TaskListNumbers';
-import TaskList from './components/TaskList/TaskList';
-import AdminDashboard from './components/Dashboard/AdminDashboard';
-import { getLocalStorage, setLocalStorage } from '../utils/localstorage';
-import { AuthContext } from './context/AuthProvider';
-import CustomCursor from './components/CustomCursor';
-import TVStaticEffect from './pages/TVStaticEffect';
-import gsap from 'gsap';
+import React, { useContext, useEffect, useState } from "react";
+import Login from "./components/Auth/Login";
+import Header from "./components/other/Header";
+import EmployeeDashboard from "./components/Dashboard/EmployeeDashboard";
+import TaskListNumbers from "./components/other/TaskListNumbers";
+import TaskList from "./components/TaskList/TaskList";
+import AdminDashboard from "./components/Dashboard/AdminDashboard";
+import { getLocalStorage, setLocalStorage } from "../utils/localstorage";
+import { AuthContext } from "./context/AuthProvider";
+import CustomCursor from "./components/CustomCursor";
+import TVStaticEffect from "./pages/TVStaticEffect";
+import gsap from "gsap";
 // import { ToastContainer, toast } from 'react-toastify';
-import { useGSAP } from '@gsap/react';
-import LandingPage from './pages/LandingPage';
-import Footer from './pages/Footer';
+import { useGSAP } from "@gsap/react";
+import LandingPage from "./pages/LandingPage";
+import Footer from "./pages/Footer";
 const MainPage = () => {
-
-  
-
   const [user, setUser] = useState(null);
   const [loggedInUserData, setLoggedInUserData] = useState(null);
   const [changes, setChanges] = useState(0);
 
-
   // setLocalStorage();
-  
+
   // const [userData, setUserData] = useContext(AuthContext);
-  
+
   // console.log('usecontext wala userData hai: ',userData);
 
-  const [userData, setUserData] = useContext(AuthContext)
+  const [userData, setUserData] = useContext(AuthContext);
   // console.log('App se userData: ',userData)
-  
-  
-  useEffect(() => {
-    console.log(changes)
-    const loggedInUser = localStorage.getItem('loggedInUser');
-    if(!loggedInUserData){
 
+  useEffect(() => {
+    console.log(changes);
+    const loggedInUser = localStorage.getItem("loggedInUser");
+    if (!loggedInUserData) {
       if (loggedInUser) {
         const userData = JSON.parse(loggedInUser);
         setUser(userData.role);
@@ -80,26 +74,30 @@ const MainPage = () => {
 
   const handleLogin = (email, password) => {
     setChanges((prev) => prev + 1);
-    if (email === 'admin@me.com' && password === '123') {
+    if (email === "admin@me.com" && password === "123") {
       setUser("admin");
-      localStorage.setItem('loggedInUser', JSON.stringify({ role: 'admin', data: userData.admin }));
+      localStorage.setItem(
+        "loggedInUser",
+        JSON.stringify({ role: "admin", data: userData.admin }),
+      );
       loginNotification();
-
-    } 
-    else if (userData) {
-      const employee = userData.employees.find((e) => e.email === email && e.password === password);
+    } else if (userData) {
+      const employee = userData.employees.find(
+        (e) => e.email === email && e.password === password,
+      );
       if (employee) {
         setUser(email);
         setLoggedInUserData(employee);
-        localStorage.setItem('loggedInUser', JSON.stringify({ role: 'employee', data: employee }));
+        localStorage.setItem(
+          "loggedInUser",
+          JSON.stringify({ role: "employee", data: employee }),
+        );
         loginNotification();
-      }
-      else {
+      } else {
         alert("Invalid credentials");
         console.log("invalid credentials");
       }
-    } 
-    else {
+    } else {
       alert("Invalid credentials");
       console.log("invalid credentials");
     }
@@ -107,32 +105,33 @@ const MainPage = () => {
 
   return (
     <div>
-        
-        <div
-          
-        >
-          
+      <div>
+        {/* <LandingPage /> */}
 
-          {/* <LandingPage /> */}
+        {/* <button onClick={loginNotification}>toastiiiifyyy</button> */}
 
-
-          {/* <button onClick={loginNotification}>toastiiiifyyy</button> */}
-
-          {!user ? (
-            <Login handleLogin={handleLogin} />
-          ) : user === "admin" ? (
-            <AdminDashboard setUserData={setUserData} data={adminData} changeUser={setUser} />
-          ) : (
-            <EmployeeDashboard setUserData={setUserData}  changeUser={setUser} data={loggedInUserData} user={user} setLoggedInUserData={setLoggedInUserData}/>
-          )}
+        {!user ? (
+          <Login handleLogin={handleLogin} />
+        ) : user === "admin" ? (
+          <AdminDashboard
+            setUserData={setUserData}
+            data={adminData}
+            changeUser={setUser}
+          />
+        ) : (
+          <EmployeeDashboard
+            setUserData={setUserData}
+            changeUser={setUser}
+            data={loggedInUserData}
+            user={user}
+            setLoggedInUserData={setLoggedInUserData}
+          />
+        )}
         {/* <ToastContainer/> */}
         {/* <Footer /> */}
-      
+      </div>
 
-        </div>
-
-
-        {/* <TVStaticEffect />  */}
+      {/* <TVStaticEffect />  */}
     </div>
   );
 };
