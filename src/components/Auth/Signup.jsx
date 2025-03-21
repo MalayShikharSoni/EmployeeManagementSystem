@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import Login from "./Login";
 import { Link, useNavigate } from "react-router-dom";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
+
 
 const Signup = () => {
   // useGSAP(()=> {

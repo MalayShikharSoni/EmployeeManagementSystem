@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
-import { getLocalStorage } from "../../utils/localstorage";
+import { getLocalStorage } from "../utils/localstorage";
 
 export const AuthContext = createContext();
 
