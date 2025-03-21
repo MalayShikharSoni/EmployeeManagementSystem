@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../context/AuthProvider";
-import { setLocalStorage } from "../../../utils/localstorage";
+import { setLocalStorage } from "../../../utils/LocalStorage";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 

@@ -5,7 +5,7 @@ import EmployeeDashboard from "./components/Dashboard/EmployeeDashboard";
 import TaskListNumbers from "./components/other/TaskListNumbers";
 import TaskList from "./components/TaskList/TaskList";
 import AdminDashboard from "./components/Dashboard/AdminDashboard";
-import { getLocalStorage, setLocalStorage } from "../utils/localstorage";
+import { getLocalStorage, setLocalStorage } from "../utils/LocalStorage";
 import { AuthContext } from "./context/AuthProvider";
 import CustomCursor from "./components/CustomCursor";
 import TVStaticEffect from "./pages/TVStaticEffect";
