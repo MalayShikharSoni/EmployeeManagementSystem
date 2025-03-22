@@ -157,61 +157,61 @@ const FailedTask = ({ data }) => {
   }, []);
 
   // ACCEPT CLICK BUTTON FUNCTION
-  const AcceptClickButton = (firstname, title) => {
-    setuserData((prevState) => {
-      const updatedEmployees = prevState.employees.map((employee) => {
-        if (employee.firstname === firstname) {
-          return {
-            ...employee,
-            tasks: employee.tasks.map((task) =>
-              task.title === title
-                ? {
-                    ...task,
-                    newTask: false,
-                    completed: false,
-                    failed: false,
-                    active: true,
-                  }
-                : task,
-            ),
-            taskNumbers: {
-              ...employee.taskNumbers,
-              newTask: employee.taskNumbers.newTask - 1,
-              active: employee.taskNumbers.active + 1,
-            },
-          };
-        }
-        return employee;
-      });
+  // const AcceptClickButton = (firstname, title) => {
+  //   setuserData((prevState) => {
+  //     const updatedEmployees = prevState?.employees?.map((employee) => {
+  //       if (employee.firstname === firstname) {
+  //         return {
+  //           ...employee,
+  //           tasks: employee?.tasks?.map((task) =>
+  //             task.title === title
+  //               ? {
+  //                   ...task,
+  //                   newTask: false,
+  //                   completed: false,
+  //                   failed: false,
+  //                   active: true,
+  //                 }
+  //               : task,
+  //           ),
+  //           taskNumbers: {
+  //             ...employee.taskNumbers,
+  //             newTask: employee.taskNumbers.newTask - 1,
+  //             active: employee.taskNumbers.active + 1,
+  //           },
+  //         };
+  //       }
+  //       return employee;
+  //     });
 
-      const updatedUserData = updatedEmployees.find(
-        (emp) => emp.firstname === firstname,
-      );
+  //     const updatedUserData = updatedEmployees.find(
+  //       (emp) => emp.firstname === firstname,
+  //     );
 
-      const updatedLoggedInUser = {
-        role: prevState.loggedInUser.role,
-        data: updatedUserData,
-      };
+  //     const updatedLoggedInUser = {
+  //       role: prevState.loggedInUser.role,
+  //       data: updatedUserData,
+  //     };
 
-      // Store in localStorage
-      localStorage.setItem("employees", JSON.stringify(updatedEmployees));
-      localStorage.setItem("loggedInUser", JSON.stringify(updatedLoggedInUser));
+  //     // Store in localStorage
+  //     localStorage.setItem("employees", JSON.stringify(updatedEmployees));
+  //     localStorage.setItem("loggedInUser", JSON.stringify(updatedLoggedInUser));
 
-      // Trying to update wholeData and data
-      // wholeDataa = userData.loggedInUser
+  //     // Trying to update wholeData and data
+  //     // wholeDataa = userData.loggedInUser
 
-      // dataa = userData.loggedInUser.d
+  //     // dataa = userData.loggedInUser.d
 
-      // Force a UI update
-      setForceRender((prev) => !prev);
+  //     // Force a UI update
+  //     setForceRender((prev) => !prev);
 
-      return {
-        ...prevState,
-        employees: updatedEmployees,
-        loggedInUser: updatedLoggedInUser,
-      };
-    });
-  };
+  //     return {
+  //       ...prevState,
+  //       employees: updatedEmployees,
+  //       loggedInUser: updatedLoggedInUser,
+  //     };
+  //   });
+  // };
 
   return (
     <div

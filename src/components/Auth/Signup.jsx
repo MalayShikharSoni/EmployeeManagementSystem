@@ -1,14 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
+import BackButton from "../../assets/BackButton.svg";
 
 const Signup = () => {
-  // useGSAP(()=> {
-  //     gsap.from(".containerr", {
-  //         opacity: 0,
-  //         duration: 0.7,
-  //     })
-  // })
+
 
   const [firstname, setFirstname] = useState("");
   const [email, setEmail] = useState("");
@@ -16,14 +12,14 @@ const Signup = () => {
   const [refresh, setRefresh] = useState(false); // State to trigger re-render
   const navigate = useNavigate();
 
-  // Function to handle signup
-  const handleSignup = (e) => {
-    e.preventDefault(); // Prevent page refresh
 
-    // Get existing employees from localStorage
+  const handleSignup = (e) => {
+    e.preventDefault();
+
+   
     const storedEmployees = JSON.parse(localStorage.getItem("employees")) || [];
 
-    // Check if email already exists
+    
     const emailExists = storedEmployees.some((emp) => emp.email === email);
     if (emailExists) {
       alert("Email already in use! Try another.");
@@ -32,11 +28,11 @@ const Signup = () => {
 
     // Create new employee object
     const newEmployee = {
-      id: storedEmployees.length + 1, // Assign new ID
+      id: storedEmployees.length + 1, 
       email,
       password,
       firstname,
-      tasks: [], // New employee has no tasks initially
+      tasks: [], 
       taskNumbers: {
         active: 0,
         newTask: 0,
@@ -62,7 +58,7 @@ const Signup = () => {
 
   return (
     <div className="containerr flex items-center justify-center h-[80vh] bg-[#cec0ad]">
-      <div className="border-[3px] rounded-se-[75px] rounded-es-[75px] rounded-ee-[75px] p-20 border-[#ad9676] bg-[#cec0ad]">
+      <div className="border-[3px] rounded-se-[75px] rounded-es-[75px] rounded-ee-[75px] p-20 border-[#ad9676] bg-[#cec0ad] max-sm:m-[10px] max-sm:p-[50px]">
         <form
           onSubmit={handleSignup}
           className="flex flex-col justify-center items-center w-full bg-transparent"
@@ -70,7 +66,7 @@ const Signup = () => {
           <Link to={"/"}>
             <div className="absolute top-7 left-7 bg-transparent">
               <img
-                src="/src/assets/BackButton.svg"
+                src={BackButton}
                 alt="BackButton"
                 className="bg-transparent w-auto h-[65px]"
               />
@@ -83,7 +79,7 @@ const Signup = () => {
             onChange={(e) => {
               setFirstname(e.target.value);
             }}
-            className="border-[3px] border-[#ad9676] m-2 rounded-se-[25px] rounded-es-[25px] rounded-ee-[25px] px-3 py-3 text-xl placeholder:text-[#ad9676] placeholder:font-bold w-full focus:outline-none focus:border-[#8b6c3e] text-[#8b6c3e]  placeholder:text-opacity-70 font-bold bg-[#cec0ad]"
+            className="border-[3px] border-[#ad9676] m-2 rounded-se-[25px] rounded-es-[25px] rounded-ee-[25px] px-3 py-3 text-xl placeholder:text-[#ad9676] placeholder:font-bold w-full focus:outline-none focus:border-[#8b6c3e] text-[#8b6c3e]  placeholder:text-opacity-70 font-bold bg-[#cec0ad] max-sm: mt-[40px]"
             type="text"
             placeholder="Enter your Name"
           />
@@ -108,11 +104,11 @@ const Signup = () => {
             type="password"
             placeholder="Enter your password"
           />
-          {/* <Link to={'/main'} className='bg-transparent'> */}
+          
           <button className="border-none mt-10  rounded-se-[25px] rounded-es-[25px] rounded-ee-[25px] px-3 py-3 text-xl text-[#cec0ad] font-bold  w-full bg-[#ad9676] focus:bg-[#8b6c3e]">
             Signup
           </button>
-          {/* </Link> */}
+      
 
           <div className="relative mt-[70px] w-[85%] bg-[#ad9676] h-[1px]">
             <Link to={"/main"}>

@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../context/AuthProvider";
-import { setLocalStorage } from "../../../utils/LocalStorage";
+// import { setLocalStorage } from "../../../utils/LocalStorage";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
-// import { Slide, ToastContainer, toast } from 'react-toastify';
+
 
 const CreateTask = (props) => {
   const [title, settitle] = useState("");
@@ -213,7 +213,7 @@ const CreateTask = (props) => {
     // const data = [...userData.employees]
 
     // Update the employees array
-    const updatedEmployees = userData.employees.map((ele) => {
+    const updatedEmployees = userData?.employees?.map((ele) => {
       if (assignTo === ele.firstname) {
         ele.taskNumbers.newTask += 1;
         ele.tasks.push(currentTask);
@@ -251,10 +251,10 @@ const CreateTask = (props) => {
         >
           <div className="flex flex-col gap-[5vh] bg-transparent">
             {/* NAME AND CATEGORY */}
-            <div className="nameAndCategory flex flex-row gap-[4vw] bg-transparent">
+            <div className="nameAndCategory flex flex-row gap-[4vw] bg-transparent max-sm:flex-col max-sm:gap-[5vh]">
               {/* NAME */}
               <div className="bg-transparent">
-                <div className="idCard w-[450px] h-[300px] bg-[#ad9676] rounded-[10px] flex flex-col overflow-hidden">
+                <div className="idCard w-[450px] h-[300px] bg-[#ad9676] rounded-[10px] flex flex-col overflow-hidden max-sm:w-[355px]">
                   <div className="flex flex-row gap-[10px] items-center justify-center h-[10%] w-full bg-[#9c815a]">
                     <div className="w-[10px] h-[10px] rounded-full bg-[#cec0ad]"></div>
 
@@ -266,9 +266,9 @@ const CreateTask = (props) => {
                   {/* ID CARD */}
                   <div className="flex flex-row items-center h-[90%] justify-center bg-transparent">
                     {/* PFP */}
-                    <div className="relative w-[40%] m-[10px] h-[150px] bg-[#cec0ad] overflow-hidden">
-                      <div className="absolute top-[30%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70px] h-[70px] rounded-full bg-[#ded5c8]"></div>
-                      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-[125px] h-[125px] rounded-full bg-[#ded5c8]"></div>
+                    <div className="relative w-[30%] rounded-[5px] m-[10px] h-[130px] bg-[#cec0ad] overflow-hidden">
+                      <div className="absolute top-[30%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[62px] h-[62px] rounded-full bg-[#ded5c8]"></div>
+                      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-[115px] h-[115px] rounded-full bg-[#ded5c8]"></div>
                     </div>
 
                     <div className="bg-transparent w-full h-full flex flex-col">
@@ -287,7 +287,7 @@ const CreateTask = (props) => {
                       />
 
                       {/* FILLER */}
-                      <div className="filler flex flex-col gap-[18px] mt-[30px] bg-transparent h-full">
+                      <div className="filler flex flex-col gap-[18px] mt-[30px] bg-transparent h-full max-sm:w-[85%]">
                         <div className="bg-transparent flex flex-row gap-[8px]">
                           <div className="bg-[#cec0ad] h-[5px] w-[84px] rounded-full"></div>
                           <div className="bg-[#cec0ad] h-[5px] w-[84px] rounded-full"></div>
@@ -311,18 +311,9 @@ const CreateTask = (props) => {
                 </div>
               </div>
 
-              {/* CATEGORY */}
-              {/* <div className='bg-[#9c815a] w-[300px] h-[300px] flex flex-row items-center justify-center rounded-full'>
-                    <input
-                    value={category}
-                    onChange={(e)=>{
-                      setcategory(e.target.value)
-                    }}
-                    className='bg-[#ad9676] outline-none w-[280px] h-[280px] rounded-full text-center font-black text-[#9c815a] text-[30px] placeholder:text-center placeholder:font-black placeholder:text-[#cec0ad] placeholder:text-[30px]' type="text" placeholder="Enter Category" />
+              
 
-                  </div> */}
-
-              <div className="notepad relative bg-[#ad9676] rounded-[10px] w-[450px] h-[300px] flex flex-col items-start justify-center">
+              <div className="notepad relative bg-[#ad9676] rounded-[10px] w-[450px] h-[300px] flex flex-col items-start justify-center max-sm:w-[355px]">
                 {/* NOTEPAD SPIRAL */}
                 <div className="absolute top-[-10px] flex flex-row items-center justify-around w-[450px] bg-transparent">
                   <div className="bg-[#9c815a] rounded-[3px] w-[8px] h-[40px]"></div>
@@ -368,7 +359,7 @@ const CreateTask = (props) => {
             </div>
 
             {/* TITLE, DESCRIPTION, DATE */}
-            <div className="window flex flex-col items-center w-full h-[300px] rounded-[10px] bg-[#9c815a] mt-[4vh]">
+            <div className="window flex flex-col items-center w-full h-[300px] rounded-[10px] bg-[#9c815a] mt-[4vh] max-sm:h-[70vh]">
               {/* WINDOW TITLE BAR */}
               <div className="flex flex-row gap-[10px] translate-y-[4px] justify-end items-center w-full h-[35px] px-[10px] bg-transparent">
                 <div className="h-[3.5px] w-[20px] rounded-full bg-[#cec0ad]"></div>
@@ -377,12 +368,12 @@ const CreateTask = (props) => {
               </div>
 
               {/* MAIN WINDOW */}
-              <div className="bg-[#9c815a] rounded-[10px] flex flex-row gap-[0%] justify-center items-center p-[10px] h-full w-full ">
-                <div className="flex rounded-ss-[10px] rounded-es-[10px] flex-col w-[70%] h-full bg-[#ad9676] p-[20px]">
+              <div className="bg-[#9c815a] rounded-[10px] flex flex-row gap-[0%] justify-center items-center p-[10px] h-full w-full max-sm:flex-col max-sm:gap-[10px]">
+                <div className="flex rounded-ss-[10px] rounded-es-[10px] flex-col w-[70%] h-full bg-[#ad9676] p-[20px] max-sm:rounded-se-[10px] max-sm:rounded-ee-[10px] max-sm:w-full">
                   {/* INPUT FIELDS */}
                   <div className="flex flex-col bg-transparent h-full w-full">
                     {/* TITLE AND DATE */}
-                    <div className="flex flex-row w-full h-[40%] bg-transparent">
+                    <div className="flex flex-row w-full h-[40%] bg-transparent max-sm:gap-[12px]">
                       {/* TITLE */}
                       <div className="flex items-center justify-center p-[10px] bg-transparent w-[84%] h-full">
                         <input
@@ -390,7 +381,7 @@ const CreateTask = (props) => {
                           onChange={(e) => {
                             settitle(e.target.value);
                           }}
-                          className="bg-[#cec0ad] pl-[25px] w-full h-full rounded-[10px] outline-none font-black text-[#9c815a] text-[35px] placeholder:font-bold placeholder:text-[35px] placeholder:text-[#bdab91]"
+                          className="bg-[#cec0ad] pl-[25px] w-full h-full rounded-[10px] outline-none font-black text-[#9c815a] text-[35px] placeholder:font-bold placeholder:text-[35px] placeholder:text-[#bdab91] max-sm:text-[26px] max-sm:placeholder:text-[26px]"
                           type="text"
                           placeholder="Enter Task Title"
                         />
@@ -434,7 +425,7 @@ const CreateTask = (props) => {
                   {/* SUBMIT BUTTON */}
                 </div>
 
-                <div className="flex items-center justify-center bg-[#ad9676] rounded-ee-[10px] rounded-se-[10px] h-full w-[30%]">
+                <div className="flex items-center justify-center bg-[#ad9676] rounded-ee-[10px] rounded-se-[10px] h-full w-[30%] max-sm:w-full">
                   <button
                     ref={taskBoxRef}
                     onClick={animateWavyLetters}

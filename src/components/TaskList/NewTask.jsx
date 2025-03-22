@@ -159,11 +159,11 @@ const NewTask = ({ data, wholeData }) => {
   // ACCEPT CLICK BUTTON FUNCTION
   const AcceptClickButton = (firstname, title) => {
     setuserData((prevState) => {
-      const updatedEmployees = prevState.employees.map((employee) => {
+      const updatedEmployees = prevState?.employees?.map((employee) => {
         if (employee.firstname === firstname) {
           return {
             ...employee,
-            tasks: employee.tasks.map((task) =>
+            tasks: employee?.tasks?.map((task) =>
               task.title === title
                 ? {
                     ...task,
@@ -184,7 +184,7 @@ const NewTask = ({ data, wholeData }) => {
         return employee;
       });
 
-      const updatedUserData = updatedEmployees.find(
+      const updatedUserData = updatedEmployees?.find(
         (emp) => emp.firstname === firstname,
       );
 

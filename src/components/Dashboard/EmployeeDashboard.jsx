@@ -1,8 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import Header from "../other/Header";
-import TaskListNumbers from "../other/TaskListNumbers";
 import TaskList from "../TaskList/TaskList";
-import NameForm from "../other/NameForm";
 import HeaderUser from "../../pages/HeaderUser";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -75,7 +72,7 @@ const EmployeeDashboard = ({
         user={user}
       />
 
-      <div className="employeeDashboard bg-[#cec0ad] p-10 pt-[25vh]">
+      <div className="employeeDashboard bg-[#cec0ad] p-10 pt-[25vh] max-sm:px-[0px]">
         {/* <TaskListNumbers /> */}
         <TaskList
           setuserData={setuserData}

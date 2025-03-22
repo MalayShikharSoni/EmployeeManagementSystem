@@ -5,10 +5,14 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-import TVStaticEffect from "./TVStaticEffect";
+// import TVStaticEffect from "./TVStaticEffect";
 import HeaderHomePage from "./HeaderHomePage";
-import Footer from "./Footer";
+// import Footer from "./Footer";
 import { Link } from "react-router-dom";
+
+import WORK from "/src/assets/WORK.svg";
+import WAVE from "/src/assets/WAVE.svg";
+import Waveform from "/src/assets/Waveform.svg";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -467,22 +471,22 @@ const LandingPage = () => {
           {/* WORK */}
 
           <div
-            className="WORK bg-transparent"
+            className="WORK bg-transparent max-sm:px-[6vw]"
             style={{ mixBlendMode: "difference" }}
           >
             <img
-              src="/src/assets/WORK.svg"
+              src={WORK}
               alt="WORK"
               className="bg-transparent w-auto h-[20vh]"
             />
           </div>
           {/* WAVE */}
           <div
-            className="WAVE mt-[3vh] bg-transparent mb-30"
+            className="WAVE mt-[3vh] bg-transparent mb-30 max-sm:px-[6vw] max-sm:mt-[-5vh]"
             style={{ mixBlendMode: "difference" }}
           >
             <img
-              src="/src/assets/WAVE.svg"
+              src={WAVE}
               alt="W"
               className="bg-transparent w-auto h-[20vh]"
             />
@@ -526,61 +530,62 @@ const LandingPage = () => {
 
             {/* MARQUEE */}
             <div className="flex items-center gap-10 bg-[#cec0ad] h-full w-full overflow-hidden">
-              <div className="flex marque flex-shrink-0 text-black font-bold text-5xl bg-[#cec0ad] h-full justify-center items-center">
+              <div className="flex marque flex-shrink-0 text-black font-bold text-5xl bg-[#cec0ad] h-full justify-center items-center max-sm:text-[30px]">
                 EFFICIENT AMPLITUDE
               </div>
 
               <div className="flex marque flex-shrink-0 bg-[#cec0ad] h-full justify-center items-center">
+
                 <img
-                  src="/src/assets/Waveform.svg"
+                  src={Waveform}
                   alt="Waveform"
                   className="bg-transparent w-auto h-[7vh]"
                 />
               </div>
 
-              <div className="flex marque flex-shrink-0 text-black font-bold text-5xl bg-[#cec0ad] h-full justify-center items-center">
+              <div className="flex marque flex-shrink-0 text-black font-bold text-5xl bg-[#cec0ad] h-full justify-center items-center max-sm:text-[30px]">
                 PRODUCTIVE PHASE
               </div>
 
               <div className="flex marque flex-shrink-0 bg-[#cec0ad] h-full justify-center items-center">
                 <img
-                  src="/src/assets/Waveform.svg"
+                  src={Waveform}
                   alt="Waveform"
                   className="bg-transparent w-auto h-[7vh]"
                 />
               </div>
 
-              <div className="marque flex flex-shrink-0 text-black font-bold text-5xl bg-[#cec0ad] h-full justify-center items-center">
+              <div className="marque flex flex-shrink-0 text-black font-bold text-5xl bg-[#cec0ad] h-full justify-center items-center max-sm:text-[30px]">
                 FLAWLESS FREQUENCY
               </div>
 
               <div className="flex marque flex-shrink-0 bg-[#cec0ad] h-full justify-center items-center">
                 <img
-                  src="/src/assets/Waveform.svg"
+                  src={Waveform}
                   alt="Waveform"
                   className="bg-transparent w-auto h-[7vh]"
                 />
               </div>
 
-              <div className="flex marque flex-shrink-0 text-black font-bold text-5xl bg-[#cec0ad] h-full justify-center items-center">
+              <div className="flex marque flex-shrink-0 text-black font-bold text-5xl bg-[#cec0ad] h-full justify-center items-center max-sm:text-[30px]">
                 EFFICIENT AMPLITUDE
               </div>
 
               <div className="flex marque flex-shrink-0 bg-[#cec0ad] h-full justify-center items-center">
                 <img
-                  src="/src/assets/Waveform.svg"
+                  src={Waveform}
                   alt="Waveform"
                   className="bg-transparent w-auto h-[7vh]"
                 />
               </div>
 
-              <div className="flex marque flex-shrink-0 text-black font-bold text-5xl bg-[#cec0ad] h-full justify-center items-center">
+              <div className="flex marque flex-shrink-0 text-black font-bold text-5xl bg-[#cec0ad] h-full justify-center items-center max-sm:text-[30px]">
                 PRODUCTIVE PHASE
               </div>
 
               <div className="flex marque flex-shrink-0 bg-[#cec0ad] h-full justify-center items-center">
                 <img
-                  src="/src/assets/Waveform.svg"
+                  src={Waveform}
                   alt="Waveform"
                   className="bg-transparent w-auto h-[7vh]"
                 />
@@ -634,8 +639,8 @@ const LandingPage = () => {
           <div className="section flex flex-row items-center justify-center w-[300vw] h-screen bg-[#cec0ad]">
             {/* PART 1 */}
             <div className="relative h-screen w-[100vw] bg-transparent">
-              <div className="flex flex-row items-center justify-center bg-transparent absolute bottom-[10%] left-[33%] transform -translate-x-1/2 -translate-y-1/2">
-                <div className="part1Text bg-transparent text-black italic font-black text-xl">
+              <div className="flex flex-row items-center justify-center bg-transparent absolute bottom-[10%] left-[33%] transform -translate-x-1/2 -translate-y-1/2 max-sm:left-[50%]">
+                <div className="part1Text bg-transparent text-black italic font-black text-xl max-sm:text-[15px] t">
                   STREAMLINE TASKS
                 </div>
 
@@ -655,7 +660,7 @@ const LandingPage = () => {
                   />
                 </svg>
 
-                <div className="part1Text bg-transparent text-black italic font-black text-xl">
+                <div className="part1Text bg-transparent text-black italic font-black text-xl max-sm:text-[15px]">
                   TRACK PROGRESS
                 </div>
 
@@ -675,7 +680,7 @@ const LandingPage = () => {
                   />
                 </svg>
 
-                <div className="part1Text bg-transparent text-black italic font-black text-xl">
+                <div className="part1Text bg-transparent text-black italic font-black text-xl max-sm:text-[15px] t">
                   ENHANCE PRODUCTIVITY
                 </div>
               </div>
@@ -684,11 +689,11 @@ const LandingPage = () => {
             {/* PART 2 */}
             <div className="flex flex-row h-screen w-[100vw] bg-transparent">
               <div className="flex flex-col h-full w-[50vw] justify-center bg-transparent">
-                <div className="part2Text bg-transparent font-black text-[#ad9676] text-9xl">
+                <div className="part2Text bg-transparent font-black text-[#ad9676] text-9xl max-sm:text-6xl">
                   As an
                 </div>
 
-                <div className="part2Text bg-transparent font-black text-[#ad9676] text-9xl">
+                <div className="part2Text bg-transparent font-black text-[#ad9676] text-9xl max-sm:text-4xl">
                   Employee
                 </div>
 
@@ -709,7 +714,7 @@ const LandingPage = () => {
                     />
                   </svg>
 
-                  <div className="part2Points bg-transparent font-bold text-[#efeae4] text-3xl">
+                  <div className="part2Points bg-transparent font-bold text-[#efeae4] text-3xl max-sm:text-xl">
                     Interactive Status Update
                   </div>
                 </div>
@@ -731,7 +736,7 @@ const LandingPage = () => {
                     />
                   </svg>
 
-                  <div className="part2Points bg-transparent font-bold text-[#efeae4] text-3xl">
+                  <div className="part2Points bg-transparent font-bold text-[#efeae4] text-3xl max-sm:text-xl">
                     Tagged Task Categorization
                   </div>
                 </div>
@@ -753,33 +758,33 @@ const LandingPage = () => {
                     />
                   </svg>
 
-                  <div className="part2Points bg-transparent font-bold text-[#efeae4] text-3xl">
+                  <div className="part2Points bg-transparent font-bold text-[#efeae4] text-3xl max-sm:text-xl">
                     Due Date Tracking
                   </div>
                 </div>
               </div>
 
               <div className="flex flex-col h-full w-[50vw] justify-center bg-transparent">
-                <div className="popup relative bg-[#ad9676] w-[400px] h-[300px] rounded-se-[50px] rounded-es-[50px] rounded-ee-[50px] p-5">
+                <div className="popup relative bg-[#ad9676] w-[400px] h-[300px] rounded-se-[50px] rounded-es-[50px] rounded-ee-[50px] p-5 max-sm:w-[210px] max-sm:h-[220px]">
                   <div className="circles flex flex-row gap-10 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-transparent">
-                    <div className="circle circle1 bg-[#efeae4] w-14 h-14 rounded-full"></div>
-                    <div className="circle circle2 bg-[#efeae4] w-14 h-14 rounded-full"></div>
-                    <div className="circle circle3 bg-[#efeae4] w-14 h-14 rounded-full"></div>
+                    <div className="circle circle1 bg-[#efeae4] w-14 h-14 rounded-full max-sm:w-7 max-sm:h-7"></div>
+                    <div className="circle circle2 bg-[#efeae4] w-14 h-14 rounded-full max-sm:w-7 max-sm:h-7"></div>
+                    <div className="circle circle3 bg-[#efeae4] w-14 h-14 rounded-full max-sm:w-7 max-sm:h-7"></div>
                   </div>
 
-                  <div className="popupText bg-transparent font-black text-blue-300 text-5xl">
+                  <div className="popupText bg-transparent font-black text-blue-300 text-5xl max-sm:text-2xl">
                     Accept
                   </div>
-                  <div className="popupText bg-transparent font-black text-yellow-300 text-5xl">
+                  <div className="popupText bg-transparent font-black text-yellow-300 text-5xl max-sm:text-2xl">
                     Track
                   </div>
-                  <div className="popupText bg-transparent font-black text-green-300 text-5xl">
+                  <div className="popupText bg-transparent font-black text-green-300 text-5xl max-sm:text-2xl">
                     Complete
                   </div>
-                  <div className="popupText bg-transparent font-black text-red-300 text-3xl">
+                  <div className="popupText bg-transparent font-black text-red-300 text-3xl max-sm:text-xl">
                     (or Decline)
                   </div>
-                  <div className="popupText bg-transparent font-black text-[#efeae4] text-6xl">
+                  <div className="popupText bg-transparent font-black text-[#efeae4] text-6xl max-sm:text-3xl">
                     your tasks
                   </div>
                 </div>
@@ -790,17 +795,17 @@ const LandingPage = () => {
             <div className="part3 flex flex-col justify-start h-[100vh] w-[100vw] bg-transparent">
               <div className="flex flex-row justify-between h-[75vh] bg-transparent">
                 <div className="flex flex-col h-full items-start justify-start bg-transparent ml-[7vw]">
-                  <div className="part2Text bg-transparent font-black text-[#ad9676] text-9xl mt-[150px] ml-[3vw]">
+                  <div className="part2Text bg-transparent font-black text-[#ad9676] text-9xl mt-[150px] ml-[3vw] max-sm:text-6xl">
                     As the
                   </div>
 
-                  <div className="part2Text bg-transparent font-black text-[#ad9676] text-9xl ml-[3vw]">
+                  <div className="part2Text bg-transparent font-black text-[#ad9676] text-9xl ml-[3vw] max-sm:text-6xl">
                     Admin
                   </div>
                 </div>
 
                 {/* FLATLINE WAVE BOX */}
-                <div className="flatlineCircle mx-[1rem] bg-[#ad9676] w-[250px] h-[250px] rounded-full -translate-x-[30%] translate-y-[65%] -z-999">
+                <div className="flatlineCircle mx-[1rem] bg-[#ad9676] w-[250px] h-[250px] rounded-full -translate-x-[30%] translate-y-[65%] -z-999 max-sm:h-[27%] max-sm:translate-y-[50vh]">
                   <div
                     className="relative flex items-center justify-center bg-transparent w-[100%] h-[100%] overflow-hidden"
                     style={{ isolation: "isolate" }}
@@ -829,15 +834,15 @@ const LandingPage = () => {
               </div>
 
               <div className="part3 flex justify-around items-center h-[25vh] w-[100vw] bg-transparent">
-                <div className="bg-transparent text-white font-bold text-3xl translate-x-[8%] z-10">
+                <div className="bg-transparent text-white font-bold text-3xl translate-x-[8%] z-10 max-sm:text-[20px]">
                   Assign Tasks to Employees
                 </div>
 
-                <div className="bg-transparent text-white font-bold text-3xl z-10">
+                <div className="bg-transparent text-white font-bold text-3xl z-10 max-sm:text-[20px]">
                   View Employee Progress
                 </div>
 
-                <div className="bg-transparent text-white font-bold text-3xl z-10">
+                <div className="bg-transparent text-white font-bold text-3xl z-10 max-sm:text-[20px]">
                   Recieve Updates Dynamically
                 </div>
               </div>

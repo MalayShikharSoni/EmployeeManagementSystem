@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import gsap from "gsap";
+// import gsap from "gsap";
 
 const TVStaticEffect = () => {
   const canvasRef = useRef(null);
@@ -54,7 +54,7 @@ const TVStaticEffect = () => {
         width: "100vw",
         height: "100vh",
         pointerEvents: "none",
-        opacity: 0.028,
+        opacity: 0.03,
         mixBlendMode: "difference",
       }}
     />

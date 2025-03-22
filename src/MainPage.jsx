@@ -1,25 +1,25 @@
 import React, { useContext, useEffect, useState } from "react";
 import Login from "./components/Auth/Login";
-import Header from "./components/other/Header";
+// import Header from "./components/other/Header";
 import EmployeeDashboard from "./components/Dashboard/EmployeeDashboard";
-import TaskListNumbers from "./components/other/TaskListNumbers";
-import TaskList from "./components/TaskList/TaskList";
+// import TaskListNumbers from "./components/other/TaskListNumbers";
+// import TaskList from "./components/TaskList/TaskList";
 import AdminDashboard from "./components/Dashboard/AdminDashboard";
 import { getLocalStorage, setLocalStorage } from "../utils/LocalStorage";
 import { AuthContext } from "./context/AuthProvider";
-import CustomCursor from "./components/CustomCursor";
-import TVStaticEffect from "./pages/TVStaticEffect";
-import gsap from "gsap";
+// import CustomCursor from "./components/CustomCursor";
+// import TVStaticEffect from "./pages/TVStaticEffect";
+// import gsap from "gsap";
 // import { ToastContainer, toast } from 'react-toastify';
-import { useGSAP } from "@gsap/react";
-import LandingPage from "./pages/LandingPage";
-import Footer from "./pages/Footer";
+// import { useGSAP } from "@gsap/react";
+// import LandingPage from "./pages/LandingPage";
+// import Footer from "./pages/Footer";
 const MainPage = () => {
   const [user, setUser] = useState(null);
   const [loggedInUserData, setLoggedInUserData] = useState(null);
   const [changes, setChanges] = useState(0);
 
-  // setLocalStorage();
+  
 
   // const [userData, setUserData] = useContext(AuthContext);
 
@@ -29,13 +29,18 @@ const MainPage = () => {
   // console.log('App se userData: ',userData)
 
   useEffect(() => {
+
+    if (!localStorage.getItem("employees")) {
+      setLocalStorage();
+    }
+
     console.log(changes);
     const loggedInUser = localStorage.getItem("loggedInUser");
     if (!loggedInUserData) {
       if (loggedInUser) {
         const userData = JSON.parse(loggedInUser);
-        setUser(userData.role);
-        setLoggedInUserData(userData.data);
+        setUser(userData?.role);
+        setLoggedInUserData(userData?.data);
       }
     }
   }, [changes]);
@@ -78,11 +83,11 @@ const MainPage = () => {
       setUser("admin");
       localStorage.setItem(
         "loggedInUser",
-        JSON.stringify({ role: "admin", data: userData.admin }),
+        JSON.stringify({ role: "admin", data: userData?.admin }),
       );
-      loginNotification();
+      
     } else if (userData) {
-      const employee = userData.employees.find(
+      const employee = userData?.employees?.find(
         (e) => e.email === email && e.password === password,
       );
       if (employee) {
@@ -92,7 +97,7 @@ const MainPage = () => {
           "loggedInUser",
           JSON.stringify({ role: "employee", data: employee }),
         );
-        loginNotification();
+        
       } else {
         alert("Invalid credentials");
         console.log("invalid credentials");

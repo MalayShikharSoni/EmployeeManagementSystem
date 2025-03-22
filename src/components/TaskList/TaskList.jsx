@@ -103,7 +103,7 @@ const TaskList = (props) => {
         className="bg-transparent flex overflow-x-auto gap-5 flex-nowrap items-center justify-start h-[55%]  w-full py-5 mt-10 mb-[20vh]"
       >
         {tasks?.some((task) => task.newTask) ? (
-          tasks.map((ele, idx) =>
+          tasks?.map((ele, idx) =>
             ele.newTask ? (
               <NewTask
                 key={ele.id || idx}
@@ -152,7 +152,7 @@ const TaskList = (props) => {
         className="bg-transparent flex overflow-x-auto gap-5 flex-nowrap items-center justify-start h-[55%] w-full py-5 mt-10 mb-[20vh]"
       >
         {tasks?.some((task) => task.active) ? (
-          tasks.map((ele, idx) =>
+          tasks?.map((ele, idx) =>
             ele.active ? (
               <AcceptedTask
                 key={ele.id || idx}
@@ -201,7 +201,7 @@ const TaskList = (props) => {
         className="bg-transparent flex overflow-x-auto gap-5 flex-nowrap items-center justify-start h-[55%]  w-full py-5 mt-10 mb-[20vh]"
       >
         {tasks?.some((task) => task.completed) ? (
-          tasks.map((ele, idx) =>
+          tasks?.map((ele, idx) =>
             ele.completed ? (
               <CompletedTask
                 key={ele.id || idx}
@@ -250,7 +250,7 @@ const TaskList = (props) => {
         className="bg-transparent flex overflow-x-auto gap-5 flex-nowrap items-center justify-start h-[55%]  w-full py-5 mt-10 mb-[20vh]"
       >
         {tasks?.some((task) => task.failed) ? (
-          tasks.map((ele, idx) =>
+          tasks?.map((ele, idx) =>
             ele.failed ? (
               <FailedTask
                 key={ele.id || idx}

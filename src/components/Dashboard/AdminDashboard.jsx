@@ -8,6 +8,13 @@ import HeaderUser from "../../pages/HeaderUser";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
+import V from "../../assets/V.svg";
+import E from "../../assets/E.svg";
+import W from "../../assets/W.svg";
+import O from "../../assets/O.svg";
+import R from "../../assets/R.svg";
+import K from "../../assets/K.svg";
+import A from "../../assets/A.svg";
 const AdminDashboard = (props) => {
   const [userData, setuserData] = useContext(AuthContext);
 
@@ -79,48 +86,47 @@ const AdminDashboard = (props) => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-[20px] h-full rounded-es-[200px] bg-[#ad9676] mb-[16vh] w-[30vw] mt-[16vh] overflow-hidden ">
+        <div className="flex flex-col gap-[20px] h-full rounded-es-[200px] bg-[#ad9676] mb-[16vh] w-[30vw] mt-[16vh] overflow-hidden max-sm:flex-row">
           <div className="titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto">
-            <img
-              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/V.svg"
-              alt=""
-            />
-            <img
-              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/E.svg"
-              alt=""
-            />
 
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
+              src={V}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/O.svg"
+              src={E}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/R.svg"
+              src={W}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/K.svg"
-              alt=""
-            />
-
-            <img
-              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
+              src={O}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/A.svg"
+              src={R}
+              alt=""
+            />
+            <img
+              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
+              src={K}
+              alt=""
+            />
+            <img
+              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
+              src={W}
+              alt=""
+            />
+            <img
+              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
+              src={A}
               alt=""
             />
           </div>
@@ -128,43 +134,43 @@ const AdminDashboard = (props) => {
           <div className="titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto">
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
+              src={W}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/O.svg"
+              src={O}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/R.svg"
+              src={R}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/K.svg"
+              src={K}
               alt=""
             />
 
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
+              src={W}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/A.svg"
+              src={A}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/V.svg"
+              src={V}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/E.svg"
+              src={E}
               alt=""
             />
           </div>
@@ -172,43 +178,43 @@ const AdminDashboard = (props) => {
           <div className="titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto">
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/O.svg"
+              src={O}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/R.svg"
+              src={R}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/K.svg"
+              src={K}
               alt=""
             />
 
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
+              src={W}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/A.svg"
+              src={A}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/V.svg"
+              src={V}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/E.svg"
+              src={E}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
+              src={W}
               alt=""
             />
           </div>
@@ -216,44 +222,44 @@ const AdminDashboard = (props) => {
           <div className="titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto">
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/R.svg"
+              src={R}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/K.svg"
-              alt=""
-            />
-
-            <img
-              className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
-              alt=""
-            />
-            <img
-              className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/A.svg"
-              alt=""
-            />
-            <img
-              className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/V.svg"
-              alt=""
-            />
-            <img
-              className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/E.svg"
+              src={K}
               alt=""
             />
 
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
+              src={W}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/O.svg"
+              src={A}
+              alt=""
+            />
+            <img
+              className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
+              src={V}
+              alt=""
+            />
+            <img
+              className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
+              src={E}
+              alt=""
+            />
+
+            <img
+              className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
+              src={W}
+              alt=""
+            />
+            <img
+              className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
+              src={O}
               alt=""
             />
           </div>
@@ -261,44 +267,44 @@ const AdminDashboard = (props) => {
           <div className="titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto">
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/K.svg"
+              src={K}
               alt=""
             />
 
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
+              src={W}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/A.svg"
+              src={A}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/V.svg"
+              src={V}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/E.svg"
+              src={E}
               alt=""
             />
 
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
+              src={W}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/O.svg"
+              src={O}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/R.svg"
+              src={R}
               alt=""
             />
           </div>
@@ -306,43 +312,43 @@ const AdminDashboard = (props) => {
           <div className="titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto">
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
+              src={W}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/A.svg"
+              src={A}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/V.svg"
+              src={V}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/E.svg"
+              src={E}
               alt=""
             />
 
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
+              src={W}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/O.svg"
+              src={O}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/R.svg"
+              src={R}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/K.svg"
+              src={K}
               alt=""
             />
           </div>
@@ -350,44 +356,44 @@ const AdminDashboard = (props) => {
           <div className="titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto">
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/A.svg"
+              src={A}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/V.svg"
+              src={V}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/E.svg"
-              alt=""
-            />
-
-            <img
-              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
-              alt=""
-            />
-            <img
-              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/O.svg"
-              alt=""
-            />
-            <img
-              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/R.svg"
-              alt=""
-            />
-            <img
-              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/K.svg"
+              src={E}
               alt=""
             />
 
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
+              src={W}
+              alt=""
+            />
+            <img
+              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
+              src={O}
+              alt=""
+            />
+            <img
+              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
+              src={R}
+              alt=""
+            />
+            <img
+              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
+              src={K}
+              alt=""
+            />
+
+            <img
+              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
+              src={W}
               alt=""
             />
           </div>
@@ -395,43 +401,43 @@ const AdminDashboard = (props) => {
           <div className="titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto">
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
+              src={W}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/A.svg"
+              src={A}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/V.svg"
+              src={V}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/E.svg"
+              src={E}
               alt=""
             />
 
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
+              src={W}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/O.svg"
+              src={O}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/R.svg"
+              src={R}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/K.svg"
+              src={K}
               alt=""
             />
           </div>
@@ -439,44 +445,44 @@ const AdminDashboard = (props) => {
           <div className="titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto">
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/A.svg"
+              src={A}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/V.svg"
+              src={V}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/E.svg"
-              alt=""
-            />
-
-            <img
-              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
-              alt=""
-            />
-            <img
-              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/O.svg"
-              alt=""
-            />
-            <img
-              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/R.svg"
-              alt=""
-            />
-            <img
-              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/K.svg"
+              src={E}
               alt=""
             />
 
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
+              src={W}
+              alt=""
+            />
+            <img
+              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
+              src={O}
+              alt=""
+            />
+            <img
+              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
+              src={R}
+              alt=""
+            />
+            <img
+              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
+              src={K}
+              alt=""
+            />
+
+            <img
+              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
+              src={W}
               alt=""
             />
           </div>
@@ -484,43 +490,43 @@ const AdminDashboard = (props) => {
           <div className="titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto">
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
+              src={W}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/A.svg"
+              src={A}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/V.svg"
+              src={V}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/E.svg"
+              src={E}
               alt=""
             />
 
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
+              src={W}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/O.svg"
+              src={O}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/R.svg"
+              src={R}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/K.svg"
+              src={K}
               alt=""
             />
           </div>
@@ -528,44 +534,44 @@ const AdminDashboard = (props) => {
           <div className="titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto">
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/A.svg"
+              src={A}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/V.svg"
+              src={V}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/E.svg"
-              alt=""
-            />
-
-            <img
-              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
-              alt=""
-            />
-            <img
-              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/O.svg"
-              alt=""
-            />
-            <img
-              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/R.svg"
-              alt=""
-            />
-            <img
-              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/K.svg"
+              src={E}
               alt=""
             />
 
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
+              src={W}
+              alt=""
+            />
+            <img
+              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
+              src={O}
+              alt=""
+            />
+            <img
+              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
+              src={R}
+              alt=""
+            />
+            <img
+              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
+              src={K}
+              alt=""
+            />
+
+            <img
+              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
+              src={W}
               alt=""
             />
           </div>
@@ -573,43 +579,43 @@ const AdminDashboard = (props) => {
           <div className="titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto">
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
+              src={W}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/A.svg"
+              src={A}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/V.svg"
+              src={V}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/E.svg"
+              src={E}
               alt=""
             />
 
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
+              src={W}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/O.svg"
+              src={O}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/R.svg"
+              src={R}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/K.svg"
+              src={K}
               alt=""
             />
           </div>
@@ -617,44 +623,44 @@ const AdminDashboard = (props) => {
           <div className="titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto">
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/A.svg"
+              src={A}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/V.svg"
+              src={V}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/E.svg"
-              alt=""
-            />
-
-            <img
-              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
-              alt=""
-            />
-            <img
-              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/O.svg"
-              alt=""
-            />
-            <img
-              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/R.svg"
-              alt=""
-            />
-            <img
-              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/K.svg"
+              src={E}
               alt=""
             />
 
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
+              src={W}
+              alt=""
+            />
+            <img
+              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
+              src={O}
+              alt=""
+            />
+            <img
+              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
+              src={R}
+              alt=""
+            />
+            <img
+              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
+              src={K}
+              alt=""
+            />
+
+            <img
+              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
+              src={W}
               alt=""
             />
           </div>
@@ -662,43 +668,43 @@ const AdminDashboard = (props) => {
           {/* <div className="titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto">
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
+              src={W}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/A.svg"
+              src={A}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/V.svg"
+              src={V}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/E.svg"
+              src={E}
               alt=""
             />
 
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
+              src={W}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/O.svg"
+              src={O}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/R.svg"
+              src={R}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/K.svg"
+              src={K}
               alt=""
             />
           </div>
@@ -706,44 +712,44 @@ const AdminDashboard = (props) => {
           <div className="titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto">
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/A.svg"
+              src={A}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/V.svg"
+              src={V}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/E.svg"
-              alt=""
-            />
-
-            <img
-              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
-              alt=""
-            />
-            <img
-              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/O.svg"
-              alt=""
-            />
-            <img
-              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/R.svg"
-              alt=""
-            />
-            <img
-              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/K.svg"
+              src={E}
               alt=""
             />
 
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
+              src={W}
+              alt=""
+            />
+            <img
+              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
+              src={O}
+              alt=""
+            />
+            <img
+              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
+              src={R}
+              alt=""
+            />
+            <img
+              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
+              src={K}
+              alt=""
+            />
+
+            <img
+              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
+              src={W}
               alt=""
             />
           </div>
@@ -751,43 +757,43 @@ const AdminDashboard = (props) => {
           <div className="titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto">
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
+              src={W}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/A.svg"
+              src={A}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/V.svg"
+              src={V}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/E.svg"
+              src={E}
               alt=""
             />
 
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
+              src={W}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/O.svg"
+              src={O}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/R.svg"
+              src={R}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/K.svg"
+              src={K}
               alt=""
             />
           </div>
@@ -795,44 +801,44 @@ const AdminDashboard = (props) => {
           <div className="titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto">
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/A.svg"
+              src={A}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/V.svg"
+              src={V}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/E.svg"
-              alt=""
-            />
-
-            <img
-              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
-              alt=""
-            />
-            <img
-              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/O.svg"
-              alt=""
-            />
-            <img
-              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/R.svg"
-              alt=""
-            />
-            <img
-              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/K.svg"
+              src={E}
               alt=""
             />
 
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
+              src={W}
+              alt=""
+            />
+            <img
+              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
+              src={O}
+              alt=""
+            />
+            <img
+              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
+              src={R}
+              alt=""
+            />
+            <img
+              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
+              src={K}
+              alt=""
+            />
+
+            <img
+              className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
+              src={W}
               alt=""
             />
           </div>
@@ -840,43 +846,43 @@ const AdminDashboard = (props) => {
           <div className="titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto">
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
+              src={W}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/A.svg"
+              src={A}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/V.svg"
+              src={V}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/E.svg"
+              src={E}
               alt=""
             />
 
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/W.svg"
+              src={W}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/O.svg"
+              src={O}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/R.svg"
+              src={R}
               alt=""
             />
             <img
               className="titleLineLetter titleLineLetter2 bg-transparent w-auto h-[120px]"
-              src="/src/assets/K.svg"
+              src={K}
               alt=""
             />
           </div> */}

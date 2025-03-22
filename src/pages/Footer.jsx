@@ -2,6 +2,13 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import React from "react";
 
+import W from "/src/assets/W.svg";
+import O from "/src/assets/O.svg";
+import R from "/src/assets/R.svg";
+import K from "/src/assets/K.svg";
+import A from "/src/assets/A.svg";
+import V from "/src/assets/V.svg";
+import E from "/src/assets/E.svg";
 const Footer = () => {
   useGSAP(() => {
     let tl = gsap.timeline();
@@ -140,26 +147,27 @@ const Footer = () => {
 
   return (
     <>
-      <div className="foooter flex items-center justify-center gap-5 bg-[#ad9676] w-screen h-[20vh] overflow-hidden">
-        <div className="bg-transparent gap-3 translate-y-[55px] relative flex flex-shrink-0 items-center justify-start">
+      <div className="foooter flex items-center justify-center gap-5 bg-[#ad9676] w-screen h-[20vh] overflow-hidden max-sm:flex-col">
+        <div className="bg-transparent gap-3 translate-y-[55px] relative flex flex-shrink-0 items-center justify-start max-sm:w-0">
+
           <img
             className="wavyWork bg-transparent w-auto h-[90px] translate-x-2"
-            src="/src/assets/W.svg"
+            src={W}
             alt=""
           />
           <img
             className="wavyWork bg-transparent w-auto h-[90px]"
-            src="/src/assets/O.svg"
+            src={O}
             alt=""
           />
           <img
             className="wavyWork bg-transparent w-auto h-[90px]"
-            src="/src/assets/R.svg"
+            src={R}
             alt=""
           />
           <img
             className="wavyWork bg-transparent w-auto h-[90px]"
-            src="/src/assets/K.svg"
+            src={K}
             alt=""
           />
         </div>
@@ -184,22 +192,22 @@ const Footer = () => {
         <div className="bg-transparent  translate-y-[55px] translate-x-[-2px] relative flex flex-shrink-0 items-center justify-start">
           <img
             className="wavyWave bg-transparent w-auto h-[90px] translate-x-2"
-            src="/src/assets/W.svg"
+            src={W}
             alt=""
           />
           <img
             className="wavyWave bg-transparent -ml-5 w-auto h-[90px]"
-            src="/src/assets/A.svg"
+            src={A}
             alt=""
           />
           <img
             className="wavyWave bg-transparent -ml-7 w-auto h-[90px]"
-            src="/src/assets/V.svg"
+            src={V}
             alt=""
           />
           <img
             className="wavyWave bg-transparent ml-2 w-auto h-[90px]"
-            src="/src/assets/E.svg"
+            src={E}
             alt=""
           />
         </div>

@@ -2,15 +2,10 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 
+import BackButton from "../../assets/BackButton.svg";
+
 const Login = ({ handleLogin }) => {
-  // useGSAP(()=>{
-
-  //     gsap.from(".containerr", {
-  //         opacity: 0,
-  //         duration: 0.7,
-  //     })
-
-  // })
+  
 
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
@@ -27,7 +22,7 @@ const Login = ({ handleLogin }) => {
   };
   return (
     <div className="containerr flex items-center justify-center h-[80vh] bg-[#cec0ad]">
-      <div className="border-[3px] rounded-se-[75px] rounded-es-[75px] rounded-ee-[75px]  p-20 border-[#ad9676] bg-[#cec0ad]">
+      <div className="border-[3px] rounded-se-[75px] rounded-es-[75px] rounded-ee-[75px]  p-20 border-[#ad9676] bg-[#cec0ad] max-sm:m-[10px]">
         <form
           onSubmit={(e) => {
             SubmitHandler(e);
@@ -35,9 +30,11 @@ const Login = ({ handleLogin }) => {
           className="flex flex-col justify-center items-center w-full bg-transparent"
         >
           <Link to={"/"}>
-            <div className="absolute top-7 left-7 bg-transparent">
+            <div className="absolute top-7 left-7 bg-transparent max-sm:top-10 max-sm:left-5">
+
+
               <img
-                src="/src/assets/BackButton.svg"
+                src={BackButton}
                 alt="BackButton"
                 className="bg-transparent w-auto h-[65px]"
               />

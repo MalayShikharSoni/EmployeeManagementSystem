@@ -13,7 +13,7 @@ import TVStaticEffect from "./pages/TVStaticEffect";
 import CustomCursor from "./components/CustomCursor";
 import Footer from "./pages/Footer";
 import Signup from "./components/Auth/Signup";
-import HoverEffect from "./components/HoverEffect";
+// import HoverEffect from "./components/HoverEffect";
 const App = () => {
   const [xAxis, setXAxis] = useState();
   const [yAxis, setYAxis] = useState();

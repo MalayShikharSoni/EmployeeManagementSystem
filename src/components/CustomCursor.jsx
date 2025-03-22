@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import CustomLinuxCursor from "/src/assets/CustomLinuxCursor.svg";
+// import { useEffect } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
@@ -37,7 +38,7 @@ const CustomCursor = (props) => {
       }}
     >
       <img
-        src="/src/assets/CustomLinuxCursor.svg"
+        src={CustomLinuxCursor}
         alt="."
         style={{ background: "none", mixBlendMode: "multiply" }}
       />
