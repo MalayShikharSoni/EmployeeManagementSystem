@@ -19,6 +19,7 @@ It enables **admins** to create and manage tasks, and **employees** to view and 
 
 ### 🔹 Landing Page View
 ![Landing Page](src/assets/gifsForReadMe/workwavegif2.gif)
+
 ![Landing Page](src/assets/gifsForReadMe/workwavegif1.gif)
 
 ### 🔹 Employee View
