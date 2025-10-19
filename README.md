@@ -34,6 +34,8 @@ It enables **admins** to create and manage tasks, and **employees** to view and 
 
 **Login Credentials**
 
+Following are sample credentials for previewing how the website functions:
+
 | Role     | Email               | Password | Notes                                 |
 |----------|-------------------|----------|---------------------------------------|
 | Admin    | admin@me.com      | 123      | Can create, assign, and monitor tasks |
