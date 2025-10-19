@@ -30,6 +30,16 @@ It enables **admins** to create and manage tasks, and **employees** to view and 
 
 ---
 
+## 🚀 How To Use WorkWave
+
+**Login Credentials**
+
+| Role     | Email               | Password | Notes                                 |
+|----------|-------------------|----------|---------------------------------------|
+| Admin    | admin@me.com      | 123      | Can create, assign, and monitor tasks |
+| Employee | aarav@employee.com| 123      | Can view, track, and update tasks     |
+
+---
 
 ## 🛠️ Tech Stack
 
