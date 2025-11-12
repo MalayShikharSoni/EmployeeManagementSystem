@@ -251,7 +251,7 @@ const CreateTask = (props) => {
         >
           <div className="flex flex-col gap-[5vh] bg-transparent">
             {/* NAME AND CATEGORY */}
-            <div className="nameAndCategory flex flex-row gap-[4vw] bg-transparent max-sm:flex-col max-sm:gap-[5vh]">
+            <div className="nameAndCategory flex flex-wrap gap-[4vw] bg-transparent max-sm:gap-[5vh]">
               {/* NAME */}
               <div className="bg-transparent">
                 <div className="idCard w-[450px] h-[300px] bg-[#ad9676] rounded-[10px] flex flex-col overflow-hidden max-sm:w-[355px]">
@@ -315,7 +315,7 @@ const CreateTask = (props) => {
 
               <div className="notepad relative bg-[#ad9676] rounded-[10px] w-[450px] h-[300px] flex flex-col items-start justify-center max-sm:w-[355px]">
                 {/* NOTEPAD SPIRAL */}
-                <div className="absolute top-[-10px] flex flex-row items-center justify-around w-[450px] bg-transparent">
+                <div className="absolute top-[-10px] flex flex-row items-center justify-around w-[100%] bg-transparent">
                   <div className="bg-[#9c815a] rounded-[3px] w-[8px] h-[40px]"></div>
                   <div className="bg-[#9c815a] rounded-[3px] w-[8px] h-[40px]"></div>
                   <div className="bg-[#9c815a] rounded-[3px] w-[8px] h-[40px]"></div>
@@ -325,7 +325,7 @@ const CreateTask = (props) => {
                 </div>
 
                 {/* NOTEPAD CIRCLES */}
-                <div className="top-[-10px]  flex flex-row items-center justify-around w-[450px] bg-transparent mt-[8px]">
+                <div className="top-[-10px]  flex flex-row items-center justify-around w-[100%] bg-transparent mt-[8px]">
                   <div className="bg-[#cec0ad] rounded-full w-[35px] h-[35px]"></div>
                   <div className="bg-[#cec0ad] rounded-full w-[35px] h-[35px]"></div>
                   <div className="bg-[#cec0ad] rounded-full w-[35px] h-[35px]"></div>

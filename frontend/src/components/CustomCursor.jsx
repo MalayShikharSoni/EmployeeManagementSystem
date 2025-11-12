@@ -30,7 +30,7 @@ const CustomCursor = (props) => {
 
   return (
     <div
-      className="cursorr w-6 h-6 bg-transparent rounded-full z-50 absolute flex justify-center items-center"
+      className="cursorr w-6 h-6 bg-transparent rounded-full z-50 absolute flex justify-center items-center max-md:hidden max-md:display-none"
       style={{
         top: `${props.y}px`,
         left: `${props.x}px`,

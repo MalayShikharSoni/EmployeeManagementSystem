@@ -86,8 +86,8 @@ const AdminDashboard = (props) => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-[20px] h-full rounded-es-[200px] bg-[#ad9676] mb-[16vh] w-[30vw] mt-[16vh] overflow-hidden max-sm:flex-row">
-          <div className="titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto">
+        <div className="flex flex-col gap-[20px] h-full rounded-es-[200px] bg-[#ad9676] mb-[16vh] w-[30vw] mt-[16vh] overflow-hidden max-sm:hidden">
+          <div className="titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto max-w-[30vw]">
 
             <img
               className="titleLineLetter titleLineLetter1 bg-transparent w-auto h-[120px]"
