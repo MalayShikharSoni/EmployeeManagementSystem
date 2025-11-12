@@ -61,47 +61,54 @@ const CreateTask = (props) => {
       translateY: "0px",
     });
 
-    taskBoxRef.current?.addEventListener("mousemove", (e) => {
-      const boxRect = taskBoxRef.current.getBoundingClientRect();
-      let x = e.clientX - boxRect.left;
-      let y = e.clientY - boxRect.top;
+    const box = taskBoxRef.current;
+  const hover = hoverTransitionRef.current;
+  const createText = createButtonTextRef.current;
 
-      hoverTransitionRef.current.style.left = `${x}px`;
-      hoverTransitionRef.current.style.top = `${y}px`;
+  box?.addEventListener("mousemove", (e) => {
+    const rect = box.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    hover.style.left = `${x}px`;
+    hover.style.top = `${y}px`;
+  });
+
+  box?.addEventListener("mouseenter", () => {
+    // Kill any ongoing tweens before starting new ones
+    gsap.killTweensOf([hover, createText]);
+
+    // Transition circle expansion
+    gsap.to(hover, {
+      duration: 0.6,
+      width: "800px",
+      height: "800px",
     });
 
-    taskBoxRef.current?.addEventListener("mouseenter", (e) => {
-      // TRANSITION CIRCLE
-      gsap.to(hoverTransitionRef.current, {
-        duration: 0.6,
-        width: "800px",
-        height: "800px",
-      });
+    // Change button text color
+    gsap.to(createText, {
+      color: "#ded5c8",
+      duration: 0.4,
+    });
+  });
 
-      // AFTER HOVER ELEMENTS
-      gsap.to(createButtonTextRef.current, {
-        // scale: 1.1,
-        color: "#ded5c8",
-        duration: 0.4,
-      });
+  box?.addEventListener("mouseleave", () => {
+    // Kill ongoing tweens to prevent overlaps
+    gsap.killTweensOf([hover, createText]);
+
+    // Shrink transition circle
+    gsap.to(hover, {
+      duration: 0.4,
+      width: "0px",
+      height: "0px",
     });
 
-    taskBoxRef.current?.addEventListener("mouseleave", () => {
-      // TRANSITION CIRCLE
-      gsap.to(hoverTransitionRef.current, {
-        duration: 0.4,
-        width: "0px",
-        height: "0px",
-      });
-
-      // BEFORE HOVER ELEMENTS
-
-      gsap.to(createButtonTextRef.current, {
-        scale: 1,
-        duration: 0.4,
-        color: "#9c815a",
-      });
+    // Reset button text color
+    gsap.to(createText, {
+      color: "#fff", // or whatever the original color is
+      duration: 0.4,
     });
+  });
 
     
 

@@ -16,99 +16,48 @@ const AcceptedTask = ({ data, wholeData }) => {
   const dateRef = useRef(null);
 
   useGSAP(() => {
-    gsap.from(taskBoxRef.current, {
+    const box = taskBoxRef.current;
+    const hover = hoverTransitionRef.current;
+    const title = titleRef.current;
+    const category = categoryRef.current;
+    const description = descriptionRef.current;
+    const button = buttonRef.current;
+    const date = dateRef.current;
+
+    gsap.from(box, {
       scale: 0,
       duration: 0.6,
       delay: 0.4,
-      translateX: "-160px",
-      translateY: "-150px",
+      x: -160,
+      y: -150,
     });
 
-    taskBoxRef.current?.addEventListener("mousemove", (e) => {
-      const boxRect = taskBoxRef.current.getBoundingClientRect();
-      let x = e.clientX - boxRect.left;
-      let y = e.clientY - boxRect.top;
-
-      hoverTransitionRef.current.style.left = `${x}px`;
-      hoverTransitionRef.current.style.top = `${y}px`;
+    box?.addEventListener("mousemove", (e) => {
+      const rect = box.getBoundingClientRect();
+      let x = e.clientX - rect.left;
+      let y = e.clientY - rect.top;
+      hover.style.left = `${x}px`;
+      hover.style.top = `${y}px`;
     });
 
-    taskBoxRef.current?.addEventListener("mouseenter", (e) => {
-      // TRANSITION CIRCLE
-      gsap.to(hoverTransitionRef.current, {
-        duration: 0.6,
-        width: "800px",
-        height: "800px",
-      });
+    box?.addEventListener("mouseenter", () => {
+      // Kill previous tweens
+      gsap.killTweensOf([hover, title, category, description, button, date]);
 
-      // BEFORE HOVER ELEMENTS
-      gsap.to(titleRef.current, {
-        opacity: 0,
-        duration: 0.4,
-      });
-
-      gsap.to(categoryRef.current, {
-        opacity: 0,
-        duration: 0.4,
-      });
-
-      // AFTER HOVER ELEMENTS
-      gsap.to(descriptionRef.current, {
-        opacity: 1,
-        duration: 0.4,
-        delay: 0.2,
-      });
-
-      gsap.to(buttonRef.current, {
-        opacity: 1,
-        duration: 0.4,
-        delay: 0.2,
-      });
-
-      //DATE COLOR
-      gsap.to(dateRef.current, {
-        color: "#3b3123",
-        duration: 0.4,
-      });
+      gsap.to(hover, { duration: 0.6, width: "800px", height: "800px" });
+      gsap.to([title, category], { opacity: 0, duration: 0.4 });
+      gsap.to([description, button], { opacity: 1, duration: 0.4, delay: 0.2 });
+      gsap.to(date, { color: "#3b3123", duration: 0.4 });
     });
 
-    taskBoxRef.current?.addEventListener("mouseleave", () => {
-      // TRANSITION CIRCLE
-      gsap.to(hoverTransitionRef.current, {
-        duration: 0.4,
-        width: "0px",
-        height: "0px",
-      });
+    box?.addEventListener("mouseleave", () => {
+      // Kill previous tweens
+      gsap.killTweensOf([hover, title, category, description, button, date]);
 
-      // BEFORE HOVER ELEMENTS
-      gsap.to(titleRef.current, {
-        opacity: 1,
-        duration: 0.4,
-        delay: 0.2,
-      });
-
-      gsap.to(categoryRef.current, {
-        opacity: 1,
-        duration: 0.4,
-        delay: 0.2,
-      });
-
-      // AFTER HOVER ELEMENTS
-      gsap.to(descriptionRef.current, {
-        opacity: 0,
-        duration: 0.4,
-      });
-
-      gsap.to(buttonRef.current, {
-        opacity: 0,
-        duration: 0.4,
-      });
-
-      //DATE COLOR
-      gsap.to(dateRef.current, {
-        color: "#f9ff83",
-        duration: 0.4,
-      });
+      gsap.to(hover, { duration: 0.4, width: "0px", height: "0px" });
+      gsap.to([title, category], { opacity: 1, duration: 0.4, delay: 0.2 });
+      gsap.to([description, button], { opacity: 0, duration: 0.4 });
+      gsap.to(date, { color: "#f9ff83", duration: 0.4 });
     });
   });
 
