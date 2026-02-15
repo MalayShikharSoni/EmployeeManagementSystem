@@ -18,7 +18,7 @@ const EmployeeDashboard = ({
   const firstWaveRef = useRef(null);
   const thirdWaveRef = useRef(null);
 
-  const [userData, setUserData] = useContext(AuthContext);
+  const {userData, setUserData} = useContext(AuthContext);
   const CurrentUser = userData.loggedInUser;
 
   useGSAP(() => {

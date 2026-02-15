@@ -16,7 +16,7 @@ import R from "../../assets/R.svg";
 import K from "../../assets/K.svg";
 import A from "../../assets/A.svg";
 const AdminDashboard = (props) => {
-  const [userData, setuserData] = useContext(AuthContext);
+  const {userData, setuserData} = useContext(AuthContext);
 
   const firstWaveRef = useRef(null);
   const thirdWaveRef = useRef(null);

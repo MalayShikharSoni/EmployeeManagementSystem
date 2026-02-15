@@ -17,7 +17,7 @@ const CreateTask = (props) => {
   const hoverTransitionRef = useRef(null);
   const createButtonTextRef = useRef(null);
 
-  const [userData, setuserData] = useContext(AuthContext);
+  const {userData, setuserData} = useContext(AuthContext);
   // console.log('CreateTask ka usecontext: ',userData)
 
   useGSAP(() => {

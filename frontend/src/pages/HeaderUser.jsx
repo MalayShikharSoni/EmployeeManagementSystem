@@ -1,7 +1,8 @@
 // import { useGSAP } from "@gsap/react";
-import { forwardRef, react } from "react";
+import { forwardRef, react, useContext } from "react";
 // import { Link } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthProvider";
 import WorkWaveLogoBlack from "../assets/WorkWaveLogoBlack.svg";
 import LogOutBlack from "../assets/LogOutBlack.svg";
 import HeaderWave1Black from "../assets/HeaderWave1Black.svg";
@@ -10,11 +11,15 @@ import HeaderWave3Black from "../assets/HeaderWave3Black.svg";
 
 const HeaderUser = forwardRef((props, ref) => {
   const { firstWaveRef, thirdWaveRef } = ref || {};
+  const { logout } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  const LogOutUser = () => {
-    localStorage.setItem("loggedInUser", "");
-    // window.location.reload()
-    props.changeUser("");
+  const LogOutUser = async () => { 
+    const confirmLogout = window.confirm("Are you sure you want to logout?"); 
+    if (confirmLogout) { 
+      await logout(); // clears tokens + state 
+      navigate("/login", { replace: true }); // immediate redirect 
+    } 
   };
 
   return (

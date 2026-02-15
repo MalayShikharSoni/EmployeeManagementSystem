@@ -1,143 +1,58 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
+import { Navigate } from "react-router-dom";
 import Login from "./components/Auth/Login";
-// import Header from "./components/other/Header";
 import EmployeeDashboard from "./components/Dashboard/EmployeeDashboard";
-// import TaskListNumbers from "./components/other/TaskListNumbers";
-// import TaskList from "./components/TaskList/TaskList";
 import AdminDashboard from "./components/Dashboard/AdminDashboard";
-import { getLocalStorage, setLocalStorage } from "../utils/LocalStorage";
 import { AuthContext } from "./context/AuthProvider";
-// import CustomCursor from "./components/CustomCursor";
-// import TVStaticEffect from "./pages/TVStaticEffect";
-// import gsap from "gsap";
-// import { ToastContainer, toast } from 'react-toastify';
-// import { useGSAP } from "@gsap/react";
-// import LandingPage from "./pages/LandingPage";
-// import Footer from "./pages/Footer";
+import { setLocalStorage } from "../utils/LocalStorage";
+
 const MainPage = () => {
-  const [user, setUser] = useState(null);
-  const [loggedInUserData, setLoggedInUserData] = useState(null);
-  const [changes, setChanges] = useState(0);
+  const { userData, isLoading, isAuthenticated, setUserData } = useContext(AuthContext);
 
-  
-
-  // const [userData, setUserData] = useContext(AuthContext);
-
-  // console.log('usecontext wala userData hai: ',userData);
-
-  const [userData, setUserData] = useContext(AuthContext);
-  // console.log('App se userData: ',userData)
-
-  useEffect(() => {
-
+  // Initialize demo data for development (temporary - will be removed later)
+  React.useEffect(() => {
     if (!localStorage.getItem("employees")) {
       setLocalStorage();
     }
+  }, []);
 
-    console.log(changes);
-    const loggedInUser = localStorage.getItem("loggedInUser");
-    if (!loggedInUserData) {
-      if (loggedInUser) {
-        const userData = JSON.parse(loggedInUser);
-        setUser(userData?.role);
-        setLoggedInUserData(userData?.data);
-      }
-    }
-  }, [changes]);
-
-  // const AcceptClickButton = (firstname, title) => {
-  //   const dataa = localStorage.getItem('employees');
-  //   const data = JSON.parse(dataa);
-  //   console.log(data)
-
-  //   data.forEach((ele) => {
-  //     if (ele.firstname === firstname) {
-  //       const allTasks = ele.tasks;
-  //       allTasks.forEach((elem) => {
-  //         if (elem.title === title) {
-  //           elem.newTask = false;
-  //           elem.completed = false;
-  //           elem.failed = false;
-  //           elem.active = true;
-
-  //           ele.taskNumbers.newTask -= 1;
-  //           ele.taskNumbers.active += 1;
-  //         }
-  //       });
-  //       setLoggedInUserData(ele);
-  //     }
-  //   });
-  //   localStorage.setItem('employees', JSON.stringify(data));
-  //   setChanges((prev) => prev + 1);
-  // };
-
-  const adminData = {
-    firstname: "Admin",
-  };
-
-  // const loginNotification = () => toast('Logged In Successfully!');
-
-  const handleLogin = (email, password) => {
-    setChanges((prev) => prev + 1);
-    if (email === "admin@me.com" && password === "123") {
-      setUser("admin");
-      localStorage.setItem(
-        "loggedInUser",
-        JSON.stringify({ role: "admin", data: userData?.admin }),
-      );
-      
-    } else if (userData) {
-      const employee = userData?.employees?.find(
-        (e) => e.email === email && e.password === password,
-      );
-      if (employee) {
-        setUser(email);
-        setLoggedInUserData(employee);
-        localStorage.setItem(
-          "loggedInUser",
-          JSON.stringify({ role: "employee", data: employee }),
-        );
-        
-      } else {
-        alert("Invalid credentials");
-        console.log("invalid credentials");
-      }
-    } else {
-      alert("Invalid credentials");
-      console.log("invalid credentials");
-    }
-  };
-
-  return (
-    <div>
-      <div>
-        {/* <LandingPage /> */}
-
-        {/* <button onClick={loginNotification}>toastiiiifyyy</button> */}
-
-        {!user ? (
-          <Login handleLogin={handleLogin} />
-        ) : user === "admin" ? (
-          <AdminDashboard
-            setUserData={setUserData}
-            data={adminData}
-            changeUser={setUser}
-          />
-        ) : (
-          <EmployeeDashboard
-            setUserData={setUserData}
-            changeUser={setUser}
-            data={loggedInUserData}
-            user={user}
-            setLoggedInUserData={setLoggedInUserData}
-          />
-        )}
-        {/* <ToastContainer/> */}
-        {/* <Footer /> */}
+  // Show loading screen while checking authentication
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-[#cec0ad]">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#ad9676] mb-4"></div>
+          <p className="text-2xl font-semibold text-[#8b6c3e]">Loading...</p>
+        </div>
       </div>
+    );
+  }
 
-      {/* <TVStaticEffect />  */}
-    </div>
+  // Not authenticated - show login
+  if (!isAuthenticated) {
+    return <Login />;
+  }
+
+  // Authenticated - show dashboard based on role
+  if (userData?.role === "admin") {
+    return (
+      <AdminDashboard
+        setUserData={setUserData}
+        data={userData.data}
+        changeUser={() => {}} // Will be handled by logout in Header
+      />
+    );
+  }
+
+  // Employee dashboard
+  return (
+    <EmployeeDashboard
+      setUserData={setUserData}
+      data={userData.data}
+      user={userData.data.email}
+      changeUser={() => {}} // Will be handled by logout in Header
+      setLoggedInUserData={() => {}} // Will be handled by API calls
+    />
   );
 };
 

@@ -4,7 +4,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
 const AllTasks = () => {
-  const [userData, setUserData] = useContext(AuthContext);
+  const {userData, setUserData} = useContext(AuthContext);
 
   useGSAP(() => {
     gsap.from(".heading2", {

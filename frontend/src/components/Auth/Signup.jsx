@@ -1,59 +1,59 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import { AuthContext } from "../../context/AuthProvider";
 import BackButton from "../../assets/BackButton.svg";
 
 const Signup = () => {
-
-
   const [firstname, setFirstname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [refresh, setRefresh] = useState(false); // State to trigger re-render
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { register } = useContext(AuthContext);
   const navigate = useNavigate();
 
-
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
+    setError(""); // Clear previous errors
+    setIsLoading(true);
 
-   
-    const storedEmployees = JSON.parse(localStorage.getItem("employees")) || [];
-
-    
-    const emailExists = storedEmployees.some((emp) => emp.email === email);
-    if (emailExists) {
-      alert("Email already in use! Try another.");
+    // Basic validation
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long");
+      setIsLoading(false);
       return;
     }
 
-    // Create new employee object
-    const newEmployee = {
-      id: storedEmployees.length + 1, 
-      email,
-      password,
-      firstname,
-      tasks: [], 
-      taskNumbers: {
-        active: 0,
-        newTask: 0,
-        completed: 0,
-        failed: 0,
-      },
-    };
+    try {
+      const result = await register(email, password, firstname);
 
-    // Append new employee & update localStorage
-    const updatedEmployees = [...storedEmployees, newEmployee];
-    localStorage.setItem("employees", JSON.stringify(updatedEmployees));
+      if (result.success) {
+        console.log("Signup successful:", result.user);
 
-    // Clear input fields
-    setFirstname("");
-    setEmail("");
-    setPassword("");
+        // Clear form
+        setFirstname("");
+        setEmail("");
+        setPassword("");
 
-    setRefresh((prev) => !prev);
-    alert("Signup successful!");
+        // Show success message
+        alert("Signup successful! Welcome to WorkWave!");
 
-    navigate("/main");
+        // Navigate based on role (new users are typically employees)
+        if (result.user.role === "admin") {
+          navigate("/admin-dashboard");
+        } else {
+          navigate("/employee-dashboard");
+        }
+      } else {
+        setError(result.error);
+      }
+    } catch (err) {
+      console.error("Signup error:", err);
+      setError("An unexpected error occurred. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -73,13 +73,19 @@ const Signup = () => {
             </div>
           </Link>
 
+          {/* Error Message */}
+          {error && (
+            <div className="w-full mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-se-[15px] rounded-es-[15px] rounded-ee-[15px] text-center text-sm">
+              {error}
+            </div>
+          )}
+
           <input
             value={firstname}
             required
-            onChange={(e) => {
-              setFirstname(e.target.value);
-            }}
-            className="border-[3px] border-[#ad9676] m-2 rounded-se-[25px] rounded-es-[25px] rounded-ee-[25px] px-3 py-3 text-xl placeholder:text-[#ad9676] placeholder:font-bold w-full focus:outline-none focus:border-[#8b6c3e] text-[#8b6c3e]  placeholder:text-opacity-70 font-bold bg-[#cec0ad] max-sm: mt-[40px]"
+            onChange={(e) => setFirstname(e.target.value)}
+            disabled={isLoading}
+            className="border-[3px] border-[#ad9676] m-2 rounded-se-[25px] rounded-es-[25px] rounded-ee-[25px] px-3 py-3 text-xl placeholder:text-[#ad9676] placeholder:font-bold w-full focus:outline-none focus:border-[#8b6c3e] text-[#8b6c3e] placeholder:text-opacity-70 font-bold bg-[#cec0ad] max-sm:mt-[40px] disabled:opacity-50"
             type="text"
             placeholder="Enter your Name"
           />
@@ -87,31 +93,33 @@ const Signup = () => {
           <input
             value={email}
             required
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-            className="border-[3px] border-[#ad9676] m-2 rounded-se-[25px] rounded-es-[25px] rounded-ee-[25px] px-3 py-3 text-xl placeholder:text-[#ad9676] placeholder:font-bold w-full focus:outline-none focus:border-[#8b6c3e] text-[#8b6c3e] placeholder:text-opacity-70 font-bold bg-[#cec0ad]"
+            onChange={(e) => setEmail(e.target.value)}
+            disabled={isLoading}
+            className="border-[3px] border-[#ad9676] m-2 rounded-se-[25px] rounded-es-[25px] rounded-ee-[25px] px-3 py-3 text-xl placeholder:text-[#ad9676] placeholder:font-bold w-full focus:outline-none focus:border-[#8b6c3e] text-[#8b6c3e] placeholder:text-opacity-70 font-bold bg-[#cec0ad] disabled:opacity-50"
             type="email"
             placeholder="Enter your Email"
           />
+
           <input
             value={password}
             required
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-            className="border-[3px] border-[#ad9676] m-2 rounded-se-[25px] rounded-es-[25px] rounded-ee-[25px] px-3 py-3 text-xl placeholder:text-[#ad9676] placeholder:font-bold w-full focus:outline-none focus:border-[#8b6c3e] text-[#8b6c3e] placeholder:text-opacity-70 font-bold bg-[#cec0ad]"
+            onChange={(e) => setPassword(e.target.value)}
+            disabled={isLoading}
+            className="border-[3px] border-[#ad9676] m-2 rounded-se-[25px] rounded-es-[25px] rounded-ee-[25px] px-3 py-3 text-xl placeholder:text-[#ad9676] placeholder:font-bold w-full focus:outline-none focus:border-[#8b6c3e] text-[#8b6c3e] placeholder:text-opacity-70 font-bold bg-[#cec0ad] disabled:opacity-50"
             type="password"
-            placeholder="Enter your password"
+            placeholder="Enter your password (min 6 characters)"
           />
-          
-          <button className="border-none mt-10  rounded-se-[25px] rounded-es-[25px] rounded-ee-[25px] px-3 py-3 text-xl text-[#cec0ad] font-bold  w-full bg-[#ad9676] focus:bg-[#8b6c3e]">
-            Signup
+
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="border-none mt-10 rounded-se-[25px] rounded-es-[25px] rounded-ee-[25px] px-3 py-3 text-xl text-[#cec0ad] font-bold w-full bg-[#ad9676] focus:bg-[#8b6c3e] disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#8b6c3e] transition-colors"
+          >
+            {isLoading ? "Creating Account..." : "Signup"}
           </button>
-      
 
           <div className="relative mt-[70px] w-[85%] bg-[#ad9676] h-[1px]">
-            <Link to={"/main"}>
+            <Link to={"/login"}>
               <div className="absolute w-[55%] text-center text-[13px] text-[#ad9676] font-semibold left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#cec0ad]">
                 Already a user? <br /> Login Here
               </div>

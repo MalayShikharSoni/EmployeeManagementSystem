@@ -8,7 +8,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
 const TaskList = (props) => {
-  const [userData, setuserData] = useContext(AuthContext);
+  const {userData, setuserData} = useContext(AuthContext);
 
   const popupBubbleRef = useRef(null);
   const popupTextRef = useRef(null);
