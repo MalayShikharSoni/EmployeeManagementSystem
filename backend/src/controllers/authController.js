@@ -122,6 +122,38 @@ class AuthController {
       });
     }
   }
+  
+  // Add this method to your AuthController class
+  static async getMe(req, res) {
+    try {
+      const pool = require('../config/database');
+      const result = await pool.query(
+        'SELECT id, email, first_name, role, created_at FROM users WHERE id = $1',
+        [req.user.id]
+      );
+
+      const user = result.rows[0];
+
+      if (!user) {
+        return res.status(404).json({
+          success: false,
+          error: 'User not found'
+        });
+      }
+
+      res.json({
+        success: true,
+        data: user
+      });
+    } catch (error) {
+      console.error('Get me error:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to fetch user'
+      });
+    }
+  }
+
 }
 
 module.exports = AuthController;

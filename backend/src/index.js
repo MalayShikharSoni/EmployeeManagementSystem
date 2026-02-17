@@ -4,13 +4,17 @@
    const helmet = require('helmet');
    const rateLimit = require('express-rate-limit');
    const authRoutes = require('./routes/auth');
+   const taskRoutes = require('./routes/tasks');
    require('dotenv').config();
    
    const app = express();
    
    // Security middleware
    app.use(helmet());
-   app.use(cors());
+   app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true
+  }));
    app.use(express.json());
    
    // Rate limiting
@@ -22,6 +26,7 @@
    
    // Routes
    app.use('/api/auth', authRoutes);
+   app.use('/api/tasks', taskRoutes);
    
    // Health check
    app.get('/health', (req, res) => {
