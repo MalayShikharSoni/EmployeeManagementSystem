@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, memo, useCallback } from "react";
 import { Navigate } from "react-router-dom";
 import Login from "./components/Auth/Login";
 import EmployeeDashboard from "./components/Dashboard/EmployeeDashboard";
@@ -6,17 +6,17 @@ import AdminDashboard from "./components/Dashboard/AdminDashboard";
 import { AuthContext } from "./context/AuthProvider";
 import { setLocalStorage } from "../utils/LocalStorage";
 
-const MainPage = () => {
-  const { userData, isLoading, isAuthenticated, setUserData } = useContext(AuthContext);
+const MainPage = memo(() => {
+  const { userData, isLoading, isAuthenticated } = useContext(AuthContext);
 
-  // Initialize demo data for development (temporary - will be removed later)
   React.useEffect(() => {
     if (!localStorage.getItem("employees")) {
       setLocalStorage();
     }
   }, []);
 
-  // Show loading screen while checking authentication
+  const changeUser = useCallback(() => {}, []);
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-screen bg-[#cec0ad]">
@@ -28,32 +28,17 @@ const MainPage = () => {
     );
   }
 
-  // Not authenticated - show login
   if (!isAuthenticated) {
-    return <Login />;
+    return <Navigate to="/login" replace />;
   }
 
-  // Authenticated - show dashboard based on role
   if (userData?.role === "admin") {
-    return (
-      <AdminDashboard
-        setUserData={setUserData}
-        data={userData.data}
-        changeUser={() => {}} // Will be handled by logout in Header
-      />
-    );
+    return <Navigate to="/admin-dashboard" replace />;
   }
 
-  // Employee dashboard
-  return (
-    <EmployeeDashboard
-      setUserData={setUserData}
-      data={userData.data}
-      user={userData.data.email}
-      changeUser={() => {}} // Will be handled by logout in Header
-      setLoggedInUserData={() => {}} // Will be handled by API calls
-    />
-  );
-};
+  return <Navigate to="/employee-dashboard" replace />;
+});
+
+MainPage.displayName = 'MainPage';
 
 export default MainPage;

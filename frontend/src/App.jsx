@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState, useMemo, memo } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import LandingPage from "./pages/LandingPage";
@@ -10,46 +10,17 @@ import EmployeeDashboard from "./components/Dashboard/EmployeeDashboard";
 import TVStaticEffect from "./pages/TVStaticEffect";
 import CustomCursor from "./components/CustomCursor";
 import Footer from "./pages/Footer";
-import { AuthContext } from "./context/AuthProvider";
-
-// Protected Route Component
-const ProtectedRoute = ({ children, requiredRole }) => {
-  const { isAuthenticated, userData, isLoading } = useContext(AuthContext);
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen bg-[#cec0ad]">
-        <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#ad9676] mb-4"></div>
-          <p className="text-2xl font-semibold text-[#8b6c3e]">Loading...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
-
-  if (requiredRole && userData?.role !== requiredRole) {
-    // Redirect to correct dashboard based on actual role
-    if (userData?.role === "admin") {
-      return <Navigate to="/admin-dashboard" replace />;
-    }
-    return <Navigate to="/employee-dashboard" replace />;
-  }
-
-  return children;
-};
 
 const App = () => {
   const [xAxis, setXAxis] = useState(0);
   const [yAxis, setYAxis] = useState(0);
-  const { setUserData } = useContext(AuthContext);
+
+  // Memoize cursor props
+  const cursorProps = useMemo(() => ({ x: xAxis, y: yAxis }), [xAxis, yAxis]);
 
   return (
     <BrowserRouter>
-      <CustomCursor x={xAxis} y={yAxis} />
+      <CustomCursor {...cursorProps} />
       <div
         onMouseMove={(e) => {
           setXAxis(e.clientX);
@@ -59,43 +30,18 @@ const App = () => {
       >
         <Routes>
           {/* Public Routes */}
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+          <Route path="/" Component={LandingPage} />
+          <Route path="/login" Component={Login} />
+          <Route path="/signup" Component={Signup} />
           
-          {/* Legacy route - redirect to login */}
-          <Route path="/main" element={<Navigate to="/login" replace />} />
+          {/* Main route - handles auth internally */}
+          <Route path="/main" Component={MainPage} />
 
-          {/* Protected Routes */}
-          <Route
-            path="/admin-dashboard"
-            element={
-              <ProtectedRoute requiredRole="admin">
-                <AdminDashboard
-                  setUserData={setUserData}
-                  data={useContext(AuthContext).userData?.data}
-                  changeUser={() => {}}
-                />
-              </ProtectedRoute>
-            }
-          />
-          
-          <Route
-            path="/employee-dashboard"
-            element={
-              <ProtectedRoute requiredRole="employee">
-                <EmployeeDashboard
-                  setUserData={setUserData}
-                  data={useContext(AuthContext).userData?.data}
-                  user={useContext(AuthContext).userData?.data?.email}
-                  changeUser={() => {}}
-                  setLoggedInUserData={() => {}}
-                />
-              </ProtectedRoute>
-            }
-          />
+          {/* Protected Routes - use Component prop */}
+          <Route path="/admin-dashboard" Component={AdminDashboard} />
+          <Route path="/employee-dashboard" Component={EmployeeDashboard} />
 
-          {/* Catch all - redirect to landing page */}
+          {/* Catch all */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
 

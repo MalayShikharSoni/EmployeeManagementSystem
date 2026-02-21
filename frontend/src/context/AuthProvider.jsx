@@ -1,5 +1,5 @@
 // frontend/src/context/AuthProvider.jsx
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState, useMemo, useCallback } from "react";
 import { authAPI } from "../services/api";
 
 export const AuthContext = createContext();
@@ -9,51 +9,84 @@ const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // Check authentication on mount
-  useEffect(() => {
-    checkAuth();
-  }, []);
-
-  const checkAuth = async () => {
+  // Memoize checkAuth so it doesn't change on every render
+  const checkAuth = useCallback(async () => {
+    console.log('🔍 [AUTH] Starting auth check...');
+    console.log('🔍 [AUTH] Current timestamp:', new Date().toISOString());
+    
     const token = localStorage.getItem('accessToken');
+    const refreshToken = localStorage.getItem('refreshToken');
+    
+    console.log('🔍 [AUTH] Tokens in localStorage:', {
+      hasAccessToken: !!token,
+      hasRefreshToken: !!refreshToken,
+      accessTokenPreview: token ? token.substring(0, 30) + '...' : 'null'
+    });
     
     if (!token) {
+      console.log('❌ [AUTH] No access token found - setting unauthenticated');
       setIsLoading(false);
       setIsAuthenticated(false);
       return;
     }
 
     try {
-      // Verify token with backend
+      console.log('📡 [AUTH] Calling GET /api/auth/me...');
       const response = await authAPI.getMe();
       const user = response.data.data;
+      
+      console.log('✅ [AUTH] Success! User:', {
+        id: user.id,
+        email: user.email,
+        role: user.role
+      });
       
       setUserData({
         role: user.role,
         data: user
       });
       setIsAuthenticated(true);
+      console.log('✅ [AUTH] State updated - user is authenticated');
     } catch (error) {
-      console.error('Auth check failed:', error);
-      // Token is invalid, clear everything
-      localStorage.clear();
-      setUserData(null);
-      setIsAuthenticated(false);
+      console.error('❌ [AUTH] Auth check failed!');
+      console.error('❌ [AUTH] Error type:', error.constructor.name);
+      console.error('❌ [AUTH] Error message:', error.message);
+      console.error('❌ [AUTH] Response status:', error.response?.status);
+      console.error('❌ [AUTH] Response data:', error.response?.data);
+      console.error('❌ [AUTH] Full error:', error);
+      
+      // Only clear on 401 (invalid token)
+      if (error.response?.status === 401) {
+        console.log('🔒 [AUTH] 401 error - token invalid, clearing localStorage');
+        localStorage.clear();
+        setUserData(null);
+        setIsAuthenticated(false);
+      } else {
+        console.log('⚠️ [AUTH] Non-401 error - keeping tokens but setting unauthenticated');
+        // Don't clear tokens, but mark as unauthenticated so UI shows login
+        setUserData(null);
+        setIsAuthenticated(false);
+      }
     } finally {
+      console.log('🏁 [AUTH] Auth check complete, setting isLoading = false');
       setIsLoading(false);
     }
-  };
+  }, []);
 
-  const login = async (email, password) => {
+  // Check authentication on mount
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
+  // Memoize login
+  const login = useCallback(async (email, password) => {
     try {
       const response = await authAPI.login({ email, password });
       const { user, accessToken, refreshToken } = response.data.data;
 
-      // Store tokens
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
 
-      // Update state
       setUserData({
         role: user.role,
         data: user
@@ -68,18 +101,17 @@ const AuthProvider = ({ children }) => {
         error: error.response?.data?.error || 'Login failed. Please try again.'
       };
     }
-  };
+  }, []);
 
-  const register = async (email, password, firstName) => {
+  // Memoize register
+  const register = useCallback(async (email, password, firstName) => {
     try {
       const response = await authAPI.register({ email, password, firstName });
       const { user, accessToken, refreshToken } = response.data.data;
 
-      // Store tokens
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
 
-      // Update state
       setUserData({
         role: user.role,
         data: user
@@ -94,22 +126,23 @@ const AuthProvider = ({ children }) => {
         error: error.response?.data?.error || 'Registration failed. Please try again.'
       };
     }
-  };
+  }, []);
 
-  const logout = async () => {
+  // Memoize logout
+  const logout = useCallback(async () => {
     try {
       await authAPI.logout();
     } catch (error) {
       console.error('Logout error:', error);
     } finally {
-      // Clear state
       setUserData(null);
       setIsAuthenticated(false);
       localStorage.clear();
     }
-  };
+  }, []);
 
-  const value = {
+  // Memoize the entire context value
+  const value = useMemo(() => ({
     userData,
     setUserData,
     isLoading,
@@ -118,7 +151,7 @@ const AuthProvider = ({ children }) => {
     register,
     logout,
     checkAuth
-  };
+  }), [userData, isLoading, isAuthenticated, login, register, logout, checkAuth]);
 
   return (
     <AuthContext.Provider value={value}>
