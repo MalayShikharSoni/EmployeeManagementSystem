@@ -9,6 +9,9 @@
    
    const app = express();
    
+   // Trust proxy (required for Render, which runs behind a reverse proxy)
+   app.set('trust proxy', 1);
+
    // CORS must be before helmet so preflight OPTIONS requests work
    app.use(cors({
     origin: [
