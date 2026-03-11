@@ -9,15 +9,19 @@
    
    const app = express();
    
-   // Security middleware
-   app.use(helmet());
+   // CORS must be before helmet so preflight OPTIONS requests work
    app.use(cors({
     origin: [
       'http://localhost:5173',
       'https://workwave-six.vercel.app'
     ],
-    credentials: true
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
   }));
+
+   // Security middleware
+   app.use(helmet());
    app.use(express.json());
    
    // Rate limiting
