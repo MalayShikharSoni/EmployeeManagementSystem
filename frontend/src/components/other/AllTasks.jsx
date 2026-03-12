@@ -3,15 +3,15 @@ import { taskAPI } from "../../services/api";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
-const AllTasks = () => {
+const AllTasks = ({ refreshTrigger }) => {
   const [employeeTaskData, setEmployeeTaskData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Fetch tasks grouped by employee from API
+  // Fetch tasks grouped by employee from API (re-fetch when refreshTrigger changes)
   useEffect(() => {
     fetchEmployeeTaskData();
-  }, []);
+  }, [refreshTrigger]);
 
   const fetchEmployeeTaskData = async () => {
     try {

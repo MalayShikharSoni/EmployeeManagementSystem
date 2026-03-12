@@ -1,4 +1,4 @@
-import React, { useContext, useRef, memo, useCallback } from "react";
+import React, { useContext, useRef, memo, useCallback, useState } from "react";
 import { Navigate } from "react-router-dom";
 import CreateTask from "../other/CreateTask";
 import AllTasks from "../other/AllTasks";
@@ -23,6 +23,11 @@ const AdminDashboard = memo(() => {
   const thirdWaveRef = useRef(null);
 
   const { userData, isLoading: authLoading } = useContext(AuthContext);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+
+  const handleTaskCreated = useCallback(() => {
+    setRefreshTrigger(prev => prev + 1);
+  }, []);
 
   const changeUser = useCallback(() => {}, []);
 
@@ -92,8 +97,8 @@ const AdminDashboard = memo(() => {
       <div className="bg-[#cec0ad] flex flex-row">
         <div className="bg-transparent w-[70vw]">
           <div className="adminDashboard bg-[#cec0ad]">
-            <CreateTask />
-            <AllTasks />
+            <CreateTask onTaskCreated={handleTaskCreated} />
+            <AllTasks refreshTrigger={refreshTrigger} />
           </div>
         </div>
 
