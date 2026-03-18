@@ -27,6 +27,21 @@ The current version uses a React frontend, Express backend, and PostgreSQL datab
 
 ---
 
+## 📸 Screenshots & Demo
+
+### Landing Page View
+![Landing Page](frontend/src/assets/gifsForReadMe/workwavegif2.gif)
+
+![Landing Page](frontend/src/assets/gifsForReadMe/workwavegif1.gif)
+
+### Employee View
+![Employee View](frontend/src/assets/gifsForReadMe/workwavegif3.gif)
+
+### Admin Task Creation
+![Task Creation](frontend/src/assets/gifsForReadMe/workwavegif4.gif)
+
+---
+
 ## 🏗️ Architecture
 
 - Frontend: React (Vite) + Context API + Axios
@@ -62,21 +77,6 @@ The current version uses a React frontend, Express backend, and PostgreSQL datab
 - Frontend: Vercel
 - Backend: Render-ready setup
 - Database: Neon-ready setup
-
----
-
-## 📸 Screenshots & Demo
-
-### Landing Page View
-![Landing Page](frontend/src/assets/gifsForReadMe/workwavegif2.gif)
-
-![Landing Page](frontend/src/assets/gifsForReadMe/workwavegif1.gif)
-
-### Employee View
-![Employee View](frontend/src/assets/gifsForReadMe/workwavegif3.gif)
-
-### Admin Task Creation
-![Task Creation](frontend/src/assets/gifsForReadMe/workwavegif4.gif)
 
 ---
 
@@ -190,15 +190,6 @@ Open the frontend URL shown by Vite (typically `http://localhost:5173`).
 - `GET /api/invitations/pending` (admin)
 - `GET /api/invitations/my-invitations` (employee)
 - `PUT /api/invitations/respond/:id` (employee)
-
----
-
-## ⚠️ Current Notes
-
-- Frontend token-refresh flow expects `/api/auth/refresh`.
-- Frontend logout flow calls `/api/auth/logout`.
-
-If these endpoints are not implemented in your current backend branch, either add them or adjust frontend handling accordingly.
 
 ---
 
