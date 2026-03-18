@@ -7,6 +7,7 @@ const Signup = () => {
   const [firstname, setFirstname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("employee");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -15,10 +16,9 @@ const Signup = () => {
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    setError(""); // Clear previous errors
+    setError("");
     setIsLoading(true);
 
-    // Basic validation
     if (password.length < 6) {
       setError("Password must be at least 6 characters long");
       setIsLoading(false);
@@ -26,20 +26,17 @@ const Signup = () => {
     }
 
     try {
-      const result = await register(email, password, firstname);
+      const result = await register(email, password, firstname, role);
 
       if (result.success) {
         console.log("Signup successful:", result.user);
 
-        // Clear form
         setFirstname("");
         setEmail("");
         setPassword("");
 
-        // Show success message
         alert("Signup successful! Welcome to WorkWave!");
 
-        // Navigate based on role (new users are typically employees)
         if (result.user.role === "admin") {
           navigate("/admin-dashboard");
         } else {
@@ -80,12 +77,83 @@ const Signup = () => {
             </div>
           )}
 
+          {/* Role Selection Tiles */}
+          <div className="flex flex-row gap-4 mb-4 w-full bg-transparent max-sm:gap-2">
+            {/* Employee Tile */}
+            <button
+              type="button"
+              onClick={() => setRole("employee")}
+              disabled={isLoading}
+              className={`flex-1 flex flex-col items-center justify-center gap-2 p-4 rounded-se-[20px] rounded-es-[20px] rounded-ee-[20px] border-[3px] transition-all duration-300 cursor-pointer
+                ${role === "employee"
+                  ? "border-[#8b6c3e] bg-[#ad9676] shadow-lg scale-[1.03]"
+                  : "border-[#ad9676] bg-[#cec0ad] hover:border-[#9c815a] hover:bg-[#c4b49e]"
+                }
+                disabled:opacity-50 disabled:cursor-not-allowed max-sm:p-3`}
+            >
+              {/* Employee Icon */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke={role === "employee" ? "#cec0ad" : "#9c815a"}
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="w-10 h-10 bg-transparent transition-colors duration-300 max-sm:w-8 max-sm:h-8"
+              >
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              <span
+                className={`font-bold text-[16px] bg-transparent transition-colors duration-300 max-sm:text-[13px]
+                  ${role === "employee" ? "text-[#cec0ad]" : "text-[#9c815a]"}`}
+              >
+                Employee
+              </span>
+            </button>
+
+            {/* Admin Tile */}
+            <button
+              type="button"
+              onClick={() => setRole("admin")}
+              disabled={isLoading}
+              className={`flex-1 flex flex-col items-center justify-center gap-2 p-4 rounded-se-[20px] rounded-es-[20px] rounded-ee-[20px] border-[3px] transition-all duration-300 cursor-pointer
+                ${role === "admin"
+                  ? "border-[#8b6c3e] bg-[#ad9676] shadow-lg scale-[1.03]"
+                  : "border-[#ad9676] bg-[#cec0ad] hover:border-[#9c815a] hover:bg-[#c4b49e]"
+                }
+                disabled:opacity-50 disabled:cursor-not-allowed max-sm:p-3`}
+            >
+              {/* Admin Icon (shield with star) */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke={role === "admin" ? "#cec0ad" : "#9c815a"}
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="w-10 h-10 bg-transparent transition-colors duration-300 max-sm:w-8 max-sm:h-8"
+              >
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                <path d="M12 8l1.5 3 3.5.5-2.5 2.5.5 3.5L12 16l-3 1.5.5-3.5L7 11.5l3.5-.5z" />
+              </svg>
+              <span
+                className={`font-bold text-[16px] bg-transparent transition-colors duration-300 max-sm:text-[13px]
+                  ${role === "admin" ? "text-[#cec0ad]" : "text-[#9c815a]"}`}
+              >
+                Admin
+              </span>
+            </button>
+          </div>
+
           <input
             value={firstname}
             required
             onChange={(e) => setFirstname(e.target.value)}
             disabled={isLoading}
-            className="border-[3px] border-[#ad9676] m-2 rounded-se-[25px] rounded-es-[25px] rounded-ee-[25px] px-3 py-3 text-xl placeholder:text-[#ad9676] placeholder:font-bold w-full focus:outline-none focus:border-[#8b6c3e] text-[#8b6c3e] placeholder:text-opacity-70 font-bold bg-[#cec0ad] max-sm:mt-[40px] disabled:opacity-50"
+            className="border-[3px] border-[#ad9676] m-2 rounded-se-[25px] rounded-es-[25px] rounded-ee-[25px] px-3 py-3 text-xl placeholder:text-[#ad9676] placeholder:font-bold w-full focus:outline-none focus:border-[#8b6c3e] text-[#8b6c3e] placeholder:text-opacity-70 font-bold bg-[#cec0ad] disabled:opacity-50"
             type="text"
             placeholder="Enter your Name"
           />
@@ -115,7 +183,7 @@ const Signup = () => {
             disabled={isLoading}
             className="border-none mt-10 rounded-se-[25px] rounded-es-[25px] rounded-ee-[25px] px-3 py-3 text-xl text-[#cec0ad] font-bold w-full bg-[#ad9676] focus:bg-[#8b6c3e] disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#8b6c3e] transition-colors"
           >
-            {isLoading ? "Creating Account..." : "Signup"}
+            {isLoading ? "Creating Account..." : `Signup as ${role === "admin" ? "Admin" : "Employee"}`}
           </button>
 
           <div className="relative mt-[70px] w-[85%] bg-[#ad9676] h-[1px]">

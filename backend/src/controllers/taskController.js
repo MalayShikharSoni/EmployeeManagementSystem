@@ -1,4 +1,5 @@
 const Task = require('../models/taskModel');
+const pool = require('../config/database');
 
 class TaskController {
   // Create a new task (Admin only)
@@ -12,6 +13,20 @@ class TaskController {
         return res.status(400).json({
           success: false,
           error: 'Title and assignedTo are required'
+        });
+      }
+
+      // Validate that the employee is on this admin's team
+      const teamCheck = await pool.query(
+        `SELECT id FROM team_invitations 
+         WHERE admin_id = $1 AND employee_id = $2 AND status = 'accepted'`,
+        [createdBy, assignedTo]
+      );
+
+      if (teamCheck.rows.length === 0) {
+        return res.status(403).json({
+          success: false,
+          error: 'You can only assign tasks to employees on your team'
         });
       }
 
@@ -78,7 +93,8 @@ class TaskController {
   // Get tasks grouped by employee (Admin only)
   static async getTasksByEmployee(req, res) {
     try {
-      const groupedTasks = await Task.getGroupedByEmployee();
+      const adminId = req.user.id;
+      const groupedTasks = await Task.getGroupedByEmployee(adminId);
 
       res.json({
         success: true,
@@ -101,7 +117,7 @@ class TaskController {
 
       // Get task to verify ownership
       const task = await Task.getById(taskId);
-      
+
       if (!task) {
         return res.status(404).json({
           success: false,
@@ -140,7 +156,7 @@ class TaskController {
 
       // Get task to verify ownership
       const task = await Task.getById(taskId);
-      
+
       if (!task) {
         return res.status(404).json({
           success: false,
@@ -179,7 +195,7 @@ class TaskController {
 
       // Get task to verify ownership
       const task = await Task.getById(taskId);
-      
+
       if (!task) {
         return res.status(404).json({
           success: false,

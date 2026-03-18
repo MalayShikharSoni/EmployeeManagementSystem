@@ -13,16 +13,16 @@ const AuthProvider = ({ children }) => {
   const checkAuth = useCallback(async () => {
     console.log('🔍 [AUTH] Starting auth check...');
     console.log('🔍 [AUTH] Current timestamp:', new Date().toISOString());
-    
+
     const token = localStorage.getItem('accessToken');
     const refreshToken = localStorage.getItem('refreshToken');
-    
+
     console.log('🔍 [AUTH] Tokens in localStorage:', {
       hasAccessToken: !!token,
       hasRefreshToken: !!refreshToken,
       accessTokenPreview: token ? token.substring(0, 30) + '...' : 'null'
     });
-    
+
     if (!token) {
       console.log('❌ [AUTH] No access token found - setting unauthenticated');
       setIsLoading(false);
@@ -34,13 +34,13 @@ const AuthProvider = ({ children }) => {
       console.log('📡 [AUTH] Calling GET /api/auth/me...');
       const response = await authAPI.getMe();
       const user = response.data.data;
-      
+
       console.log('✅ [AUTH] Success! User:', {
         id: user.id,
         email: user.email,
         role: user.role
       });
-      
+
       setUserData({
         role: user.role,
         data: user
@@ -54,7 +54,7 @@ const AuthProvider = ({ children }) => {
       console.error('❌ [AUTH] Response status:', error.response?.status);
       console.error('❌ [AUTH] Response data:', error.response?.data);
       console.error('❌ [AUTH] Full error:', error);
-      
+
       // Only clear on 401 (invalid token)
       if (error.response?.status === 401) {
         console.log('🔒 [AUTH] 401 error - token invalid, clearing localStorage');
@@ -104,9 +104,9 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   // Memoize register
-  const register = useCallback(async (email, password, firstName) => {
+  const register = useCallback(async (email, password, firstName, role) => {
     try {
-      const response = await authAPI.register({ email, password, firstName });
+      const response = await authAPI.register({ email, password, firstName, role });
       const { user, accessToken, refreshToken } = response.data.data;
 
       localStorage.setItem('accessToken', accessToken);

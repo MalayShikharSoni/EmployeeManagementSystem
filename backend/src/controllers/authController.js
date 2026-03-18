@@ -10,41 +10,45 @@ class AuthController {
       process.env.JWT_SECRET,
       { expiresIn: '15m' }
     );
-    
+
     const refreshToken = jwt.sign(
       { id: user.id },
       process.env.JWT_REFRESH_SECRET,
       { expiresIn: '7d' }
     );
-    
+
     return { accessToken, refreshToken };
   }
-  
+
   static async register(req, res) {
     try {
-      const { email, password, firstName } = req.body;
-      
+      const { email, password, firstName, role } = req.body;
+
+      // Validate role
+      const validRoles = ['admin', 'employee'];
+      const userRole = validRoles.includes(role) ? role : 'employee';
+
       // Check if user exists
       const existingUser = await User.findByEmail(email);
       if (existingUser) {
-        return res.status(400).json({ 
-          success: false, 
-          error: 'Email already registered' 
+        return res.status(400).json({
+          success: false,
+          error: 'Email already registered'
         });
       }
-      
+
       // Create user
-      const user = await User.create({ email, password, firstName });
-      
+      const user = await User.create({ email, password, firstName, role: userRole });
+
       // Generate tokens
       const { accessToken, refreshToken } = AuthController.generateTokens(user);
-      
+
       // Store refresh token
       await pool.query(
         'INSERT INTO refresh_tokens (user_id, token, expires_at) VALUES ($1, $2, NOW() + INTERVAL \'7 days\')',
         [user.id, refreshToken]
       );
-      
+
       res.status(201).json({
         success: true,
         data: {
@@ -60,47 +64,47 @@ class AuthController {
       });
     } catch (error) {
       console.error('Registration error:', error);
-      res.status(500).json({ 
-        success: false, 
-        error: 'Registration failed' 
+      res.status(500).json({
+        success: false,
+        error: 'Registration failed'
       });
     }
   }
-  
+
   static async login(req, res) {
     try {
       const { email, password } = req.body;
-      
+
       // Find user
       const user = await User.findByEmail(email);
       if (!user) {
-        return res.status(401).json({ 
-          success: false, 
-          error: 'Invalid credentials' 
+        return res.status(401).json({
+          success: false,
+          error: 'Invalid credentials'
         });
       }
-      
+
       // Verify password
       const isValid = await User.verifyPassword(password, user.password_hash);
       if (!isValid) {
-        return res.status(401).json({ 
-          success: false, 
-          error: 'Invalid credentials' 
+        return res.status(401).json({
+          success: false,
+          error: 'Invalid credentials'
         });
       }
-      
+
       // Update last login
       await User.updateLastLogin(user.id);
-      
+
       // Generate tokens
       const { accessToken, refreshToken } = AuthController.generateTokens(user);
-      
+
       // Store refresh token
       await pool.query(
         'INSERT INTO refresh_tokens (user_id, token, expires_at) VALUES ($1, $2, NOW() + INTERVAL \'7 days\')',
         [user.id, refreshToken]
       );
-      
+
       res.json({
         success: true,
         data: {
@@ -116,13 +120,13 @@ class AuthController {
       });
     } catch (error) {
       console.error('Login error:', error);
-      res.status(500).json({ 
-        success: false, 
-        error: 'Login failed' 
+      res.status(500).json({
+        success: false,
+        error: 'Login failed'
       });
     }
   }
-  
+
   // Add this method to your AuthController class
   static async getMe(req, res) {
     try {

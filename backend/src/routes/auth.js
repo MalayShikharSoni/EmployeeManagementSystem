@@ -12,14 +12,18 @@ router.post('/login', AuthController.login);
 // Protected routes
 router.get('/me', authenticate, AuthController.getMe);
 
-// Get all employees (admin only)
+// Get team employees (admin only) — only employees who accepted this admin's invitation
 router.get('/employees', authenticate, requireRole('admin'), async (req, res) => {
   try {
+    const adminId = req.user.id;
     const result = await pool.query(
-      `SELECT id, first_name, email 
-       FROM users 
-       WHERE role = 'employee' AND is_active = true 
-       ORDER BY first_name`
+      `SELECT u.id, u.first_name, u.email 
+       FROM users u
+       INNER JOIN team_invitations ti ON u.id = ti.employee_id
+       WHERE ti.admin_id = $1 AND ti.status = 'accepted'
+         AND u.role = 'employee' AND u.is_active = true 
+       ORDER BY u.first_name`,
+      [adminId]
     );
 
     res.json({

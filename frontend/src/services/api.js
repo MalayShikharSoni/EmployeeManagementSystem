@@ -66,7 +66,7 @@ export const authAPI = {
   register: (data) => api.post('/auth/register', data),
   login: (data) => api.post('/auth/login', data),
   getMe: () => api.get('/auth/me'),
-  getEmployees: () => api.get('/auth/employees'), 
+  getEmployees: () => api.get('/auth/employees'),
   logout: async () => {
     try {
       await api.post('/auth/logout');
@@ -92,6 +92,16 @@ export const taskAPI = {
   acceptTask: (taskId) => api.put(`/tasks/${taskId}/accept`),
   completeTask: (taskId) => api.put(`/tasks/${taskId}/complete`),
   failTask: (taskId) => api.put(`/tasks/${taskId}/fail`),
+};
+
+// Invitation API
+export const invitationAPI = {
+  sendInvitation: (employeeId) => api.post('/invitations/send', { employeeId }),
+  respondToInvitation: (id, status) => api.put(`/invitations/respond/${id}`, { status }),
+  getMyInvitations: () => api.get('/invitations/my-invitations'),
+  getTeamMembers: () => api.get('/invitations/team'),
+  getAvailableEmployees: () => api.get('/invitations/available-employees'),
+  getPendingInvitations: () => api.get('/invitations/pending'),
 };
 
 

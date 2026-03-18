@@ -2,6 +2,7 @@ import React, { useContext, useRef, memo, useCallback, useState } from "react";
 import { Navigate } from "react-router-dom";
 import CreateTask from "../other/CreateTask";
 import AllTasks from "../other/AllTasks";
+import TeamManagement from "../other/TeamManagement";
 import { AuthContext } from "../../context/AuthProvider";
 import HeaderUser from "../../pages/HeaderUser";
 import { useGSAP } from "@gsap/react";
@@ -29,7 +30,7 @@ const AdminDashboard = memo(() => {
     setRefreshTrigger(prev => prev + 1);
   }, []);
 
-  const changeUser = useCallback(() => {}, []);
+  const changeUser = useCallback(() => { }, []);
 
   useGSAP(() => {
     if (!firstWaveRef.current || !thirdWaveRef.current) return;
@@ -92,11 +93,12 @@ const AdminDashboard = memo(() => {
       <HeaderUser
         ref={{ firstWaveRef, thirdWaveRef }}
         data={userData.data}
-        changeUser={() => {}}
+        changeUser={() => { }}
       />
       <div className="bg-[#cec0ad] flex flex-row">
         <div className="bg-transparent w-[70vw]">
           <div className="adminDashboard bg-[#cec0ad]">
+            <TeamManagement />
             <CreateTask onTaskCreated={handleTaskCreated} />
             <AllTasks refreshTrigger={refreshTrigger} />
           </div>

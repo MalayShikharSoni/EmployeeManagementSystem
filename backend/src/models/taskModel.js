@@ -8,7 +8,7 @@ class Task {
       VALUES ($1, $2, $3, $4, $5, $6, 'new')
       RETURNING *
     `;
-    
+
     const values = [title, description, category, dueDate, createdBy, assignedTo];
     const result = await pool.query(query, values);
     return result.rows[0];
@@ -27,7 +27,7 @@ class Task {
       WHERE t.assigned_to = $1
       ORDER BY t.created_at DESC
     `;
-    
+
     const result = await pool.query(query, [userId]);
     return result.rows;
   }
@@ -45,7 +45,7 @@ class Task {
       LEFT JOIN users assignee ON t.assigned_to = assignee.id
       ORDER BY t.created_at DESC
     `;
-    
+
     const result = await pool.query(query);
     return result.rows;
   }
@@ -85,7 +85,7 @@ class Task {
       FROM tasks
       WHERE assigned_to = $1
     `;
-    
+
     const result = await pool.query(query, [userId]);
     return result.rows[0];
   }
@@ -97,8 +97,8 @@ class Task {
     return result.rows[0];
   }
 
-  // Get tasks grouped by employee (for admin dashboard)
-  static async getGroupedByEmployee() {
+  // Get tasks grouped by employee (for admin dashboard — scoped to admin's team)
+  static async getGroupedByEmployee(adminId) {
     const query = `
       SELECT 
         u.id as user_id,
@@ -123,13 +123,14 @@ class Task {
         COUNT(*) FILTER (WHERE t.status = 'completed') as completed_count,
         COUNT(*) FILTER (WHERE t.status = 'failed') as failed_count
       FROM users u
+      INNER JOIN team_invitations ti ON u.id = ti.employee_id
       LEFT JOIN tasks t ON u.id = t.assigned_to
-      WHERE u.role = 'employee'
+      WHERE u.role = 'employee' AND ti.admin_id = $1 AND ti.status = 'accepted'
       GROUP BY u.id, u.first_name, u.email
       ORDER BY u.first_name
     `;
 
-    const result = await pool.query(query);
+    const result = await pool.query(query, [adminId]);
     return result.rows;
   }
 
