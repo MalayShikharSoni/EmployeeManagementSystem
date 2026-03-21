@@ -6,6 +6,7 @@ const rateLimit = require('express-rate-limit');
 const authRoutes = require('./routes/auth');
 const taskRoutes = require('./routes/tasks');
 const invitationRoutes = require('./routes/invitations');
+const { errorHandler } = require('./middleware/errorHandler');
 require('dotenv').config();
 
 const app = express();
@@ -17,6 +18,7 @@ app.set('trust proxy', 1);
 app.use(cors({
   origin: [
     'http://localhost:5173',
+    'http://localhost:5174',
     'https://workwave-six.vercel.app'
   ],
   credentials: true,
@@ -44,6 +46,17 @@ app.use('/api/invitations', invitationRoutes);
 app.get('/health', (req, res) => {
   res.json({ status: 'OK' });
 });
+
+// 404 catch-all for unknown API routes
+app.use('/api', (req, res) => {
+  res.status(404).json({
+    success: false,
+    error: `Route ${req.method} ${req.originalUrl} not found`
+  });
+});
+
+// Centralized error handler (must be after all routes)
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

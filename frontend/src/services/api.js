@@ -69,7 +69,8 @@ export const authAPI = {
   getEmployees: () => api.get('/auth/employees'),
   logout: async () => {
     try {
-      await api.post('/auth/logout');
+      const refreshToken = localStorage.getItem('refreshToken');
+      await api.post('/auth/logout', { refreshToken });
     } catch (error) {
       console.error('Logout error:', error);
     } finally {

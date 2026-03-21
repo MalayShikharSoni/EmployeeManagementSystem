@@ -8,9 +8,11 @@ const router = express.Router();
 // Public routes
 router.post('/register', AuthController.register);
 router.post('/login', AuthController.login);
+router.post('/refresh', AuthController.refresh);
 
 // Protected routes
 router.get('/me', authenticate, AuthController.getMe);
+router.post('/logout', authenticate, AuthController.logout);
 
 // Get team employees (admin only) — only employees who accepted this admin's invitation
 router.get('/employees', authenticate, requireRole('admin'), async (req, res) => {
