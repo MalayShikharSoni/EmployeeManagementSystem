@@ -1,38 +1,30 @@
-'use client';
-
 import React, { useContext } from "react";
-import { useRouter } from "next/navigation";
-import { AuthContext } from "@/context/AuthProvider";
-import styles from "./Header.module.css";
+import { useNavigate } from "react-router-dom";
+import { AuthContext, type AuthContextType } from "../../context/AuthProvider";
+import type { User } from "../../types";
 
 interface HeaderProps {
-  data: { firstname?: string; first_name?: string };
+  data: User;
 }
 
-const Header: React.FC<HeaderProps> = ({ data }) => {
-  const { logout } = useContext(AuthContext);
-  const router = useRouter();
+const Header: React.FC<HeaderProps> = (props) => {
+  const { logout } = useContext(AuthContext) as AuthContextType;
+  const navigate = useNavigate();
 
   const LogOutUser = async () => {
     const confirmLogout = window.confirm("Are you sure you want to logout?");
-    if (confirmLogout) {
-      await logout();
-      router.push("/login");
-    }
+    if (confirmLogout) { await logout(); navigate("/login", { replace: true }); }
   };
 
   return (
-    <div className={styles.header}>
-      <h1 className={styles.greeting}>
+    <div className="bg-[#cec0ad] flex items-center justify-between px-5 py-2">
+      <h1 className="bg-[#cec0ad] text-2xl font-medium">
         Hello <br />
-        <span className={styles.name}>
-          {data.firstname || data.first_name} 👋
+        <span className="bg-[#cec0ad] text-3xl font-semibold">
+          {props.data.firstName || props.data.first_name} 👋
         </span>
       </h1>
-      <button
-        className={styles.logoutBtn}
-        onClick={LogOutUser}
-      >
+      <button className="h-8 px-2 py-5 flex items-center justify-center bg-red-500 text-lg text-white rounded-sm hover:bg-red-600 transition-colors" onClick={LogOutUser}>
         Log out
       </button>
     </div>

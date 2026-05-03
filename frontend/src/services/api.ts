@@ -1,8 +1,9 @@
-import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
+import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import type { APIResponse, User, Task, TaskCounts, GroupedEmployeeTasks, Employee, Invitation, PendingInvitation, TeamMember } from '../types';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
-const api: AxiosInstance = axios.create({
+const api = axios.create({
   baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json'
@@ -13,23 +14,22 @@ const api: AxiosInstance = axios.create({
 // Request interceptor
 api.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('accessToken');
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
-  (error: AxiosError) => Promise.reject(error)
+  (error) => Promise.reject(error)
 );
 
 // Response interceptor
 api.interceptors.response.use(
-  (response: AxiosResponse) => response,
-  async (error: AxiosError) => {
-    const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
 
+    // Don't intercept 401s from login/register — those are expected (wrong credentials)
     const isAuthRoute = originalRequest.url?.includes('/auth/login') || originalRequest.url?.includes('/auth/register');
 
     if (error.response?.status === 401 && !originalRequest._retry && !isAuthRoute) {
@@ -64,13 +64,15 @@ api.interceptors.response.use(
 
 // Auth API
 export const authAPI = {
-  register: (data: { email: string; password: string; firstName: string; role: string }) =>
+  register: (data: { email: string; password: string; firstName: string; role: string }): Promise<AxiosResponse<APIResponse<{ user: User; accessToken: string; refreshToken: string }>>> =>
     api.post('/auth/register', data),
-  login: (data: { email: string; password: string }) =>
+  login: (data: { email: string; password: string }): Promise<AxiosResponse<APIResponse<{ user: User; accessToken: string; refreshToken: string }>>> =>
     api.post('/auth/login', data),
-  getMe: () => api.get('/auth/me'),
-  getEmployees: () => api.get('/auth/employees'),
-  logout: async () => {
+  getMe: (): Promise<AxiosResponse<APIResponse<User>>> =>
+    api.get('/auth/me'),
+  getEmployees: (): Promise<AxiosResponse<APIResponse<Employee[]>>> =>
+    api.get('/auth/employees'),
+  logout: async (): Promise<void> => {
     try {
       const refreshToken = localStorage.getItem('refreshToken');
       await api.post('/auth/logout', { refreshToken });
@@ -82,28 +84,47 @@ export const authAPI = {
   }
 };
 
-// Task API
+// Task API 
 export const taskAPI = {
-  createTask: (data: { title: string; description: string; date: string; category: string; assignTo: number }) =>
+  // Admin endpoints
+  createTask: (data: { title: string; description: string; category: string; dueDate: string; assignedTo: number }): Promise<AxiosResponse<APIResponse<Task>>> =>
     api.post('/tasks', data),
-  getAllTasks: () => api.get('/tasks/all'),
-  getTasksByEmployee: () => api.get('/tasks/by-employee'),
-  deleteTask: (taskId: number) => api.delete(`/tasks/${taskId}`),
-  getMyTasks: () => api.get('/tasks/my-tasks'),
-  getMyTaskCounts: () => api.get('/tasks/my-task-counts'),
-  acceptTask: (taskId: number) => api.put(`/tasks/${taskId}/accept`),
-  completeTask: (taskId: number) => api.put(`/tasks/${taskId}/complete`),
-  failTask: (taskId: number) => api.put(`/tasks/${taskId}/fail`),
+  getAllTasks: (): Promise<AxiosResponse<APIResponse<Task[]>>> =>
+    api.get('/tasks/all'),
+  getTasksByEmployee: (): Promise<AxiosResponse<APIResponse<GroupedEmployeeTasks[]>>> =>
+    api.get('/tasks/by-employee'),
+  deleteTask: (taskId: number | string): Promise<AxiosResponse<APIResponse<Task>>> =>
+    api.delete(`/tasks/${taskId}`),
+
+  // Employee endpoints
+  getMyTasks: (): Promise<AxiosResponse<APIResponse<Task[]>>> =>
+    api.get('/tasks/my-tasks'),
+  getMyTaskCounts: (): Promise<AxiosResponse<APIResponse<TaskCounts>>> =>
+    api.get('/tasks/my-task-counts'),
+  acceptTask: (taskId: number | string): Promise<AxiosResponse<APIResponse<Task>>> =>
+    api.put(`/tasks/${taskId}/accept`),
+  completeTask: (taskId: number | string): Promise<AxiosResponse<APIResponse<Task>>> =>
+    api.put(`/tasks/${taskId}/complete`),
+  failTask: (taskId: number | string): Promise<AxiosResponse<APIResponse<Task>>> =>
+    api.put(`/tasks/${taskId}/fail`),
 };
 
 // Invitation API
 export const invitationAPI = {
-  sendInvitation: (employeeId: number) => api.post('/invitations/send', { employeeId }),
-  respondToInvitation: (id: number, status: string) => api.put(`/invitations/respond/${id}`, { status }),
-  getMyInvitations: () => api.get('/invitations/my-invitations'),
-  getTeamMembers: () => api.get('/invitations/team'),
-  getAvailableEmployees: () => api.get('/invitations/available-employees'),
-  getPendingInvitations: () => api.get('/invitations/pending'),
+  sendInvitation: (employeeId: number): Promise<AxiosResponse<APIResponse<Invitation>>> =>
+    api.post('/invitations/send', { employeeId }),
+  respondToInvitation: (id: number, status: string): Promise<AxiosResponse<APIResponse<Invitation>>> =>
+    api.put(`/invitations/respond/${id}`, { status }),
+  getMyInvitations: (): Promise<AxiosResponse<APIResponse<Invitation[]>>> =>
+    api.get('/invitations/my-invitations'),
+  getTeamMembers: (): Promise<AxiosResponse<APIResponse<TeamMember[]>>> =>
+    api.get('/invitations/team'),
+  getAvailableEmployees: (): Promise<AxiosResponse<APIResponse<Employee[]>>> =>
+    api.get('/invitations/available-employees'),
+  getPendingInvitations: (): Promise<AxiosResponse<APIResponse<PendingInvitation[]>>> =>
+    api.get('/invitations/pending'),
 };
+
+
 
 export default api;

@@ -1,38 +1,27 @@
-'use client';
-
 import React, { useContext, useRef, memo, useCallback, useState } from "react";
-import { redirect } from "next/navigation";
-import Image from "next/image";
-import CreateTask from "@/components/other/CreateTask";
-import AllTasks from "@/components/other/AllTasks";
-import TeamManagement from "@/components/other/TeamManagement";
-import { AuthContext } from "@/context/AuthProvider";
-import HeaderUser from "@/components/HeaderUser";
+import { Navigate } from "react-router-dom";
+import CreateTask from "../other/CreateTask";
+import AllTasks from "../other/AllTasks";
+import TeamManagement from "../other/TeamManagement";
+import { AuthContext, type AuthContextType } from "../../context/AuthProvider";
+import HeaderUser from "../../pages/HeaderUser";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import styles from "./Dashboard.module.css";
-
-const TITLE_LINES = [
-  ["V","E","W","O","R","K","W","A"], ["W","O","R","K","W","A","V","E"],
-  ["O","R","K","W","A","V","E","W"], ["R","K","W","A","V","E","W","O"],
-  ["K","W","A","V","E","W","O","R"], ["W","A","V","E","W","O","R","K"],
-  ["A","V","E","W","O","R","K","W"], ["W","A","V","E","W","O","R","K"],
-  ["A","V","E","W","O","R","K","W"], ["W","A","V","E","W","O","R","K"],
-  ["A","V","E","W","O","R","K","W"], ["W","A","V","E","W","O","R","K"],
-];
-
-const letterMap: Record<string, string> = {
-  V: "/assets/V.svg", E: "/assets/E.svg", W: "/assets/W.svg",
-  O: "/assets/O.svg", R: "/assets/R.svg", K: "/assets/K.svg", A: "/assets/A.svg",
-};
+import V from "../../assets/V.svg";
+import E from "../../assets/E.svg";
+import W from "../../assets/W.svg";
+import O from "../../assets/O.svg";
+import R from "../../assets/R.svg";
+import K from "../../assets/K.svg";
+import A from "../../assets/A.svg";
 
 const AdminDashboard = memo(() => {
   const firstWaveRef = useRef<HTMLDivElement>(null);
   const thirdWaveRef = useRef<HTMLDivElement>(null);
-  const { userData, isLoading: authLoading } = useContext(AuthContext);
+  const { userData, isLoading: authLoading } = useContext(AuthContext) as AuthContextType;
   const [refreshTrigger, setRefreshTrigger] = useState(0);
-
   const handleTaskCreated = useCallback(() => { setRefreshTrigger(prev => prev + 1); }, []);
+  const changeUser = useCallback(() => { }, []);
 
   useGSAP(() => {
     if (!firstWaveRef.current || !thirdWaveRef.current) return;
@@ -41,41 +30,31 @@ const AdminDashboard = memo(() => {
   }, []);
 
   if (authLoading) {
-    return (
-      <div className={styles.loadingScreen}>
-        <div className={styles.loadingCenter}>
-          <div className={styles.spinner}></div>
-          <p className={styles.loadingText}>Checking authentication...</p>
-        </div>
-      </div>
-    );
+    return (<div className="w-screen bg-[#cec0ad] flex items-center justify-center h-screen"><div className="text-center">
+      <div className="inline-block animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#ad9676] mb-4"></div>
+      <p className="text-2xl font-semibold text-[#9c815a]">Checking authentication...</p></div></div>);
   }
-
-  if (!userData || userData.role !== 'admin') {
-    redirect("/login");
-  }
+  if (!userData || userData.role !== 'admin') { return <Navigate to="/login" replace />; }
 
   return (
     <>
-      <HeaderUser firstWaveRef={firstWaveRef} thirdWaveRef={thirdWaveRef} data={userData.data} changeUser={() => {}} />
-      <div className={styles.dashboardRow}>
-        <div className={styles.mainContent}>
-          <div className={`adminDashboard ${styles.dashboardBg}`}>
-            <TeamManagement />
-            <CreateTask onTaskCreated={handleTaskCreated} />
-            <AllTasks refreshTrigger={refreshTrigger} />
+      <HeaderUser ref={{ firstWaveRef, thirdWaveRef } as unknown as React.Ref<unknown>} data={userData.data} changeUser={() => { }} />
+      <div className="bg-[#cec0ad] flex flex-row">
+        <div className="bg-transparent w-[70vw]">
+          <div className="adminDashboard bg-[#cec0ad]">
+            <TeamManagement /><CreateTask onTaskCreated={handleTaskCreated} /><AllTasks refreshTrigger={refreshTrigger} />
           </div>
         </div>
-
-        <div className={styles.sidebar}>
-          {TITLE_LINES.map((line, lineIdx) => (
-            <div key={lineIdx} className={`titleLine ${styles.titleLine}`}>
-              {line.map((letter, i) => (
-                <Image key={i} className={`titleLineLetter ${lineIdx % 2 === 0 ? 'titleLineLetter1' : 'titleLineLetter2'} ${styles.titleLetterImg}`}
-                  src={letterMap[letter]} alt="" width={80} height={120} />
-              ))}
-            </div>
-          ))}
+        <div className="flex flex-col gap-[20px] h-full rounded-es-[200px] bg-[#ad9676] mb-[16vh] w-[30vw] mt-[16vh] overflow-hidden max-sm:hidden">
+          {[["V","E","W","O","R","K","W","A"],["W","O","R","K","W","A","V","E"],["O","R","K","W","A","V","E","W"],["R","K","W","A","V","E","W","O"],["K","W","A","V","E","W","O","R"],["W","A","V","E","W","O","R","K"],["A","V","E","W","O","R","K","W"],["W","A","V","E","W","O","R","K"],["A","V","E","W","O","R","K","W"],["W","A","V","E","W","O","R","K"],["A","V","E","W","O","R","K","W"],["W","A","V","E","W","O","R","K"]].map((row, i) => {
+            const letterClass = i % 2 === 0 ? "titleLineLetter1" : "titleLineLetter2";
+            const svgMap: Record<string, string> = { V, E, W, O, R, K, A };
+            return (
+              <div key={i} className="titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto">
+                {row.map((letter, j) => <img key={j} className={`titleLineLetter ${letterClass} bg-transparent w-auto h-[120px]`} src={svgMap[letter]} alt="" />)}
+              </div>
+            );
+          })}
         </div>
       </div>
     </>

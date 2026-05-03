@@ -1,91 +1,58 @@
-'use client';
-
 import React, { useContext, useEffect, useRef, useState, useCallback, memo } from "react";
-import { redirect } from "next/navigation";
-import TaskList from "@/components/TaskList/TaskList";
-import HeaderUser from "@/components/HeaderUser";
+import { Navigate } from "react-router-dom";
+import TaskList from "../TaskList/TaskList";
+import HeaderUser from "../../pages/HeaderUser";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { AuthContext } from "@/context/AuthProvider";
-import { taskAPI, invitationAPI } from "@/services/api";
-import styles from "./Dashboard.module.css";
-
-interface Task {
-  id: number;
-  title: string;
-  description: string;
-  category: string;
-  due_date: string;
-  status: string;
-}
-
-interface TaskCounts {
-  active: number;
-  new_task: number;
-  completed: number;
-  failed: number;
-}
-
-interface Invitation {
-  id: number;
-  admin_name: string;
-  status: string;
-}
+import { AuthContext, type AuthContextType } from "../../context/AuthProvider";
+import { taskAPI, invitationAPI } from "../../services/api";
+import type { Task, TaskCounts, Invitation } from "../../types";
 
 const EmployeeDashboard = memo(() => {
+  console.log('🔄 EmployeeDashboard RE-RENDERED');
   const [tasks, setTasks] = useState<Task[]>([]);
   const [taskCounts, setTaskCounts] = useState<TaskCounts>({ active: 0, new_task: 0, completed: 0, failed: 0 });
   const [isLoadingTasks, setIsLoadingTasks] = useState(true);
   const [error, setError] = useState("");
   const [invitations, setInvitations] = useState<Invitation[]>([]);
   const [invitationLoading, setInvitationLoading] = useState(false);
-
   const firstWaveRef = useRef<HTMLDivElement>(null);
   const thirdWaveRef = useRef<HTMLDivElement>(null);
-  const { userData, isLoading: authLoading } = useContext(AuthContext);
+  const { userData, isLoading: authLoading } = useContext(AuthContext) as AuthContextType;
+  const changeUser = useCallback(() => { }, []);
 
   const fetchMyTasks = useCallback(async () => {
     try {
       setIsLoadingTasks(true); setError("");
       const [tasksResponse, countsResponse] = await Promise.all([taskAPI.getMyTasks(), taskAPI.getMyTaskCounts()]);
-      setTasks(tasksResponse.data.data);
-      setTaskCounts(countsResponse.data.data);
-    } catch {
-      setError("Failed to load tasks. Please refresh.");
-    } finally {
-      setIsLoadingTasks(false);
-    }
+      setTasks(tasksResponse.data.data); setTaskCounts(countsResponse.data.data);
+      console.log("✅ Tasks fetched:", tasksResponse.data.data);
+      console.log("✅ Task counts:", countsResponse.data.data);
+    } catch (err) { console.error("❌ Failed to fetch tasks:", err); setError("Failed to load tasks. Please refresh."); }
+    finally { setIsLoadingTasks(false); }
   }, []);
 
   const refreshTasks = useCallback(() => { fetchMyTasks(); }, [fetchMyTasks]);
 
-  useEffect(() => {
-    if (userData && userData.role === 'employee') fetchMyTasks();
-  }, [userData, fetchMyTasks]);
+  useEffect(() => { if (userData && userData.role === 'employee') { fetchMyTasks(); } }, [userData, fetchMyTasks]);
 
   const fetchInvitations = useCallback(async () => {
-    try {
-      const res = await invitationAPI.getMyInvitations();
-      setInvitations(res.data.data);
-    } catch { /* silently fail */ }
+    try { const res = await invitationAPI.getMyInvitations(); setInvitations(res.data.data); }
+    catch (err) { console.error("Failed to fetch invitations:", err); }
   }, []);
 
-  useEffect(() => {
-    if (userData && userData.role === 'employee') fetchInvitations();
-  }, [userData, fetchInvitations]);
+  useEffect(() => { if (userData && userData.role === 'employee') { fetchInvitations(); } }, [userData, fetchInvitations]);
 
   const handleRespondInvitation = async (invitationId: number, status: string) => {
     setInvitationLoading(true);
     try {
       await invitationAPI.respondToInvitation(invitationId, status);
       await fetchInvitations();
-      if (status === 'accepted') alert('You have joined the team! 🎉');
+      if (status === 'accepted') { alert('You have joined the team! 🎉'); }
     } catch (err: unknown) {
-      const axiosError = err as { response?: { data?: { error?: string } } };
-      alert(axiosError.response?.data?.error || `Failed to ${status} invitation`);
-    } finally {
-      setInvitationLoading(false);
-    }
+      const e = err as { response?: { data?: { error?: string } } };
+      alert(e.response?.data?.error || `Failed to ${status} invitation`);
+    } finally { setInvitationLoading(false); }
   };
 
   useGSAP(() => {
@@ -95,54 +62,42 @@ const EmployeeDashboard = memo(() => {
   }, []);
 
   if (authLoading) {
-    return (
-      <div className={styles.loadingScreen}>
-        <div className={styles.loadingCenter}>
-          <div className={styles.spinner}></div>
-          <p className={styles.loadingText}>Checking authentication...</p>
-        </div>
-      </div>
-    );
+    return (<div className="w-screen bg-[#cec0ad] flex items-center justify-center h-screen"><div className="text-center">
+      <div className="inline-block animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#ad9676] mb-4"></div>
+      <p className="text-2xl font-semibold text-[#9c815a]">Checking authentication...</p></div></div>);
   }
-
-  if (!userData || userData.role !== 'employee') {
-    redirect("/login");
-  }
-
+  if (!userData || userData.role !== 'employee') { return <Navigate to="/login" replace />; }
   if (isLoadingTasks) {
-    return (
-      <div className={styles.loadingScreen}>
-        <div className={styles.loadingCenter}>
-          <div className={styles.spinner}></div>
-          <p className={styles.loadingText}>Loading your tasks...</p>
-        </div>
-      </div>
-    );
+    return (<div className="w-screen bg-[#cec0ad] flex items-center justify-center h-screen"><div className="text-center">
+      <div className="inline-block animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#ad9676] mb-4"></div>
+      <p className="text-2xl font-semibold text-[#9c815a]">Loading your tasks...</p></div></div>);
   }
 
   return (
-    <div className={styles.employeeWrap}>
-      <HeaderUser firstWaveRef={firstWaveRef} thirdWaveRef={thirdWaveRef} changeUser={() => {}} data={userData?.data} user={userData?.data?.email} />
-      <div className={`employeeDashboard ${styles.employeeDashboardContent}`}>
+    <div className="w-screen">
+      <HeaderUser ref={{ firstWaveRef, thirdWaveRef } as unknown as React.Ref<unknown>} changeUser={changeUser} data={userData?.data} user={userData?.data?.email} />
+      <div className="employeeDashboard bg-[#cec0ad] p-10 pt-[25vh] max-sm:px-[0px]">
         {error && (
-          <div className={styles.errorBar}>
+          <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg flex justify-between items-center">
             <span>{error}</span>
-            <button onClick={fetchMyTasks} className={styles.retryBtn}>Retry</button>
+            <button onClick={fetchMyTasks} className="ml-4 px-4 py-1 bg-red-500 text-white rounded hover:bg-red-600">Retry</button>
           </div>
         )}
         {invitations.length > 0 && (
-          <div className={styles.invitationsSection}>
-            <div className={styles.invitationsTitle}>📩 Team Invitations</div>
-            <div className={styles.invitationsList}>
+          <div className="mb-8 bg-transparent">
+            <div className="text-[#9c815a] font-black text-2xl mb-4 bg-transparent">📩 Team Invitations</div>
+            <div className="flex flex-col gap-3 bg-transparent">
               {invitations.map((inv) => (
-                <div key={inv.id} className={styles.invitationCard}>
-                  <div className={styles.invitationInfo}>
-                    <span className={styles.invitationName}>{inv.admin_name}</span>
-                    <span className={styles.invitationText}>wants you to join their team</span>
+                <div key={inv.id} className="bg-[#ad9676] rounded-se-[20px] rounded-es-[20px] rounded-ee-[20px] p-5 flex flex-row items-center justify-between max-sm:flex-col max-sm:gap-3">
+                  <div className="bg-transparent">
+                    <span className="text-[#cec0ad] font-black text-lg bg-transparent">{inv.admin_name}</span>
+                    <span className="text-[#cec0ad] font-bold text-sm ml-2 opacity-80 bg-transparent">wants you to join their team</span>
                   </div>
-                  <div className={styles.invitationActions}>
-                    <button onClick={() => handleRespondInvitation(inv.id, 'accepted')} disabled={invitationLoading} className={styles.acceptBtn}>Accept</button>
-                    <button onClick={() => handleRespondInvitation(inv.id, 'rejected')} disabled={invitationLoading} className={styles.declineBtn}>Decline</button>
+                  <div className="flex gap-2 bg-transparent">
+                    <button onClick={() => handleRespondInvitation(inv.id, 'accepted')} disabled={invitationLoading}
+                      className="bg-[#8b6c3e] text-[#cec0ad] font-bold px-5 py-2 rounded-se-[12px] rounded-es-[12px] rounded-ee-[12px] hover:bg-[#7a5622] transition-colors disabled:opacity-50">Accept</button>
+                    <button onClick={() => handleRespondInvitation(inv.id, 'rejected')} disabled={invitationLoading}
+                      className="bg-[#cec0ad] text-[#9c815a] font-bold px-5 py-2 rounded-se-[12px] rounded-es-[12px] rounded-ee-[12px] hover:bg-[#c4b49e] transition-colors disabled:opacity-50">Decline</button>
                   </div>
                 </div>
               ))}
