@@ -1,0 +1,162 @@
+.taskCard {
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  height: 300px;
+  width: 320px;
+  background-color: #ad9676;
+  border-top-right-radius: 42px;
+  border-bottom-left-radius: 42px;
+  border-bottom-right-radius: 42px;
+  margin-left: 0.5rem;
+  z-index: 1;
+}
+
+.content {
+  background: transparent;
+  position: absolute;
+  z-index: 10;
+  height: 100%;
+  width: 100%;
+}
+
+.topBar {
+  background: transparent;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+}
+
+.category {
+  background-color: #8b6c3e;
+  border-top-right-radius: 13px;
+  border-bottom-left-radius: 13px;
+  border-bottom-right-radius: 13px;
+  padding: 0.25rem 0.75rem;
+  font-size: 16px;
+  color: #cec0ad;
+  font-weight: 500;
+  opacity: 1;
+}
+
+.date {
+  background: transparent;
+  color: #f9ff83;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 1rem 1.25rem;
+  opacity: 1;
+}
+
+.title {
+  position: absolute;
+  padding: 0.5rem;
+  background: transparent;
+  margin-left: 1rem;
+  font-size: 3rem;
+  line-height: 1;
+  font-weight: 900;
+  opacity: 1;
+}
+
+.titleBlue { color: #bfdbfe; }
+.titleYellow { color: #fef08a; }
+.titleGreen { color: #bbf7d0; }
+.titleRed { color: #923838; }
+
+.description {
+  background: transparent;
+  font-size: 20px;
+  padding: 0 25px;
+  color: #3b3123;
+  font-weight: 800;
+  margin-top: 5%;
+  opacity: 0;
+}
+
+.buttonWrap {
+  position: absolute;
+  bottom: 1rem;
+  left: 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem;
+  background: transparent;
+  z-index: 10;
+  opacity: 0;
+}
+
+.buttonWrapCenter {
+  position: absolute;
+  bottom: 18px;
+  transform: translateX(3px);
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  margin: 1rem;
+  background: transparent;
+  z-index: 10;
+  opacity: 0;
+}
+
+.acceptBtn {
+  background: transparent;
+  font-size: 33px;
+  color: #fef08a;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+}
+
+.acceptBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.completeBtn {
+  background: transparent;
+  font-size: 28px;
+  color: #86efac;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+}
+
+.completeBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.declineBtn {
+  background: transparent;
+  font-size: 28px;
+  color: #923838;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+}
+
+.declineBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.statusBtn {
+  background: transparent;
+  font-size: 33px;
+  color: #d1d5db;
+  font-weight: 700;
+  cursor: default;
+  border: none;
+}
+
+.hoverCircle {
+  background-color: #bdab91;
+  border-radius: 9999px;
+  width: 0px;
+  height: 0px;
+  transform: translateX(-50%) translateY(-50%);
+  position: absolute;
+  z-index: 0;
+}

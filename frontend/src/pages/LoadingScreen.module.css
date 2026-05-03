@@ -1,0 +1,50 @@
+.loadingScreen {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  background: transparent;
+}
+
+.logoImg {
+  background: transparent;
+  width: auto;
+}
+
+.logo1 {
+  height: 250px;
+  padding-right: 1rem;
+}
+
+.logo2 {
+  height: 250px;
+  margin-right: -0.625rem;
+}
+
+.logo3 {
+  height: 224.5762px;
+  padding-right: 0.25rem;
+}
+
+.logo4 {
+  height: 182.2033px;
+  padding-right: 0.5rem;
+}
+
+.logo5 {
+  height: 127.1186px;
+  padding-right: 0.5rem;
+}
+
+.logo6 {
+  height: 76.2711px;
+  padding-right: 0;
+}

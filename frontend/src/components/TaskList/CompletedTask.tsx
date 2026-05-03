@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import type { Task } from "../../types";
+import styles from "./TaskCard.module.css";
 
 interface CompletedTaskProps {
   data: Task;
@@ -26,19 +27,11 @@ const CompletedTask: React.FC<CompletedTaskProps> = ({ data }) => {
     const button = buttonRef.current;
     const date = dateRef.current;
 
-    // Only animate on first mount
     if (!hasAnimatedRef.current) {
-      gsap.from(box, {
-        scale: 0,
-        duration: 0.6,
-        delay: 0.4,
-        x: -160,
-        y: -150,
-      });
+      gsap.from(box, { scale: 0, duration: 0.6, delay: 0.4, x: -160, y: -150 });
       hasAnimatedRef.current = true;
     }
 
-    // Event listeners
     const handleMouseMove = (e: MouseEvent) => {
       const rect = box!.getBoundingClientRect();
       let x = e.clientX - rect.left;
@@ -67,64 +60,29 @@ const CompletedTask: React.FC<CompletedTaskProps> = ({ data }) => {
     box?.addEventListener("mouseenter", handleMouseEnter);
     box?.addEventListener("mouseleave", handleMouseLeave);
 
-    // Cleanup
     return () => {
       box?.removeEventListener("mousemove", handleMouseMove);
       box?.removeEventListener("mouseenter", handleMouseEnter);
       box?.removeEventListener("mouseleave", handleMouseLeave);
     };
-  }, []); // Empty dependency array
+  }, []);
 
   return (
-    <div
-      ref={taskBoxRef}
-      className="overflow-hidden relative flex-shrink-0 h-[300px] w-[320px] bg-[#ad9676] rounded-se-[42px] rounded-es-[42px] rounded-ee-[42px] ml-2 z-1"
-    >
-      <div className="bg-transparent absolute z-10 h-full w-full">
-        <div className="bg-transparent flex justify-between items-center p-2">
-          <h3
-            ref={categoryRef}
-            className="beforeHover bg-[#8b6c3e] rounded-se-[13px] rounded-es-[13px] rounded-ee-[13px] px-3 py-1 text-[16px] text-[#cec0ad] font-medium opacity-1"
-          >
-            {data?.category}
-          </h3>
-
-          <h3
-            ref={dateRef}
-            className="bg-transparent text-sm text-[#f9ff83] text-[18px] font-semibold px-5 py-4 opacity-1"
-          >
-            {data?.due_date}
-          </h3>
+    <div ref={taskBoxRef} className={styles.taskCard}>
+      <div className={styles.content}>
+        <div className={styles.topBar}>
+          <h3 ref={categoryRef} className={`beforeHover ${styles.category}`}>{data?.category}</h3>
+          <h3 ref={dateRef} className={styles.date}>{data?.due_date}</h3>
         </div>
-
-        <div
-          ref={titleRef}
-          className="beforeHover absolute p-2 bg-transparent ml-4 text-5xl text-green-200 font-black opacity-1"
-        >
-          {data?.title}
-        </div>
-
-        <div
-          ref={descriptionRef}
-          className="afterHover bg-transparent text-[20px] px-[25px] text-[#3b3123] font-extrabold mt-[5%] opacity-0"
-        >
-          {data?.description}
-        </div>
+        <div ref={titleRef} className={`beforeHover ${styles.title} ${styles.titleGreen}`}>{data?.title}</div>
+        <div ref={descriptionRef} className={`afterHover ${styles.description}`}>{data?.description}</div>
       </div>
 
-      <div
-        ref={buttonRef}
-        className="afterHover absolute bottom-4 left-5 flex justify-between m-4 bg-transparent z-10 opacity-0"
-      >
-        <button className="bg-transparent text-[33px] text-gray-300 font-bold cursor-default">
-          Completed
-        </button>
+      <div ref={buttonRef} className={`afterHover ${styles.buttonWrap}`}>
+        <button className={styles.statusBtn}>Completed</button>
       </div>
 
-      <div
-        ref={hoverTransitionRef}
-        className="hoverTransition bg-[#bdab91] rounded-full w-[0px] h-[0px] -translate-x-1/2 -translate-y-1/2 absolute z-0"
-      ></div>
+      <div ref={hoverTransitionRef} className={`hoverTransition ${styles.hoverCircle}`}></div>
     </div>
   );
 };

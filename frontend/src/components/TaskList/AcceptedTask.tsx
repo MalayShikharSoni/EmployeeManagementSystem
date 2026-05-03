@@ -3,6 +3,7 @@ import { taskAPI } from "../../services/api";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import type { Task } from "../../types";
+import styles from "./TaskCard.module.css";
 
 interface AcceptedTaskProps {
   data: Task;
@@ -32,13 +33,7 @@ const AcceptedTask: React.FC<AcceptedTaskProps> = ({ data, refreshTasks }) => {
 
     // Only animate on first mount
     if (!hasAnimatedRef.current) {
-      gsap.from(box, {
-        scale: 0,
-        duration: 0.6,
-        delay: 0.4,
-        x: -160,
-        y: -150,
-      });
+      gsap.from(box, { scale: 0, duration: 0.6, delay: 0.4, x: -160, y: -150 });
       hasAnimatedRef.current = true;
     }
 
@@ -69,103 +64,45 @@ const AcceptedTask: React.FC<AcceptedTaskProps> = ({ data, refreshTasks }) => {
 
   const handleCompleteTask = async () => {
     setIsProcessing(true);
-    
     try {
       await taskAPI.completeTask(data.id);
       console.log("✅ Task completed:", data.title);
-      
-      // Refresh tasks from parent
-      if (refreshTasks) {
-        refreshTasks();
-      }
+      if (refreshTasks) { refreshTasks(); }
     } catch (error) {
       console.error("❌ Failed to complete task:", error);
       alert("Failed to complete task. Please try again.");
-    } finally {
-      setIsProcessing(false);
-    }
+    } finally { setIsProcessing(false); }
   };
 
   const handleDeclineTask = async () => {
     setIsProcessing(true);
-    
     try {
       await taskAPI.failTask(data.id);
       console.log("✅ Task declined:", data.title);
-      
-      // Refresh tasks from parent
-      if (refreshTasks) {
-        refreshTasks();
-      }
+      if (refreshTasks) { refreshTasks(); }
     } catch (error) {
       console.error("❌ Failed to decline task:", error);
       alert("Failed to decline task. Please try again.");
-    } finally {
-      setIsProcessing(false);
-    }
+    } finally { setIsProcessing(false); }
   };
 
   return (
-    <div
-      ref={taskBoxRef}
-      className="overflow-hidden relative flex-shrink-0 h-[300px] w-[320px] bg-[#ad9676] rounded-se-[42px] rounded-es-[42px] rounded-ee-[42px] ml-2 z-1"
-    >
-      <div className="bg-transparent absolute z-10 h-full w-full">
-        <div className="bg-transparent flex justify-between items-center p-2">
-          <h3
-            ref={categoryRef}
-            className="beforeHover bg-[#8b6c3e] rounded-se-[13px] rounded-es-[13px] rounded-ee-[13px] px-3 py-1 text-[16px] text-[#cec0ad] font-medium opacity-1"
-          >
-            {data?.category}
-          </h3>
-
-          <h3
-            ref={dateRef}
-            className="bg-transparent text-sm text-[#f9ff83] text-[18px] font-semibold px-5 py-4 opacity-1"
-          >
-            {data?.due_date}
-          </h3>
+    <div ref={taskBoxRef} className={styles.taskCard}>
+      <div className={styles.content}>
+        <div className={styles.topBar}>
+          <h3 ref={categoryRef} className={`beforeHover ${styles.category}`}>{data?.category}</h3>
+          <h3 ref={dateRef} className={styles.date}>{data?.due_date}</h3>
         </div>
-
-        <div
-          ref={titleRef}
-          className="beforeHover absolute p-2 bg-transparent ml-4 text-5xl text-yellow-200 font-black opacity-1"
-        >
-          {data?.title}
-        </div>
-
-        <div
-          ref={descriptionRef}
-          className="afterHover bg-transparent text-[20px] px-[25px] text-[#3b3123] font-extrabold mt-[5%] opacity-0"
-        >
-          {data?.description}
-        </div>
+        <div ref={titleRef} className={`beforeHover ${styles.title} ${styles.titleYellow}`}>{data?.title}</div>
+        <div ref={descriptionRef} className={`afterHover ${styles.description}`}>{data?.description}</div>
       </div>
 
-      <div
-        ref={buttonRef}
-        className="afterHover absolute translate-x-[3px] bottom-[18px] flex justify-center gap-[60px] m-4 bg-transparent z-10 opacity-0"
-      >
-        <button
-          onClick={handleCompleteTask}
-          disabled={isProcessing}
-          className="bg-transparent text-[28px] text-green-300 font-bold disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          Check Off
-        </button>
-        <button
-          onClick={handleDeclineTask}
-          disabled={isProcessing}
-          className="bg-transparent text-[28px] text-[#923838] font-bold disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          Decline
-        </button>
+      <div ref={buttonRef} className={`afterHover ${styles.buttonWrapCenter}`}>
+        <button onClick={handleCompleteTask} disabled={isProcessing} className={styles.completeBtn}>Check Off</button>
+        <button onClick={handleDeclineTask} disabled={isProcessing} className={styles.declineBtn}>Decline</button>
       </div>
 
-      <div
-        ref={hoverTransitionRef}
-        className="hoverTransition bg-[#bdab91] rounded-full w-[0px] h-[0px] -translate-x-1/2 -translate-y-1/2 absolute z-0"
-      ></div>
+      <div ref={hoverTransitionRef} className={`hoverTransition ${styles.hoverCircle}`}></div>
     </div>
   );
 };

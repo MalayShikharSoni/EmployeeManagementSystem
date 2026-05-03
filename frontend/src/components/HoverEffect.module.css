@@ -1,0 +1,21 @@
+.box {
+  position: relative;
+  width: 16rem;
+  height: 16rem;
+  background-color: #1f2937;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.text {
+  color: white;
+}
+
+.circle {
+  position: absolute;
+  background-color: #ef4444;
+  border-radius: 9999px;
+  transition: all 500ms;
+}

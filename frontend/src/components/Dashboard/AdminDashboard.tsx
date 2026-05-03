@@ -14,6 +14,7 @@ import O from "../../assets/O.svg";
 import R from "../../assets/R.svg";
 import K from "../../assets/K.svg";
 import A from "../../assets/A.svg";
+import styles from "./AdminDashboard.module.css";
 
 const AdminDashboard = memo(() => {
   const firstWaveRef = useRef<HTMLDivElement>(null);
@@ -30,28 +31,28 @@ const AdminDashboard = memo(() => {
   }, []);
 
   if (authLoading) {
-    return (<div className="w-screen bg-[#cec0ad] flex items-center justify-center h-screen"><div className="text-center">
-      <div className="inline-block animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#ad9676] mb-4"></div>
-      <p className="text-2xl font-semibold text-[#9c815a]">Checking authentication...</p></div></div>);
+    return (<div className={styles.loadingContainer}><div className={styles.loadingContent}>
+      <div className={styles.spinner}></div>
+      <p className={styles.loadingText}>Checking authentication...</p></div></div>);
   }
   if (!userData || userData.role !== 'admin') { return <Navigate to="/login" replace />; }
 
   return (
     <>
       <HeaderUser ref={{ firstWaveRef, thirdWaveRef } as unknown as React.Ref<unknown>} data={userData.data} changeUser={() => { }} />
-      <div className="bg-[#cec0ad] flex flex-row">
-        <div className="bg-transparent w-[70vw]">
-          <div className="adminDashboard bg-[#cec0ad]">
+      <div className={styles.dashLayout}>
+        <div className={styles.mainContent}>
+          <div className={`adminDashboard ${styles.dashContent}`}>
             <TeamManagement /><CreateTask onTaskCreated={handleTaskCreated} /><AllTasks refreshTrigger={refreshTrigger} />
           </div>
         </div>
-        <div className="flex flex-col gap-[20px] h-full rounded-es-[200px] bg-[#ad9676] mb-[16vh] w-[30vw] mt-[16vh] overflow-hidden max-sm:hidden">
+        <div className={styles.sidebar}>
           {[["V","E","W","O","R","K","W","A"],["W","O","R","K","W","A","V","E"],["O","R","K","W","A","V","E","W"],["R","K","W","A","V","E","W","O"],["K","W","A","V","E","W","O","R"],["W","A","V","E","W","O","R","K"],["A","V","E","W","O","R","K","W"],["W","A","V","E","W","O","R","K"],["A","V","E","W","O","R","K","W"],["W","A","V","E","W","O","R","K"],["A","V","E","W","O","R","K","W"],["W","A","V","E","W","O","R","K"]].map((row, i) => {
             const letterClass = i % 2 === 0 ? "titleLineLetter1" : "titleLineLetter2";
             const svgMap: Record<string, string> = { V, E, W, O, R, K, A };
             return (
-              <div key={i} className="titleLine bg-transparent flex flex-row items-center gap-[0px] justify-center w-auto">
-                {row.map((letter, j) => <img key={j} className={`titleLineLetter ${letterClass} bg-transparent w-auto h-[120px]`} src={svgMap[letter]} alt="" />)}
+              <div key={i} className={`titleLine ${styles.titleLine}`}>
+                {row.map((letter, j) => <img key={j} className={`titleLineLetter ${letterClass} ${styles.letterImg}`} src={svgMap[letter]} alt="" />)}
               </div>
             );
           })}

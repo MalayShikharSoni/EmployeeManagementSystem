@@ -6,6 +6,7 @@ import FailedTask from "./FailedTask";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import type { Task, TaskCounts, User } from "../../types";
+import styles from "./TaskList.module.css";
 
 interface TaskListProps {
   tasks?: Task[];
@@ -40,14 +41,14 @@ const TaskList = memo<TaskListProps>(({ tasks = [], taskCounts = {} as TaskCount
   }, []);
 
   const EmptyState = () => (
-    <div className="bg-transparent flex items-center justify-center w-full">
-      <div className="relative bg-[#ded5c8] rounded-se-[35px] rounded-es-[35px] rounded-ee-[35px] w-[320px] h-[300px]">
-        <div className="popupBubble absolute bg-transparent flex flex-row gap-[27px] items-center justify-center top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
-          <div className="popupBubble1 w-[35px] h-[35px] bg-[#ad9676] rounded-full"></div>
-          <div className="popupBubble2 w-[35px] h-[35px] bg-[#ad9676] rounded-full"></div>
-          <div className="popupBubble3 w-[35px] h-[35px] bg-[#ad9676] rounded-full"></div>
+    <div className={styles.emptyState}>
+      <div className={styles.emptyBox}>
+        <div className={`popupBubble ${styles.bubbleWrap}`}>
+          <div className={`popupBubble1 ${styles.bubble}`}></div>
+          <div className={`popupBubble2 ${styles.bubble}`}></div>
+          <div className={`popupBubble3 ${styles.bubble}`}></div>
         </div>
-        <div className="popupText absolute w-auto bg-transparent top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-center text-5xl font-bold text-[#ad9676] opacity-0">
+        <div className={`popupText ${styles.emptyText}`}>
           No Such Tasks
         </div>
       </div>
@@ -55,20 +56,20 @@ const TaskList = memo<TaskListProps>(({ tasks = [], taskCounts = {} as TaskCount
   );
 
   const TaskCountBubble: React.FC<{ count: number; label: string }> = ({ count, label }) => (
-    <div className="taskNumberBubble flex items-baseline bg-transparent border-[4px] border-[#9c815a] rounded-se-[35px] rounded-es-[35px] rounded-ee-[35px] w-[290px] h-[100px]">
-      <span className="bg-transparent ml-[20px] mt-[5px] font-bold text-[#9c815a] text-7xl">{count ?? 0}</span>
-      <span className="bg-transparent ml-[33px] font-medium text-[#9c815a] text-[23px]">{label}</span>
+    <div className={`taskNumberBubble ${styles.countBubble}`}>
+      <span className={styles.countNumber}>{count ?? 0}</span>
+      <span className={styles.countLabel}>{label}</span>
     </div>
   );
 
   const TaskRow: React.FC<React.PropsWithChildren> = ({ children }) => (
-    <div className="bg-transparent flex overflow-x-auto gap-5 flex-nowrap items-center justify-start h-[55%] w-full py-5 mt-10 mb-[20vh]">
+    <div className={styles.taskRow}>
       {children}
     </div>
   );
 
   return (
-    <div ref={containerRef} className="bg-transparent ml-[3vw]">
+    <div ref={containerRef} className={styles.container}>
       <TaskCountBubble count={taskCounts.new_task} label="New Tasks" />
       <TaskRow>
         {newTasks.length > 0 ? newTasks.map((task) => (<NewTask key={task.id} data={task} refreshTasks={refreshTasks} />)) : <EmptyState />}

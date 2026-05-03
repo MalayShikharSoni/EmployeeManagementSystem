@@ -4,6 +4,7 @@ import { taskAPI, authAPI } from "../../services/api";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import type { Employee } from "../../types";
+import styles from "./CreateTask.module.css";
 
 interface CreateTaskProps {
   onTaskCreated?: () => void;
@@ -94,117 +95,117 @@ const CreateTask: React.FC<CreateTaskProps> = (props) => {
   };
 
   return (
-    <div className="bg-[#cec0ad] pt-[24vh]">
-      <div className="heading bg-transparent text-[#9c815a] mb-[10vh] text-7xl font-black ml-[3vw]">Assign a Task</div>
-      <div className="bg-transparent">
-        <form onSubmit={SubmitHandler} className="ml-[3vw] flex flex-wrap w-[70%] h-full items-start justify-between bg-[#cec0ad]">
-          <div className="flex flex-col gap-[5vh] bg-transparent">
-            <div className="nameAndCategory flex flex-wrap gap-[4vw] bg-transparent max-sm:gap-[5vh]">
-              <div className="bg-transparent">
-                <div className="idCard w-[450px] h-[300px] bg-[#ad9676] rounded-[10px] flex flex-col overflow-hidden max-sm:w-[355px]">
-                  <div className="flex flex-row gap-[10px] items-center justify-center h-[10%] w-full bg-[#9c815a]">
-                    <div className="w-[10px] h-[10px] rounded-full bg-[#cec0ad]"></div>
-                    <div className="w-[70px] h-[10px] rounded-full bg-[#cec0ad]"></div>
-                    <div className="w-[10px] h-[10px] rounded-full bg-[#cec0ad]"></div>
+    <div className={styles.container}>
+      <div className={`heading ${styles.title}`}>Assign a Task</div>
+      <div className={styles.formWrap}>
+        <form onSubmit={SubmitHandler} className={styles.form}>
+          <div className={styles.formInner}>
+            <div className={styles.nameAndCategory}>
+              <div className={styles.idCardWrap}>
+                <div className={`idCard ${styles.idCard}`}>
+                  <div className={styles.idCardHeader}>
+                    <div className={styles.idCardDot}></div>
+                    <div className={styles.idCardBar}></div>
+                    <div className={styles.idCardDot}></div>
                   </div>
-                  <div className="flex flex-row items-center h-[90%] justify-center bg-transparent">
-                    <div className="relative w-[30%] rounded-[5px] m-[10px] h-[130px] bg-[#cec0ad] overflow-hidden">
-                      <div className="absolute top-[30%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[62px] h-[62px] rounded-full bg-[#ded5c8]"></div>
-                      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-[115px] h-[115px] rounded-full bg-[#ded5c8]"></div>
+                  <div className={styles.idCardBody}>
+                    <div className={styles.idCardAvatar}>
+                      <div className={styles.idCardAvatarHead}></div>
+                      <div className={styles.idCardAvatarBody}></div>
                     </div>
-                    <div className="bg-transparent w-full h-full flex flex-col">
-                      <div className="bg-transparent font-black text-[35px] pl-[15px] text-[#cec0ad] w-full mt-[10px]">Assign To :</div>
+                    <div className={styles.idCardInfo}>
+                      <div className={styles.idCardLabel}>Assign To :</div>
                       <select value={assignTo} onChange={(e) => setassignTo(e.target.value)} required
-                        className="bg-[#cec0ad] w-[87%] h-[50%] mt-[6px] rounded-[5px] pl-[10px] font-black text-[#9c815a] text-[22px] outline-none focus:bg-[#ded5c8] cursor-pointer">
+                        className={styles.idCardSelect}>
                         <option value="">Select Employee</option>
                         {employees.map((emp) => (<option key={emp.id} value={emp.id}>{emp.first_name}</option>))}
                       </select>
-                      <div className="filler flex flex-col gap-[18px] mt-[30px] bg-transparent h-full max-sm:w-[85%]">
-                        <div className="bg-transparent flex flex-row gap-[8px]">
-                          <div className="bg-[#cec0ad] h-[5px] w-[84px] rounded-full"></div>
-                          <div className="bg-[#cec0ad] h-[5px] w-[84px] rounded-full"></div>
-                          <div className="bg-[#cec0ad] h-[5px] w-[84px] rounded-full"></div>
+                      <div className={styles.filler}>
+                        <div className={styles.fillerRow}>
+                          <div className={styles.fillerDotSmall}></div>
+                          <div className={styles.fillerDotSmall}></div>
+                          <div className={styles.fillerDotSmall}></div>
                         </div>
-                        <div className="bg-transparent flex flex-row gap-[8px]">
-                          <div className="bg-[#cec0ad] h-[5px] w-[130px] rounded-full"></div>
-                          <div className="bg-[#cec0ad] h-[5px] w-[130px] rounded-full"></div>
+                        <div className={styles.fillerRow}>
+                          <div className={styles.fillerDotLarge}></div>
+                          <div className={styles.fillerDotLarge}></div>
                         </div>
-                        <div className="bg-transparent flex flex-row gap-[8px]">
-                          <div className="bg-[#cec0ad] h-[5px] w-[84px] rounded-full"></div>
-                          <div className="bg-[#cec0ad] h-[5px] w-[84px] rounded-full"></div>
-                          <div className="bg-[#cec0ad] h-[5px] w-[84px] rounded-full"></div>
+                        <div className={styles.fillerRow}>
+                          <div className={styles.fillerDotSmall}></div>
+                          <div className={styles.fillerDotSmall}></div>
+                          <div className={styles.fillerDotSmall}></div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="notepad relative bg-[#ad9676] rounded-[10px] w-[450px] h-[300px] flex flex-col items-start justify-center max-sm:w-[355px]">
-                <div className="absolute top-[-10px] flex flex-row items-center justify-around w-[100%] bg-transparent">
-                  <div className="bg-[#9c815a] rounded-[3px] w-[8px] h-[40px]"></div>
-                  <div className="bg-[#9c815a] rounded-[3px] w-[8px] h-[40px]"></div>
-                  <div className="bg-[#9c815a] rounded-[3px] w-[8px] h-[40px]"></div>
-                  <div className="bg-[#9c815a] rounded-[3px] w-[8px] h-[40px]"></div>
-                  <div className="bg-[#9c815a] rounded-[3px] w-[8px] h-[40px]"></div>
-                  <div className="bg-[#9c815a] rounded-[3px] w-[8px] h-[40px]"></div>
+              <div className={`notepad ${styles.notepad}`}>
+                <div className={styles.notepadSpirals}>
+                  <div className={styles.spiralPeg}></div>
+                  <div className={styles.spiralPeg}></div>
+                  <div className={styles.spiralPeg}></div>
+                  <div className={styles.spiralPeg}></div>
+                  <div className={styles.spiralPeg}></div>
+                  <div className={styles.spiralPeg}></div>
                 </div>
-                <div className="top-[-10px] flex flex-row items-center justify-around w-[100%] bg-transparent mt-[8px]">
-                  <div className="bg-[#cec0ad] rounded-full w-[35px] h-[35px]"></div>
-                  <div className="bg-[#cec0ad] rounded-full w-[35px] h-[35px]"></div>
-                  <div className="bg-[#cec0ad] rounded-full w-[35px] h-[35px]"></div>
-                  <div className="bg-[#cec0ad] rounded-full w-[35px] h-[35px]"></div>
-                  <div className="bg-[#cec0ad] rounded-full w-[35px] h-[35px]"></div>
-                  <div className="bg-[#cec0ad] rounded-full w-[35px] h-[35px]"></div>
+                <div className={styles.notepadHoles}>
+                  <div className={styles.notepadHole}></div>
+                  <div className={styles.notepadHole}></div>
+                  <div className={styles.notepadHole}></div>
+                  <div className={styles.notepadHole}></div>
+                  <div className={styles.notepadHole}></div>
+                  <div className={styles.notepadHole}></div>
                 </div>
-                <div className="relative h-full w-full flex flex-col items-center justify-center bg-transparent">
-                  <div className="absolute flex flex-col gap-[40px] w-full h-full items-center justify-center bg-transparent opacity-[40%]">
-                    <div className="bg-[#cec0ad] w-full h-[2px]"></div><div className="bg-[#cec0ad] w-full h-[2px]"></div>
-                    <div className="bg-[#cec0ad] w-full h-[2px]"></div><div className="bg-[#cec0ad] w-full h-[2px]"></div>
-                    <div className="bg-[#cec0ad] w-full h-[2px]"></div><div className="bg-[#cec0ad] w-full h-[2px]"></div>
-                    <div className="bg-[#cec0ad] w-full h-[2px]"></div>
+                <div className={styles.notepadLines}>
+                  <div className={styles.notepadLinesInner}>
+                    <div className={styles.notepadLine}></div><div className={styles.notepadLine}></div>
+                    <div className={styles.notepadLine}></div><div className={styles.notepadLine}></div>
+                    <div className={styles.notepadLine}></div><div className={styles.notepadLine}></div>
+                    <div className={styles.notepadLine}></div>
                   </div>
                   <input value={category} onChange={(e) => setcategory(e.target.value)} required
-                    className="translate-y-[-13px] mb-[22.5px] w-full h-full bg-transparent outline-none text-center font-black text-[#ded5c8] text-[38px] placeholder:text-center placeholder:font-black placeholder:text-[#cec0ad] placeholder:text-[38px] placeholder:text-opacity-[70%] z-10"
+                    className={styles.categoryInput}
                     type="text" placeholder="Enter Category" />
                 </div>
               </div>
             </div>
-            <div className="window flex flex-col items-center w-full h-[300px] rounded-[10px] bg-[#9c815a] mt-[4vh] max-sm:h-[70vh]">
-              <div className="flex flex-row gap-[10px] translate-y-[4px] justify-end items-center w-full h-[35px] px-[10px] bg-transparent">
-                <div className="h-[3.5px] w-[20px] rounded-full bg-[#cec0ad]"></div>
-                <div className="h-[18px] w-[18px] border-[3.5px] border-[#cec0ad] bg-transparent"></div>
-                <div className="h-[20px] w-[20px] rounded-full border-[3.5px] border-[#cec0ad] bg-transparent"></div>
+            <div className={`window ${styles.window}`}>
+              <div className={styles.windowControls}>
+                <div className={styles.windowMin}></div>
+                <div className={styles.windowMax}></div>
+                <div className={styles.windowClose}></div>
               </div>
-              <div className="bg-[#9c815a] rounded-[10px] flex flex-row gap-[0%] justify-center items-center p-[10px] h-full w-full max-sm:flex-col max-sm:gap-[10px]">
-                <div className="flex rounded-ss-[10px] rounded-es-[10px] flex-col w-[70%] h-full bg-[#ad9676] p-[20px] max-sm:rounded-se-[10px] max-sm:rounded-ee-[10px] max-sm:w-full">
-                  <div className="flex flex-col bg-transparent h-full w-full">
-                    <div className="flex flex-row w-full h-[40%] bg-transparent max-sm:gap-[12px]">
-                      <div className="flex items-center justify-center p-[10px] bg-transparent w-[84%] h-full">
+              <div className={styles.windowBody}>
+                <div className={styles.windowLeft}>
+                  <div className={styles.windowLeftInner}>
+                    <div className={styles.windowTopRow}>
+                      <div className={styles.titleInputWrap}>
                         <input value={title} onChange={(e) => settitle(e.target.value)} required
-                          className="bg-[#cec0ad] pl-[25px] w-full h-full rounded-[10px] outline-none font-black text-[#9c815a] text-[35px] placeholder:font-bold placeholder:text-[35px] placeholder:text-[#bdab91] max-sm:text-[26px] max-sm:placeholder:text-[26px]"
+                          className={styles.titleInput}
                           type="text" placeholder="Enter Task Title" />
                       </div>
-                      <div className="flex flex-col h-full w-[16%] items-center justify-center bg-transparent">
+                      <div className={styles.dateCol}>
                         <input value={date} onChange={(e) => setdate(e.target.value)} required
-                          className="appearance-none flex justify-center items-center bg-[#cec0ad] outline-none w-[65px] h-[65px] rounded-full text-[#9c815a]"
+                          className={styles.dateInput}
                           type="date" style={{ color: "#9c815a", backgroundColor: "#cec0ad" }} />
-                        <div className="bg-transparent font-bold text-[16px] text-[#9c815a]">{date}</div>
+                        <div className={styles.dateLabel}>{date}</div>
                       </div>
                     </div>
-                    <div className="flex bg-transparent h-full w-full p-[10px]">
+                    <div className={styles.descWrap}>
                       <textarea value={description} onChange={(e) => setdescription(e.target.value)} required
-                        className="outline-none w-full h-full bg-[#cec0ad] rounded-[10px] font-bold text-[22px] text-[#9c815a] placeholder:text-[#bdab91] resize-none p-4"
+                        className={styles.descInput}
                         placeholder="Enter Task Description" />
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center justify-center bg-[#ad9676] rounded-ee-[10px] rounded-se-[10px] h-full w-[30%] max-sm:w-full">
+                <div className={styles.windowRight}>
                   <button ref={taskBoxRef} onClick={animateWavyLetters} disabled={isSubmitting} type="submit"
-                    className="relative overflow-hidden bg-[#cec0ad] w-[230px] h-[230px] rounded-full disabled:opacity-50 disabled:cursor-not-allowed">
-                    <div ref={createButtonTextRef} className="bg-transparent text-[#9c815a] font-black text-[55px]">
+                    className={styles.createBtn}>
+                    <div ref={createButtonTextRef} className={styles.createBtnText}>
                       {isSubmitting ? "Creating..." : "Create Task"}
                     </div>
-                    <div ref={hoverTransitionRef} className="hoverTransition bg-[#7a5622] rounded-full w-[0px] h-[0px] -translate-x-1/2 -translate-y-1/2 absolute -z-10"></div>
+                    <div ref={hoverTransitionRef} className={`hoverTransition ${styles.hoverCircle}`}></div>
                   </button>
                 </div>
               </div>

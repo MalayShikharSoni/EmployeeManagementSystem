@@ -1,0 +1,31 @@
+.loadingContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #cec0ad;
+}
+
+.loadingContent {
+  text-align: center;
+}
+
+.spinner {
+  display: inline-block;
+  animation: spin 1s linear infinite;
+  border-radius: 9999px;
+  height: 4rem;
+  width: 4rem;
+  border-top: 4px solid #ad9676;
+  border-bottom: 4px solid #ad9676;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  margin-bottom: 1rem;
+}
+
+.loadingText {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 600;
+  color: #8b6c3e;
+}

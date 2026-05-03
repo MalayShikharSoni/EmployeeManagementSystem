@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import WORK from "/src/assets/WORK.svg";
 import WAVE from "/src/assets/WAVE.svg";
 import Waveform from "/src/assets/Waveform.svg";
+import styles from "./LandingPage.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -463,52 +464,52 @@ const LandingPage: React.FC = () => {
 
       <div
         ref={pageRef}
-        className="landing-page bg-[#cec0ad] w-screen h-screen opacity-0"
+        className={`landing-page ${styles.landingPage}`}
       >
         {/* HEADER */}
         <HeaderHomePage ref={{ firstWaveRef, thirdWaveRef } as unknown as React.Ref<unknown>} />
 
-        <div className="pt-[16vh]  bg-transparent flex flex-col justify-center items-center h-full w-full relative">
+        <div className={styles.heroSection}>
           {/* WORK */}
 
           <div
-            className="WORK bg-transparent max-sm:px-[6vw]"
+            className={`WORK ${styles.workWrap}`}
             style={{ mixBlendMode: "difference" }}
           >
             <img
               src={WORK}
               alt="WORK"
-              className="bg-transparent w-auto h-[20vh]"
+              className={styles.logoImg}
             />
           </div>
           {/* WAVE */}
           <div
-            className="WAVE mt-[3vh] bg-transparent mb-30 max-sm:px-[6vw] max-sm:mt-[-5vh]"
+            className={`WAVE ${styles.waveWrap}`}
             style={{ mixBlendMode: "difference" }}
           >
             <img
               src={WAVE}
               alt="W"
-              className="bg-transparent w-auto h-[20vh]"
+              className={styles.logoImg}
             />
           </div>
 
           {/* BLACKBOX */}
           <div
-            className="blackbox flex justify-between items-center bg-[#cec0ad] mt-16 w-[80vw] h-[130px]"
+            className={`blackbox ${styles.blackbox}`}
             style={{ mixBlendMode: "difference" }}
           >
             {/* FLATLINE WAVE BOX */}
             <div
-              className="mx-[1rem] bg-[#0b7494] rounded-md w-[35%] h-[80%]"
+              className={styles.flatlineBox}
               style={{ mixBlendMode: "normal" }}
             >
               <div
-                className="relative flex items-center justify-center bg-transparent w-[100%] h-[100%] overflow-hidden"
+                className={styles.flatlineInner}
                 style={{ isolation: "isolate" }}
               >
                 <svg
-                  className=" bg-transparent w-[110%] h-auto self-center"
+                  className={styles.flatlineSvg}
                   //500,200
                   // width="900px" height="150px"
                   // preserveAspectRatio="xMidYMid meet"
@@ -530,66 +531,45 @@ const LandingPage: React.FC = () => {
             </div>
 
             {/* MARQUEE */}
-            <div className="flex items-center gap-10 bg-[#cec0ad] h-full w-full overflow-hidden">
-              <div className="flex marque flex-shrink-0 text-black font-bold text-5xl bg-[#cec0ad] h-full justify-center items-center max-sm:text-[30px]">
+            <div className={styles.marqueeContainer}>
+              <div className={`marque ${styles.marqueeText}`}>
                 EFFICIENT AMPLITUDE
               </div>
 
-              <div className="flex marque flex-shrink-0 bg-[#cec0ad] h-full justify-center items-center">
-
-                <img
-                  src={Waveform}
-                  alt="Waveform"
-                  className="bg-transparent w-auto h-[7vh]"
-                />
+              <div className={`marque ${styles.marqueeIcon}`}>
+                <img src={Waveform} alt="Waveform" className={styles.waveformImg} />
               </div>
 
-              <div className="flex marque flex-shrink-0 text-black font-bold text-5xl bg-[#cec0ad] h-full justify-center items-center max-sm:text-[30px]">
+              <div className={`marque ${styles.marqueeText}`}>
                 PRODUCTIVE PHASE
               </div>
 
-              <div className="flex marque flex-shrink-0 bg-[#cec0ad] h-full justify-center items-center">
-                <img
-                  src={Waveform}
-                  alt="Waveform"
-                  className="bg-transparent w-auto h-[7vh]"
-                />
+              <div className={`marque ${styles.marqueeIcon}`}>
+                <img src={Waveform} alt="Waveform" className={styles.waveformImg} />
               </div>
 
-              <div className="marque flex flex-shrink-0 text-black font-bold text-5xl bg-[#cec0ad] h-full justify-center items-center max-sm:text-[30px]">
+              <div className={`marque ${styles.marqueeText}`}>
                 FLAWLESS FREQUENCY
               </div>
 
-              <div className="flex marque flex-shrink-0 bg-[#cec0ad] h-full justify-center items-center">
-                <img
-                  src={Waveform}
-                  alt="Waveform"
-                  className="bg-transparent w-auto h-[7vh]"
-                />
+              <div className={`marque ${styles.marqueeIcon}`}>
+                <img src={Waveform} alt="Waveform" className={styles.waveformImg} />
               </div>
 
-              <div className="flex marque flex-shrink-0 text-black font-bold text-5xl bg-[#cec0ad] h-full justify-center items-center max-sm:text-[30px]">
+              <div className={`marque ${styles.marqueeText}`}>
                 EFFICIENT AMPLITUDE
               </div>
 
-              <div className="flex marque flex-shrink-0 bg-[#cec0ad] h-full justify-center items-center">
-                <img
-                  src={Waveform}
-                  alt="Waveform"
-                  className="bg-transparent w-auto h-[7vh]"
-                />
+              <div className={`marque ${styles.marqueeIcon}`}>
+                <img src={Waveform} alt="Waveform" className={styles.waveformImg} />
               </div>
 
-              <div className="flex marque flex-shrink-0 text-black font-bold text-5xl bg-[#cec0ad] h-full justify-center items-center max-sm:text-[30px]">
+              <div className={`marque ${styles.marqueeText}`}>
                 PRODUCTIVE PHASE
               </div>
 
-              <div className="flex marque flex-shrink-0 bg-[#cec0ad] h-full justify-center items-center">
-                <img
-                  src={Waveform}
-                  alt="Waveform"
-                  className="bg-transparent w-auto h-[7vh]"
-                />
+              <div className={`marque ${styles.marqueeIcon}`}>
+                <img src={Waveform} alt="Waveform" className={styles.waveformImg} />
               </div>
             </div>
           </div>
@@ -597,10 +577,10 @@ const LandingPage: React.FC = () => {
       </div>
 
       {/* HORIZONTAL SCROLL SECTION */}
-      <div className="wrapper h-[100vh] overflow-x-hidden overflow-y-hidden bg-[#cec0ad]">
-        <div className="relative scrollContainer w-[300vw] flex h-[100vh] bg-[#852b5e]">
+      <div className={`wrapper ${styles.scrollWrapper}`}>
+        <div className={`scrollContainer ${styles.scrollContainer}`}>
           <svg
-            className="horizontalWave absolute bg-transparent"
+            className={`horizontalWave ${styles.horizontalWaveSvg}`}
             width="300vw"
             height="100vh"
             viewBox="0 0 6000 1000"
@@ -614,7 +594,7 @@ const LandingPage: React.FC = () => {
               stroke-linecap="round"
             />
             <path
-              className="horizontalWavePath h-full w-full"
+              className={`horizontalWavePath ${styles.horizontalWavePath}`}
               ref={horizontalWaveRef}
               strokeWidth="12"
               d="M443.851 430.5L460.588 386.355C460.836 385.7 460.353 385 459.653 385H405.726C405.296 385 404.915 385.275 404.778 385.682L375.679 472.419C375.352 473.392 373.947 473.301 373.749 472.293L357.334 388.707C357.137 387.699 355.732 387.608 355.405 388.581L326.306 475.318C326.169 475.725 325.788 476 325.358 476H290.247C289.849 476 289.488 475.763 289.33 475.398L270.12 431.102C269.961 430.737 269.601 430.5 269.202 430.5H230.394M443.851 430.5L426.601 476M443.851 430.5H485.006C485.41 430.5 485.775 430.744 485.93 431.117L504.282 475.383C504.436 475.756 504.801 476 505.205 476H534.074M230.394 430.5L210.922 475.398C210.764 475.763 210.403 476 210.005 476H191.758C191.335 476 190.958 475.734 190.816 475.336L159.226 386.925C158.946 386.141 157.887 386.022 157.44 386.724L126.88 434.733C126.483 435.356 125.573 435.349 125.185 434.721L95.567 386.728C95.1313 386.022 94.075 386.123 93.7809 386.898L60.2447 475.355C60.0974 475.743 59.7252 476 59.3097 476H0.5M230.394 430.5L250.126 385M585.453 476L598.478 431.783C598.667 431.142 598.187 430.5 597.519 430.5H574.78M585.453 476H624.669M585.453 476H534.074M611.266 385H554.736C554.266 385 553.859 385.327 553.759 385.787L534.074 476M624.669 476L638.569 430.5M624.669 476H694.663M717.498 385H653.208C652.769 385 652.381 385.287 652.252 385.708L638.569 430.5M638.569 430.5H741.45M724.2 476L741.45 430.5M741.45 430.5L757.981 386.898C758.275 386.123 759.331 386.022 759.767 386.728L789.385 434.721C789.772 435.349 790.683 435.356 791.08 434.733L821.64 386.724C822.087 386.022 823.146 386.141 823.426 386.925L855.016 475.336C855.158 475.734 855.535 476 855.957 476H882.059M882.059 476L895.959 430.5M882.059 476H952.053H989.806C990.236 476 990.617 475.725 990.754 475.318L1019.85 388.581C1020.18 387.608 1021.58 387.699 1021.78 388.707L1038.2 472.293C1038.4 473.301 1039.8 473.392 1040.13 472.419L1069.23 385.682C1069.36 385.275 1069.74 385 1070.17 385H1126.54M974.888 385H910.598C910.159 385 909.771 385.287 909.642 385.708L895.959 430.5M895.959 430.5H931.204M1126.54 385H1167H1581.73C1589.67 385 1597.38 382.3 1603.58 377.342L1927.92 118.158C1934.12 113.2 1941.83 110.5 1949.77 110.5H2031.32C2032.68 110.5 2033.94 109.807 2034.68 108.662L2067.34 57.8074C2069.33 54.7183 2074.08 55.7103 2074.66 59.3354L2091.51 164.38C2092.2 168.646 2098.22 168.947 2099.33 164.771L2133.61 35.33C2134.75 31.0626 2140.94 31.5031 2141.45 35.8875L2159.53 189.751C2160.07 194.28 2166.55 194.533 2167.43 190.06L2200.29 23.8404C2201.17 19.3991 2207.59 19.6047 2208.18 24.0931L2231.8 203.256C2232.4 207.749 2238.82 207.949 2239.69 203.501L2274.97 23.1682C2275.83 18.7463 2282.21 18.9079 2282.85 23.3679L2307.99 198.506C2308.63 203 2315.08 203.115 2315.88 198.646L2345.6 33.4307C2346.41 28.9597 2352.86 29.0774 2353.5 33.5746L2374.31 179.617C2374.94 184.045 2381.26 184.257 2382.18 179.881L2408.98 53.342C2409.9 48.994 2416.16 49.1653 2416.85 53.5571L2433.41 160.252C2433.97 163.868 2438.69 164.894 2440.7 161.838L2473.31 112.301C2474.05 111.177 2475.31 110.5 2476.66 110.5H3639.69C3650.32 110.5 3660.37 115.325 3667.01 123.615L4036.99 585.385C4043.63 593.675 4053.68 598.5 4064.31 598.5H4241.5H5042L5070.77 597.934C5074.05 597.87 5077.08 596.208 5078.9 593.483L5111.34 544.823C5113.36 541.796 5118.04 542.816 5118.62 546.408L5135.51 651.712C5136.2 655.978 5142.22 656.279 5143.33 652.102L5177.62 522.662C5178.75 518.394 5184.94 518.835 5185.45 523.219L5203.53 677.083C5204.07 681.612 5210.55 681.865 5211.43 677.392L5244.29 511.172C5245.17 506.731 5251.58 506.936 5252.18 511.425L5275.8 690.588C5276.4 695.081 5282.82 695.28 5283.69 690.833L5318.97 510.5C5319.83 506.078 5326.21 506.24 5326.85 510.7L5351.99 685.838C5352.63 690.332 5359.08 690.447 5359.88 685.978L5389.6 520.762C5390.41 516.292 5396.86 516.409 5397.5 520.906L5418.31 666.949C5418.94 671.377 5425.26 671.589 5426.18 667.213L5452.98 540.674C5453.9 536.326 5460.16 536.497 5460.85 540.889L5477.37 647.308C5477.93 650.958 5482.72 651.955 5484.7 648.835L5514.05 602.496C5515.88 599.593 5519.08 597.837 5522.52 597.847L5763.5 598.5M1126.54 385L1098 476"
@@ -637,16 +617,16 @@ const LandingPage: React.FC = () => {
 
           {/* MAIN SCROLLABLE CONTENT BEHIND HORIZONTAL WAVE */}
 
-          <div className="section flex flex-row items-center justify-center w-[300vw] h-screen bg-[#cec0ad]">
+          <div className={`section ${styles.sectionRow}`}>
             {/* PART 1 */}
-            <div className="relative h-screen w-[100vw] bg-transparent">
-              <div className="flex flex-row items-center justify-center bg-transparent absolute bottom-[10%] left-[33%] transform -translate-x-1/2 -translate-y-1/2 max-sm:left-[50%]">
-                <div className="part1Text bg-transparent text-black italic font-black text-xl max-sm:text-[15px] t">
+            <div className={styles.part1}>
+              <div className={styles.part1Content}>
+                <div className={`part1Text ${styles.part1Text}`}>
                   STREAMLINE TASKS
                 </div>
 
                 <svg
-                  className="part1SVG bg-transparent mx-2"
+                  className={`part1SVG ${styles.part1Svg}`}
                   width="20"
                   height="auto"
                   viewBox="0 0 349 520"
@@ -661,12 +641,12 @@ const LandingPage: React.FC = () => {
                   />
                 </svg>
 
-                <div className="part1Text bg-transparent text-black italic font-black text-xl max-sm:text-[15px]">
+                <div className={`part1Text ${styles.part1Text}`}>
                   TRACK PROGRESS
                 </div>
 
                 <svg
-                  className="part1SVG bg-transparent mx-2"
+                  className={`part1SVG ${styles.part1Svg}`}
                   width="20"
                   height="auto"
                   viewBox="0 0 349 520"
@@ -681,26 +661,26 @@ const LandingPage: React.FC = () => {
                   />
                 </svg>
 
-                <div className="part1Text bg-transparent text-black italic font-black text-xl max-sm:text-[15px] t">
+                <div className={`part1Text ${styles.part1Text}`}>
                   ENHANCE PRODUCTIVITY
                 </div>
               </div>
             </div>
 
             {/* PART 2 */}
-            <div className="flex flex-row h-screen w-[100vw] bg-transparent">
-              <div className="flex flex-col h-full w-[50vw] justify-center bg-transparent">
-                <div className="part2Text bg-transparent font-black text-[#ad9676] text-9xl max-sm:text-6xl">
+            <div className={styles.part2}>
+              <div className={styles.part2Left}>
+                <div className={`part2Text ${styles.part2Title}`}>
                   As an
                 </div>
 
-                <div className="part2Text bg-transparent font-black text-[#ad9676] text-9xl max-sm:text-4xl">
+                <div className={`part2Text ${styles.part2Title} ${styles.part2TitleSmaller}`}>
                   Employee
                 </div>
 
-                <div className="flex flex-row gap-2 bg-transparent mt-[1vh] translate-y-[7vh]">
+                <div className={`${styles.part2Feature}`}>
                   <svg
-                    className="part2SVG bg-transparent mx-2"
+                    className={`part2SVG ${styles.part2FeatureSvg}`}
                     width="20"
                     height="auto"
                     viewBox="0 0 349 520"
@@ -715,14 +695,14 @@ const LandingPage: React.FC = () => {
                     />
                   </svg>
 
-                  <div className="part2Points bg-transparent font-bold text-[#efeae4] text-3xl max-sm:text-xl">
+                  <div className={`part2Points ${styles.part2FeatureText}`}>
                     Interactive Status Update
                   </div>
                 </div>
 
-                <div className="flex flex-row gap-2 bg-transparent mt-[2vh] translate-y-[7vh]">
+                <div className={`${styles.part2Feature} ${styles.part2FeatureNext}`}>
                   <svg
-                    className="part2SVG bg-transparent mx-2"
+                    className={`part2SVG ${styles.part2FeatureSvg}`}
                     width="20"
                     height="auto"
                     viewBox="0 0 349 520"
@@ -737,14 +717,14 @@ const LandingPage: React.FC = () => {
                     />
                   </svg>
 
-                  <div className="part2Points bg-transparent font-bold text-[#efeae4] text-3xl max-sm:text-xl">
+                  <div className={`part2Points ${styles.part2FeatureText}`}>
                     Tagged Task Categorization
                   </div>
                 </div>
 
-                <div className="flex flex-row gap-2 bg-transparent mt-[2vh] translate-y-[7vh]">
+                <div className={`${styles.part2Feature} ${styles.part2FeatureNext}`}>
                   <svg
-                    className="part2SVG bg-transparent mx-2"
+                    className={`part2SVG ${styles.part2FeatureSvg}`}
                     width="20"
                     height="auto"
                     viewBox="0 0 349 520"
@@ -759,33 +739,33 @@ const LandingPage: React.FC = () => {
                     />
                   </svg>
 
-                  <div className="part2Points bg-transparent font-bold text-[#efeae4] text-3xl max-sm:text-xl">
+                  <div className={`part2Points ${styles.part2FeatureText}`}>
                     Due Date Tracking
                   </div>
                 </div>
               </div>
 
-              <div className="flex flex-col h-full w-[50vw] justify-center bg-transparent">
-                <div className="popup relative bg-[#ad9676] w-[400px] h-[300px] rounded-se-[50px] rounded-es-[50px] rounded-ee-[50px] p-5 max-sm:w-[210px] max-sm:h-[220px]">
-                  <div className="circles flex flex-row gap-10 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-transparent">
-                    <div className="circle circle1 bg-[#efeae4] w-14 h-14 rounded-full max-sm:w-7 max-sm:h-7"></div>
-                    <div className="circle circle2 bg-[#efeae4] w-14 h-14 rounded-full max-sm:w-7 max-sm:h-7"></div>
-                    <div className="circle circle3 bg-[#efeae4] w-14 h-14 rounded-full max-sm:w-7 max-sm:h-7"></div>
+              <div className={styles.part2Right}>
+                <div className={`popup ${styles.popup}`}>
+                  <div className={`circles ${styles.circlesWrap}`}>
+                    <div className={`circle circle1 ${styles.circleItem}`}></div>
+                    <div className={`circle circle2 ${styles.circleItem}`}></div>
+                    <div className={`circle circle3 ${styles.circleItem}`}></div>
                   </div>
 
-                  <div className="popupText bg-transparent font-black text-blue-300 text-5xl max-sm:text-2xl">
+                  <div className={`popupText ${styles.popupLabel} ${styles.textBlue}`}>
                     Accept
                   </div>
-                  <div className="popupText bg-transparent font-black text-yellow-300 text-5xl max-sm:text-2xl">
+                  <div className={`popupText ${styles.popupLabel} ${styles.textYellow}`}>
                     Track
                   </div>
-                  <div className="popupText bg-transparent font-black text-green-300 text-5xl max-sm:text-2xl">
+                  <div className={`popupText ${styles.popupLabel} ${styles.textGreen}`}>
                     Complete
                   </div>
-                  <div className="popupText bg-transparent font-black text-red-300 text-3xl max-sm:text-xl">
+                  <div className={`popupText ${styles.popupLabel} ${styles.popupLabelSmall} ${styles.textRed}`}>
                     (or Decline)
                   </div>
-                  <div className="popupText bg-transparent font-black text-[#efeae4] text-6xl max-sm:text-3xl">
+                  <div className={`popupText ${styles.popupLabel} ${styles.popupLabelLarge} ${styles.textLight}`}>
                     your tasks
                   </div>
                 </div>
@@ -793,33 +773,24 @@ const LandingPage: React.FC = () => {
             </div>
 
             {/* PART 3 */}
-            <div className="part3 flex flex-col justify-start h-[100vh] w-[100vw] bg-transparent">
-              <div className="flex flex-row justify-between h-[75vh] bg-transparent">
-                <div className="flex flex-col h-full items-start justify-start bg-transparent ml-[7vw]">
-                  <div className="part2Text bg-transparent font-black text-[#ad9676] text-9xl mt-[150px] ml-[3vw] max-sm:text-6xl">
+            <div className={`part3 ${styles.part3Container}`}>
+              <div className={styles.part3Top}>
+                <div className={styles.part3LeftCol}>
+                  <div className={`part2Text ${styles.part3Title}`}>
                     As the
                   </div>
-
-                  <div className="part2Text bg-transparent font-black text-[#ad9676] text-9xl ml-[3vw] max-sm:text-6xl">
+                  <div className={`part2Text ${styles.part3Title}`} style={{ marginTop: 0 }}>
                     Admin
                   </div>
                 </div>
 
                 {/* FLATLINE WAVE BOX */}
-                <div className="flatlineCircle mx-[1rem] bg-[#ad9676] w-[250px] h-[250px] rounded-full -translate-x-[30%] translate-y-[65%] -z-999 max-sm:h-[27%] max-sm:translate-y-[50vh]">
+                <div className={`flatlineCircle ${styles.flatlineCircle}`}>
                   <div
-                    className="relative flex items-center justify-center bg-transparent w-[100%] h-[100%] overflow-hidden"
-                    style={{ isolation: "isolate" }}
-                  >
-                    <svg
-                      className=" bg-transparent w-[110%] h-auto self-center"
-                      //500,200
-                      // width="900px" height="150px"
-                      // preserveAspectRatio="xMidYMid meet"
-
-                      viewBox="10 0 450 200"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
+                    className={styles.flatlineCircleInner}
+                    style={{ isolation: "isolate" }}>
+                    <svg className={styles.flatlineSvg}
+                      viewBox="10 0 450 200" xmlns="http://www.w3.org/2000/svg">
                       <path
                         // transform="scale(1.5)"
                         // transformOrigin="center"
@@ -834,16 +805,14 @@ const LandingPage: React.FC = () => {
                 </div>
               </div>
 
-              <div className="part3 flex justify-around items-center h-[25vh] w-[100vw] bg-transparent">
-                <div className="bg-transparent text-white font-bold text-3xl translate-x-[8%] z-10 max-sm:text-[20px]">
+              <div className={`part3 ${styles.part3Bottom}`}>
+                <div className={`${styles.part3Feature} ${styles.part3FeatureFirst}`}>
                   Assign Tasks to Employees
                 </div>
-
-                <div className="bg-transparent text-white font-bold text-3xl z-10 max-sm:text-[20px]">
+                <div className={styles.part3Feature}>
                   View Employee Progress
                 </div>
-
-                <div className="bg-transparent text-white font-bold text-3xl z-10 max-sm:text-[20px]">
+                <div className={styles.part3Feature}>
                   Recieve Updates Dynamically
                 </div>
               </div>
@@ -854,17 +823,14 @@ const LandingPage: React.FC = () => {
 
       {/* GET STARTED BUTTON */}
       <Link to="/main">
-        <div className="part4 section flex flex-row items-center justify-center w-[100vw] h-[30vh] bg-[#cec0ad]">
-          <div className="getStartedDivs flex items-center justify-center bg-[#ad9676] w-[300px] h-[100px] rounded-es-[35px] ">
-            <div className="bg-transparent text-[#cec0ad] font-black text-3xl">
-              GET STARTED
-            </div>
+        <div className={`part4 section ${styles.getStartedSection}`}>
+          <div className={`getStartedDivs ${styles.getStartedBtn}`}>
+            <div className={styles.getStartedText}>GET STARTED</div>
           </div>
-
-          <div className="getStartedDivs getStartedDiv1 bg-[#ad9676] w-[25px] h-[100px] rounded-e-[60%] ml-[6px]"></div>
-          <div className="getStartedDivs bg-[#ad9676] w-[20px] h-[80px] rounded-[40%] ml-[-1px]"></div>
-          <div className="getStartedDivs bg-[#ad9676] w-[10px] h-[50px] rounded-[100%] ml-[1px]"></div>
-          <div className="getStartedDivs bg-[#ad9676] w-[5px] h-[30px] rounded-[200%] ml-[1px]"></div>
+          <div className={`getStartedDivs getStartedDiv1 ${styles.getStartedBar1}`}></div>
+          <div className={`getStartedDivs ${styles.getStartedBar2}`}></div>
+          <div className={`getStartedDivs ${styles.getStartedBar3}`}></div>
+          <div className={`getStartedDivs ${styles.getStartedBar4}`}></div>
         </div>
       </Link>
       {/* <Footer /> */}

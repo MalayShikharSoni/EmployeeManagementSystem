@@ -1,6 +1,7 @@
 import React, { useContext, memo, useCallback } from "react";
 import { Navigate } from "react-router-dom";
 import { AuthContext, type AuthContextType } from "./context/AuthProvider";
+import styles from "./MainPage.module.css";
 
 const MainPage = memo(() => {
   const { userData, isLoading, isAuthenticated } = useContext(AuthContext) as AuthContextType;
@@ -9,10 +10,10 @@ const MainPage = memo(() => {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-screen bg-[#cec0ad]">
-        <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#ad9676] mb-4"></div>
-          <p className="text-2xl font-semibold text-[#8b6c3e]">Loading...</p>
+      <div className={styles.loadingContainer}>
+        <div className={styles.loadingContent}>
+          <div className={styles.spinner}></div>
+          <p className={styles.loadingText}>Loading...</p>
         </div>
       </div>
     );

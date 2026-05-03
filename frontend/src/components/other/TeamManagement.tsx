@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { invitationAPI } from "../../services/api";
 import type { TeamMember, Employee, PendingInvitation } from "../../types";
+import styles from "./TeamManagement.module.css";
 
 const TeamManagement: React.FC = () => {
     const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
@@ -57,65 +58,65 @@ const TeamManagement: React.FC = () => {
     };
 
     if (isLoading) {
-        return (<div className="flex items-center justify-center h-[20vh]"><div className="text-center">
-            <div className="inline-block animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-[#ad9676] mb-4"></div>
-            <p className="text-lg font-semibold text-[#9c815a]">Loading team data...</p></div></div>);
+        return (<div className={styles.loadingContainer}><div className={styles.loadingContent}>
+            <div className={styles.spinner}></div>
+            <p className={styles.loadingText}>Loading team data...</p></div></div>);
     }
 
     return (
-        <div className="bg-[#cec0ad] pt-[24vh]">
-            <div className="bg-transparent text-[#9c815a] mb-[6vh] text-7xl font-black ml-[3vw] max-sm:text-[40px]">Your Team</div>
-            <div className="ml-[3vw] mr-[3vw] flex flex-col gap-6 bg-transparent max-sm:ml-[4vw] max-sm:mr-[4vw]">
-                {error && (<div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded-se-[15px] rounded-es-[15px] rounded-ee-[15px] text-center font-bold">{error}</div>)}
-                {successMsg && (<div className="p-3 bg-green-100 border border-green-500 text-green-700 rounded-se-[15px] rounded-es-[15px] rounded-ee-[15px] text-center font-bold">{successMsg}</div>)}
-                <div className="bg-[#ad9676] rounded-se-[20px] rounded-es-[20px] rounded-ee-[20px] p-6 max-sm:p-4">
-                    <div className="text-[#cec0ad] font-black text-2xl mb-4 bg-transparent max-sm:text-xl">Invite an Employee</div>
+        <div className={styles.container}>
+            <div className={styles.title}>Your Team</div>
+            <div className={styles.content}>
+                {error && (<div className={styles.errorMsg}>{error}</div>)}
+                {successMsg && (<div className={styles.successMsg}>{successMsg}</div>)}
+                <div className={styles.inviteBox}>
+                    <div className={styles.inviteTitle}>Invite an Employee</div>
                     {availableEmployees.length === 0 ? (
-                        <p className="text-[#cec0ad] font-bold bg-transparent opacity-80">No available employees to invite right now.</p>
+                        <p className={styles.noEmployees}>No available employees to invite right now.</p>
                     ) : (
-                        <div className="flex flex-col gap-3 bg-transparent">
+                        <div className={styles.inviteContent}>
                             {selectedEmployee && (
-                                <div className="flex flex-row items-center gap-3 bg-transparent max-sm:flex-col max-sm:items-stretch">
-                                    <div className="flex-1 flex items-center gap-3 bg-[#cec0ad] px-4 py-3 rounded-se-[15px] rounded-es-[15px] rounded-ee-[15px]">
-                                        <div className="flex items-center justify-center w-9 h-9 rounded-full bg-[#ad9676] text-[#cec0ad] font-black text-sm flex-shrink-0" style={{ minWidth: '2.25rem' }}>
+                                <div className={styles.selectedRow}>
+                                    <div className={styles.selectedInfo}>
+                                        <div className={styles.avatar}>
                                             {selectedEmployee.first_name?.charAt(0).toUpperCase()}
                                         </div>
-                                        <div className="flex flex-col bg-transparent min-w-0">
-                                            <span className="text-[#8b6c3e] font-black text-base bg-transparent truncate">{selectedEmployee.first_name}</span>
-                                            <span className="text-[#9c815a] font-semibold text-sm bg-transparent truncate">{selectedEmployee.email}</span>
+                                        <div className={styles.selectedDetails}>
+                                            <span className={styles.selectedName}>{selectedEmployee.first_name}</span>
+                                            <span className={styles.selectedEmail}>{selectedEmployee.email}</span>
                                         </div>
-                                        <button onClick={handleClearSelection} className="ml-auto text-[#9c815a] hover:text-[#8b6c3e] font-black text-xl bg-transparent transition-colors flex-shrink-0" title="Clear selection">×</button>
+                                        <button onClick={handleClearSelection} className={styles.clearBtn} title="Clear selection">×</button>
                                     </div>
-                                    <button onClick={handleSendInvitation} disabled={isSending} className="bg-[#8b6c3e] text-[#cec0ad] font-bold text-lg px-6 py-3 rounded-se-[15px] rounded-es-[15px] rounded-ee-[15px] hover:bg-[#7a5622] transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                                    <button onClick={handleSendInvitation} disabled={isSending} className={styles.sendBtn}>
                                         {isSending ? "Sending..." : "Send Invite"}
                                     </button>
                                 </div>
                             )}
                             {!selectedEmployee && (
-                                <div ref={searchContainerRef} className="relative bg-transparent">
-                                    <div className="relative bg-transparent">
-                                        <svg className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9c815a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                <div ref={searchContainerRef} className={styles.searchContainer}>
+                                    <div className={styles.searchWrap}>
+                                        <svg className={styles.searchIcon} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9c815a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                             <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
                                         </svg>
                                         <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} onFocus={() => setIsSearchFocused(true)}
                                             placeholder="Search by name or email..." disabled={isSending}
-                                            className="w-full bg-[#cec0ad] pl-11 pr-4 py-3 rounded-se-[15px] rounded-es-[15px] rounded-ee-[15px] text-[#8b6c3e] font-bold text-lg outline-none placeholder:text-[#b3a28b] placeholder:font-semibold disabled:opacity-50" />
+                                            className={styles.searchInput} />
                                     </div>
                                     {isSearchFocused && searchQuery.trim().length > 0 && (
-                                        <div className="absolute z-10 left-0 right-0 mt-2 max-h-[240px] overflow-y-auto bg-[#cec0ad] rounded-se-[15px] rounded-es-[15px] rounded-ee-[15px] shadow-lg border-2 border-[#c4b49c]"
+                                        <div className={styles.dropdown}
                                              style={{ scrollbarWidth: 'thin', scrollbarColor: '#ad9676 #cec0ad' }}>
                                             {filteredEmployees.length === 0 ? (
-                                                <div className="px-4 py-4 text-center text-[#9c815a] font-semibold bg-transparent">No employees match your search</div>
+                                                <div className={styles.noResults}>No employees match your search</div>
                                             ) : (
                                                 filteredEmployees.map((emp) => (
                                                     <button key={emp.id} onClick={() => handleSelectEmployee(emp)}
-                                                        className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-[#c4b49c] transition-colors first:rounded-se-[13px] last:rounded-es-[13px] last:rounded-ee-[13px] bg-transparent">
-                                                        <div className="flex items-center justify-center w-9 h-9 rounded-full bg-[#ad9676] text-[#cec0ad] font-black text-sm flex-shrink-0" style={{ minWidth: '2.25rem' }}>
+                                                        className={styles.dropdownItem}>
+                                                        <div className={styles.avatar}>
                                                             {emp.first_name?.charAt(0).toUpperCase()}
                                                         </div>
-                                                        <div className="flex flex-col bg-transparent min-w-0">
-                                                            <span className="text-[#8b6c3e] font-black text-base bg-transparent truncate">{emp.first_name}</span>
-                                                            <span className="text-[#9c815a] font-semibold text-sm bg-transparent truncate">{emp.email}</span>
+                                                        <div className={styles.selectedDetails}>
+                                                            <span className={styles.dropdownName}>{emp.first_name}</span>
+                                                            <span className={styles.dropdownEmail}>{emp.email}</span>
                                                         </div>
                                                     </button>
                                                 ))
@@ -128,26 +129,26 @@ const TeamManagement: React.FC = () => {
                     )}
                 </div>
                 {pendingInvitations.length > 0 && (
-                    <div className="bg-transparent">
-                        <div className="text-[#9c815a] font-black text-2xl mb-3 bg-transparent max-sm:text-xl">Pending Invitations</div>
-                        <div className="flex flex-col gap-2 bg-transparent">
+                    <div className={styles.pendingSection}>
+                        <div className={styles.sectionTitle}>Pending Invitations</div>
+                        <div className={styles.pendingList}>
                             {pendingInvitations.map((inv) => (
-                                <div key={inv.id} className="bg-[#ad9676] bg-opacity-60 border-[3px] border-[#ad9676] rounded-se-[15px] rounded-es-[15px] rounded-ee-[15px] p-4 flex flex-row items-center justify-between max-sm:flex-col max-sm:gap-2">
-                                    <div className="bg-transparent">
-                                        <span className="text-[#8b6c3e] font-black text-lg bg-transparent">{inv.first_name}</span>
-                                        <span className="text-[#9c815a] font-bold text-sm ml-2 bg-transparent max-sm:block max-sm:ml-0">{inv.email}</span>
+                                <div key={inv.id} className={styles.pendingCard}>
+                                    <div className={styles.pendingInfo}>
+                                        <span className={styles.pendingName}>{inv.first_name}</span>
+                                        <span className={styles.pendingEmail}>{inv.email}</span>
                                     </div>
-                                    <span className="bg-[#cec0ad] text-[#9c815a] font-bold text-sm px-4 py-1 rounded-full">⏳ Pending</span>
+                                    <span className={styles.pendingBadge}>⏳ Pending</span>
                                 </div>
                             ))}
                         </div>
                     </div>
                 )}
-                <div className="bg-transparent mb-[8vh]">
-                    <div className="text-[#9c815a] font-black text-2xl mb-3 bg-transparent max-sm:text-xl">Team Members ({teamMembers.length})</div>
+                <div className={styles.teamSection}>
+                    <div className={styles.sectionTitle}>Team Members ({teamMembers.length})</div>
                     {teamMembers.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center py-12 bg-transparent">
-                            <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="mb-5">
+                        <div className={styles.emptyTeam}>
+                            <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" className={styles.emptyTeamIcon}>
                                 <circle cx="60" cy="60" r="56" stroke="#ad9676" strokeWidth="2.5" strokeDasharray="8 6" opacity="0.5" />
                                 <circle cx="60" cy="44" r="14" fill="#ad9676" opacity="0.7" />
                                 <path d="M36 82c0-13.255 10.745-24 24-24s24 10.745 24 24" stroke="#ad9676" strokeWidth="3" strokeLinecap="round" fill="none" opacity="0.5" />
@@ -158,17 +159,17 @@ const TeamManagement: React.FC = () => {
                                 <line x1="60" y1="90" x2="60" y2="106" stroke="#8b6c3e" strokeWidth="3" strokeLinecap="round" opacity="0.6" />
                                 <line x1="52" y1="98" x2="68" y2="98" stroke="#8b6c3e" strokeWidth="3" strokeLinecap="round" opacity="0.6" />
                             </svg>
-                            <p className="text-[#9c815a] font-bold text-lg bg-transparent text-center max-w-[340px]">No team members yet. Send invitations to employees to build your team!</p>
+                            <p className={styles.emptyTeamText}>No team members yet. Send invitations to employees to build your team!</p>
                         </div>
                     ) : (
-                        <div className="flex flex-col gap-2 bg-transparent">
+                        <div className={styles.memberList}>
                             {teamMembers.map((member) => (
-                                <div key={member.id} className="bg-[#ad9676] rounded-se-[15px] rounded-es-[15px] rounded-ee-[15px] p-4 flex flex-row items-center justify-between max-sm:flex-col max-sm:gap-2">
-                                    <div className="bg-transparent">
-                                        <span className="text-[#cec0ad] font-black text-lg bg-transparent">{member.first_name}</span>
-                                        <span className="text-[#cec0ad] font-bold text-sm ml-2 opacity-80 bg-transparent max-sm:block max-sm:ml-0">{member.email}</span>
+                                <div key={member.id} className={styles.memberCard}>
+                                    <div className={styles.memberInfo}>
+                                        <span className={styles.memberName}>{member.first_name}</span>
+                                        <span className={styles.memberEmail}>{member.email}</span>
                                     </div>
-                                    <span className="bg-[#cec0ad] text-[#8b6c3e] font-bold text-sm px-4 py-1 rounded-full">✓ Active</span>
+                                    <span className={styles.activeBadge}>✓ Active</span>
                                 </div>
                             ))}
                         </div>

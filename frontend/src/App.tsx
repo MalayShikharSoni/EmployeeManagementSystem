@@ -10,6 +10,7 @@ import EmployeeDashboard from "./components/Dashboard/EmployeeDashboard";
 import TVStaticEffect from "./pages/TVStaticEffect";
 import CustomCursor from "./components/CustomCursor";
 import Footer from "./pages/Footer";
+import styles from "./App.module.css";
 
 const App: React.FC = () => {
   const [xAxis, setXAxis] = useState(0);
@@ -26,7 +27,7 @@ const App: React.FC = () => {
           setXAxis(e.clientX);
           setYAxis(e.clientY);
         }}
-        className="relative appContainer"
+        className={`${styles.appContainer} appContainer`}
       >
         <Routes>
           {/* Public Routes */}

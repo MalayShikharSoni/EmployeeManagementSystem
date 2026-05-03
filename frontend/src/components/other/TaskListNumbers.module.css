@@ -1,0 +1,40 @@
+.container {
+  display: flex;
+  padding: 2.5rem;
+  justify-content: space-between;
+  gap: 1.25rem;
+  background: transparent;
+}
+
+.card {
+  border-radius: 0.75rem;
+  width: 45%;
+  padding: 1.5rem 2.25rem;
+}
+
+.blue { background-color: #60a5fa; }
+.yellow { background-color: #facc15; }
+.green { background-color: #4ade80; }
+.red { background-color: #f87171; }
+
+.count {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  font-weight: 600;
+}
+
+.count.blue { background-color: #60a5fa; }
+.count.yellow { background-color: #facc15; }
+.count.green { background-color: #4ade80; }
+.count.red { background-color: #f87171; }
+
+.label {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 500;
+}
+
+.label.blue { background-color: #60a5fa; }
+.label.yellow { background-color: #facc15; }
+.label.green { background-color: #4ade80; }
+.label.red { background-color: #f87171; }

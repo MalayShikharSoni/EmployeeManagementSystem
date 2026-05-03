@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import styles from "./HoverEffect.module.css";
 
 const HoverEffect: React.FC = () => {
   const [hovered, setHovered] = useState(false);
@@ -13,11 +14,11 @@ const HoverEffect: React.FC = () => {
   const handleMouseLeave = () => { setHovered(false); };
 
   return (
-    <div className="box relative w-64 h-64 bg-gray-800 flex justify-center items-center overflow-hidden"
+    <div className={styles.box}
       onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <span className="text-white">Hover me</span>
+      <span className={styles.text}>Hover me</span>
       {hovered && (
-        <div ref={circleRef} className="absolute bg-red-500 rounded-full transition-all duration-500"
+        <div ref={circleRef} className={styles.circle}
           style={{ width: hovered ? "100px" : "0px", height: hovered ? "100px" : "0px", top: position.y, left: position.x, transform: "translate(-50%, -50%)" }} />
       )}
     </div>

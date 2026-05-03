@@ -1,7 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap");
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 * {
   margin: 0;
@@ -78,4 +75,27 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 input[type="date"]::-webkit-calendar-picker-indicator {
   filter: invert(51%) sepia(43%) saturate(294%) hue-rotate(352deg);
+}
+
+/* Tailwind reset replacements */
+*, ::before, ::after {
+  border-width: 0;
+  border-style: solid;
+  border-color: currentColor;
+}
+
+img, svg, video, canvas, audio, iframe, embed, object {
+  display: block;
+  vertical-align: middle;
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Spin animation (replaces Tailwind's animate-spin) */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }

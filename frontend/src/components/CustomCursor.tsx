@@ -1,6 +1,7 @@
 import CustomLinuxCursor from "/src/assets/CustomLinuxCursor.svg";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import styles from "./CustomCursor.module.css";
 
 interface CustomCursorProps {
   x: number;
@@ -22,7 +23,7 @@ const CustomCursor: React.FC<CustomCursorProps> = (props) => {
   }, []);
 
   return (
-    <div className="cursorr w-6 h-6 bg-transparent rounded-full z-50 absolute flex justify-center items-center max-md:hidden max-md:display-none"
+    <div className={`cursorr ${styles.cursor}`}
       style={{ top: `${props.y}px`, left: `${props.x}px`, pointerEvents: "none" }}>
       <img src={CustomLinuxCursor} alt="." style={{ background: "none", mixBlendMode: "multiply" }} />
     </div>

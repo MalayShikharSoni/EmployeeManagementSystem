@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext, type AuthContextType } from "../../context/AuthProvider";
 import type { User } from "../../types";
+import styles from "./Header.module.css";
 
 interface HeaderProps {
   data: User;
@@ -17,14 +18,14 @@ const Header: React.FC<HeaderProps> = (props) => {
   };
 
   return (
-    <div className="bg-[#cec0ad] flex items-center justify-between px-5 py-2">
-      <h1 className="bg-[#cec0ad] text-2xl font-medium">
+    <div className={styles.header}>
+      <h1 className={styles.greeting}>
         Hello <br />
-        <span className="bg-[#cec0ad] text-3xl font-semibold">
+        <span className={styles.name}>
           {props.data.firstName || props.data.first_name} 👋
         </span>
       </h1>
-      <button className="h-8 px-2 py-5 flex items-center justify-center bg-red-500 text-lg text-white rounded-sm hover:bg-red-600 transition-colors" onClick={LogOutUser}>
+      <button className={styles.logoutButton} onClick={LogOutUser}>
         Log out
       </button>
     </div>
