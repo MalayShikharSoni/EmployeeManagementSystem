@@ -18,6 +18,14 @@ async function migrate(): Promise<void> {
     `);
 
     console.log('✅ team_invitations table created successfully');
+
+    console.log('🔄 Running migration: Adding priority and is_overdue to tasks...');
+    await pool.query(`
+      ALTER TABLE tasks 
+      ADD COLUMN IF NOT EXISTS priority VARCHAR(20) DEFAULT 'medium',
+      ADD COLUMN IF NOT EXISTS is_overdue BOOLEAN DEFAULT false;
+    `);
+    console.log('✅ tasks table updated successfully');
     process.exit(0);
   } catch (error) {
     const err = error as Error;

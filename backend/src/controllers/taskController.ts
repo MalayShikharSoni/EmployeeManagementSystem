@@ -7,7 +7,7 @@ class TaskController {
   // Create a new task (Admin only)
   static async createTask(req: Request, res: Response): Promise<void> {
     try {
-      const { title, description, category, dueDate, assignedTo } = req.body;
+      const { title, description, category, dueDate, priority, assignedTo } = req.body;
       const createdBy = req.user.id;
 
       // Validate required fields
@@ -40,6 +40,7 @@ class TaskController {
         description,
         category,
         dueDate,
+        priority: priority || 'medium',
         createdBy,
         assignedTo
       });

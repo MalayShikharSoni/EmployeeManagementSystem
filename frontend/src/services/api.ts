@@ -87,7 +87,7 @@ export const authAPI = {
 // Task API 
 export const taskAPI = {
   // Admin endpoints
-  createTask: (data: { title: string; description: string; category: string; dueDate: string; assignedTo: number }): Promise<AxiosResponse<APIResponse<Task>>> =>
+  createTask: (data: { title: string; description: string; category: string; dueDate: string; priority?: string; assignedTo: number }): Promise<AxiosResponse<APIResponse<Task>>> =>
     api.post('/tasks', data),
   getAllTasks: (): Promise<AxiosResponse<APIResponse<Task[]>>> =>
     api.get('/tasks/all'),

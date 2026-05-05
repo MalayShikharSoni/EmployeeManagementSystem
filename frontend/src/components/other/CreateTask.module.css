@@ -524,6 +524,68 @@
   color: #bdab91;
 }
 
+.priorityWrap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+  background: transparent;
+  padding: 0 10px 10px 10px;
+}
+
+.priorityLabel {
+  color: #9c815a;
+  font-weight: 700;
+  font-size: 18px;
+  background: transparent;
+}
+
+.priorityControls {
+  display: flex;
+  gap: 10px;
+  background: transparent;
+}
+
+.priorityBtn {
+  background-color: #cec0ad;
+  border: 2px solid transparent;
+  color: #9c815a;
+  border-radius: 9999px;
+  padding: 5px 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  outline: none;
+}
+
+.priorityBtn:hover {
+  background-color: #ded5c8;
+}
+
+.priorityBtn_low_active {
+  background-color: #9c815a;
+  color: #cec0ad;
+  border-color: #7a5622;
+}
+
+.priorityBtn_medium_active {
+  background-color: #d4a373;
+  color: #fff;
+  border-color: #a67c52;
+}
+
+.priorityBtn_high_active {
+  background-color: #e07a5f;
+  color: #fff;
+  border-color: #b35d45;
+}
+
+.priorityBtn_urgent_active {
+  background-color: #d62828;
+  color: #fff;
+  border-color: #9c1b1b;
+}
+
 .windowRight {
   display: flex;
   align-items: center;

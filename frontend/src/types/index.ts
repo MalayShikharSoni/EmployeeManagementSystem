@@ -23,6 +23,7 @@ export interface AuthResult {
 
 // ── Tasks ──
 export type TaskStatus = 'new' | 'active' | 'completed' | 'failed';
+export type TaskPriority = 'low' | 'medium' | 'high' | 'urgent';
 
 export interface Task {
   id: number;
@@ -30,6 +31,8 @@ export interface Task {
   description: string;
   category: string;
   due_date: string;
+  priority: TaskPriority;
+  is_overdue: boolean;
   status: TaskStatus;
   created_by: number;
   assigned_to: number;

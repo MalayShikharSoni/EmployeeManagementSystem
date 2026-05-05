@@ -13,6 +13,9 @@ const AllTasks: React.FC<AllTasksProps> = ({ refreshTrigger }) => {
   const [employeeTaskData, setEmployeeTaskData] = useState<GroupedEmployeeTasks[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+  const [filterPriority, setFilterPriority] = useState<string>("all");
+  const [filterOverdue, setFilterOverdue] = useState<string>("all");
+  const [filterStatus, setFilterStatus] = useState<string>("all");
 
   useEffect(() => { fetchEmployeeTaskData(); }, [refreshTrigger]);
 
@@ -56,10 +59,60 @@ const AllTasks: React.FC<AllTasksProps> = ({ refreshTrigger }) => {
     );
   }
 
+  const filteredEmployeeData = employeeTaskData.map(emp => {
+    const filteredTasks = emp.tasks.filter(task => {
+      let match = true;
+      if (filterPriority !== "all" && task.priority !== filterPriority) match = false;
+      if (filterOverdue === "true" && !task.is_overdue) match = false;
+      if (filterOverdue === "false" && task.is_overdue) match = false;
+      if (filterStatus !== "all" && task.status !== filterStatus) match = false;
+      return match;
+    });
+
+    return {
+      ...emp,
+      tasks: filteredTasks,
+      new_task_count: filteredTasks.filter(t => t.status === "new").length,
+      active_count: filteredTasks.filter(t => t.status === "active").length,
+      completed_count: filteredTasks.filter(t => t.status === "completed").length,
+      failed_count: filteredTasks.filter(t => t.status === "failed").length,
+    };
+  });
+
   return (
     <>
       <div className={`heading2 ${styles.title}`}>
         Employee Task Overview
+      </div>
+      <div className={`heading2 ${styles.filterBar}`}>
+        <div className={styles.filterGroup}>
+          <label className={styles.filterLabel}>Priority:</label>
+          <select className={styles.filterSelect} value={filterPriority} onChange={e => setFilterPriority(e.target.value)}>
+            <option value="all">All</option>
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+            <option value="urgent">Urgent</option>
+          </select>
+        </div>
+        <div className={styles.filterGroup}>
+          <label className={styles.filterLabel}>Overdue:</label>
+          <select className={styles.filterSelect} value={filterOverdue} onChange={e => setFilterOverdue(e.target.value)}>
+            <option value="all">All</option>
+            <option value="true">Overdue Only</option>
+            <option value="false">Not Overdue</option>
+          </select>
+        </div>
+        <div className={styles.filterGroup}>
+          <label className={styles.filterLabel}>Status:</label>
+          <select className={styles.filterSelect} value={filterStatus} onChange={e => setFilterStatus(e.target.value)}>
+            <option value="all">All</option>
+            <option value="new">New</option>
+            <option value="active">Active</option>
+            <option value="completed">Completed</option>
+            <option value="failed">Failed</option>
+          </select>
+        </div>
       </div>
       <div id="alltasks" className={styles.container}>
         <div className={styles.inner}>
@@ -71,10 +124,10 @@ const AllTasks: React.FC<AllTasksProps> = ({ refreshTrigger }) => {
             <div className={styles.headerCell}>Failed Tasks</div>
           </div>
           <div id="allTasks" className={styles.tasksList}>
-            {employeeTaskData.length === 0 && (
+            {filteredEmployeeData.length === 0 && (
               <div className={styles.emptyText}>No employees found.</div>
             )}
-            {employeeTaskData.map((emp) => (
+            {filteredEmployeeData.map((emp) => (
               <div key={emp.user_id} className={`popup popupRow ${styles.taskRow}`}>
                 <div className={styles.taskCell}>{emp.first_name}</div>
                 <div className={styles.taskCell}>{emp.new_task_count}</div>

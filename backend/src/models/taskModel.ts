@@ -6,6 +6,7 @@ interface CreateTaskParams {
   description?: string;
   category?: string;
   dueDate?: string;
+  priority?: string;
   createdBy: number;
   assignedTo: number;
 }
@@ -16,6 +17,8 @@ interface TaskRow {
   description: string;
   category: string;
   due_date: string;
+  priority: string;
+  is_overdue: boolean;
   status: 'new' | 'active' | 'completed' | 'failed';
   created_by: number;
   assigned_to: number;
@@ -54,14 +57,14 @@ interface TaskWithFlags extends TaskRow {
 
 class Task {
   // Create a new task
-  static async create({ title, description, category, dueDate, createdBy, assignedTo }: CreateTaskParams): Promise<TaskRow> {
+  static async create({ title, description, category, dueDate, priority = 'medium', createdBy, assignedTo }: CreateTaskParams): Promise<TaskRow> {
     const query = `
-      INSERT INTO tasks (title, description, category, due_date, created_by, assigned_to, status)
-      VALUES ($1, $2, $3, $4, $5, $6, 'new')
+      INSERT INTO tasks (title, description, category, due_date, priority, created_by, assigned_to, status)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, 'new')
       RETURNING *
     `;
 
-    const values = [title, description, category, dueDate, createdBy, assignedTo];
+    const values = [title, description, category, dueDate, priority, createdBy, assignedTo];
     const result = await pool.query(query, values);
     return result.rows[0];
   }
@@ -163,6 +166,8 @@ class Task {
               'description', t.description,
               'category', t.category,
               'due_date', t.due_date,
+              'priority', t.priority,
+              'is_overdue', t.is_overdue,
               'status', t.status,
               'created_at', t.created_at
             ) ORDER BY t.created_at DESC

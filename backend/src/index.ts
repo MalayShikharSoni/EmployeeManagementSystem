@@ -8,6 +8,7 @@ import authRoutes from './routes/auth';
 import taskRoutes from './routes/tasks';
 import invitationRoutes from './routes/invitations';
 import { errorHandler } from './middleware/errorHandler';
+import { startTaskCron } from './cron/taskCron';
 
 dotenv.config();
 
@@ -65,4 +66,5 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
+  startTaskCron();
 });

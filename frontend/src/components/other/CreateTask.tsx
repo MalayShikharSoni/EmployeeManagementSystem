@@ -3,7 +3,7 @@ import { AuthContext, type AuthContextType } from "../../context/AuthProvider";
 import { taskAPI, authAPI } from "../../services/api";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import type { Employee } from "../../types";
+import type { Employee, TaskPriority } from "../../types";
 import styles from "./CreateTask.module.css";
 
 interface CreateTaskProps {
@@ -16,6 +16,7 @@ const CreateTask: React.FC<CreateTaskProps> = (props) => {
   const [assignTo, setassignTo] = useState("");
   const [category, setcategory] = useState("");
   const [description, setdescription] = useState("");
+  const [priority, setPriority] = useState<TaskPriority>("medium");
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -82,10 +83,10 @@ const CreateTask: React.FC<CreateTaskProps> = (props) => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const response = await taskAPI.createTask({ title, description, category, dueDate: date, assignedTo: parseInt(assignTo) });
+      const response = await taskAPI.createTask({ title, description, category, dueDate: date, priority, assignedTo: parseInt(assignTo) });
       console.log("✅ Task created:", response.data);
       alert(`Task "${title}" assigned successfully!`);
-      settitle(""); setdate(""); setassignTo(""); setcategory(""); setdescription("");
+      settitle(""); setdate(""); setassignTo(""); setcategory(""); setdescription(""); setPriority("medium");
       if (props.onTaskCreated) { props.onTaskCreated(); }
     } catch (error: unknown) {
       console.error("❌ Create task error:", error);
@@ -196,6 +197,21 @@ const CreateTask: React.FC<CreateTaskProps> = (props) => {
                       <textarea value={description} onChange={(e) => setdescription(e.target.value)} required
                         className={styles.descInput}
                         placeholder="Enter Task Description" />
+                    </div>
+                    <div className={styles.priorityWrap}>
+                      <div className={styles.priorityLabel}>Priority:</div>
+                      <div className={styles.priorityControls}>
+                        {(["low", "medium", "high", "urgent"] as TaskPriority[]).map(p => (
+                          <button 
+                            key={p} 
+                            type="button" 
+                            onClick={() => setPriority(p)}
+                            className={`${styles.priorityBtn} ${priority === p ? styles[`priorityBtn_${p}_active`] : ""}`}
+                          >
+                            {p.charAt(0).toUpperCase() + p.slice(1)}
+                          </button>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>

@@ -10,6 +10,11 @@
   border-bottom-right-radius: 42px;
   margin-left: 0.5rem;
   z-index: 1;
+  border: 4px solid transparent;
+}
+
+.overdue {
+  border: 4px solid #d62828 !important;
 }
 
 .content {
@@ -159,4 +164,52 @@
   transform: translateX(-50%) translateY(-50%);
   position: absolute;
   z-index: 0;
+}
+
+.badgesWrap {
+  display: flex;
+  align-items: center;
+  background: transparent;
+  z-index: 10;
+}
+
+.overdueLabel {
+  background-color: #d62828;
+  color: #fff;
+  border-radius: 9999px;
+  padding: 0.15rem 0.5rem;
+  font-size: 12px;
+  font-weight: 700;
+  margin-left: 0.5rem;
+  opacity: 1;
+}
+
+.priorityBadge {
+  border-radius: 9999px;
+  padding: 0.25rem 0.6rem;
+  font-size: 13px;
+  font-weight: 700;
+  margin-left: 0.5rem;
+  opacity: 1;
+  text-transform: capitalize;
+}
+
+.priority_low {
+  background-color: #9c815a;
+  color: #cec0ad;
+}
+
+.priority_medium {
+  background-color: #d4a373;
+  color: #fff;
+}
+
+.priority_high {
+  background-color: #e07a5f;
+  color: #fff;
+}
+
+.priority_urgent {
+  background-color: #d62828;
+  color: #fff;
 }

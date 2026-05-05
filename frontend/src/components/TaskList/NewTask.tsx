@@ -91,7 +91,7 @@ const NewTask: React.FC<NewTaskProps> = ({ data, refreshTasks }) => {
   return (
     <div
       ref={taskBoxRef}
-      className={styles.taskCard}
+      className={`${styles.taskCard} ${data?.is_overdue ? styles.overdue : ''}`}
     >
       <div className={styles.content}>
         <div className={styles.topBar}>
@@ -101,6 +101,15 @@ const NewTask: React.FC<NewTaskProps> = ({ data, refreshTasks }) => {
           >
             {data?.category}
           </h3>
+
+          <div className={styles.badgesWrap}>
+            {data?.is_overdue && (
+              <span className={styles.overdueLabel}>OVERDUE</span>
+            )}
+            <span className={`${styles.priorityBadge} ${styles[`priority_${data?.priority}`]}`}>
+              {data?.priority}
+            </span>
+          </div>
 
           <h3
             ref={dateRef}
