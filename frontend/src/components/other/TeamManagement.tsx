@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { invitationAPI } from "../../services/api";
 import type { TeamMember, Employee, PendingInvitation } from "../../types";
+import AvatarUpload from "../AvatarUpload/AvatarUpload";
 import styles from "./TeamManagement.module.css";
 
 const TeamManagement: React.FC = () => {
@@ -79,7 +80,7 @@ const TeamManagement: React.FC = () => {
                                 <div className={styles.selectedRow}>
                                     <div className={styles.selectedInfo}>
                                         <div className={styles.avatar}>
-                                            {selectedEmployee.first_name?.charAt(0).toUpperCase()}
+                                            <AvatarUpload currentAvatarUrl={selectedEmployee.avatar_url} name={selectedEmployee.first_name || ''} size={40} readOnly />
                                         </div>
                                         <div className={styles.selectedDetails}>
                                             <span className={styles.selectedName}>{selectedEmployee.first_name}</span>
@@ -112,7 +113,7 @@ const TeamManagement: React.FC = () => {
                                                     <button key={emp.id} onClick={() => handleSelectEmployee(emp)}
                                                         className={styles.dropdownItem}>
                                                         <div className={styles.avatar}>
-                                                            {emp.first_name?.charAt(0).toUpperCase()}
+                                                            <AvatarUpload currentAvatarUrl={emp.avatar_url} name={emp.first_name || ''} size={32} readOnly />
                                                         </div>
                                                         <div className={styles.selectedDetails}>
                                                             <span className={styles.dropdownName}>{emp.first_name}</span>
@@ -166,8 +167,14 @@ const TeamManagement: React.FC = () => {
                             {teamMembers.map((member) => (
                                 <div key={member.id} className={styles.memberCard}>
                                     <div className={styles.memberInfo}>
-                                        <span className={styles.memberName}>{member.first_name}</span>
-                                        <span className={styles.memberEmail}>{member.email}</span>
+                                        <div className={styles.avatar} style={{ marginRight: '10px' }}>
+                                            <AvatarUpload currentAvatarUrl={member.avatar_url} name={member.first_name || ''} size={40} readOnly />
+                                        </div>
+                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <span className={styles.memberName}>{member.first_name}</span>
+                                            <span className={styles.memberEmail}>{member.email}</span>
+                                            {member.designation && <span style={{ fontSize: '0.8rem', color: '#666' }}>{member.designation}</span>}
+                                        </div>
                                     </div>
                                     <span className={styles.activeBadge}>✓ Active</span>
                                 </div>

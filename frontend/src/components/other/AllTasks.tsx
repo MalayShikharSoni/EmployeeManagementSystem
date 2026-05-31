@@ -24,9 +24,9 @@ const AllTasks: React.FC<AllTasksProps> = ({ refreshTrigger }) => {
       setIsLoading(true);
       const response = await taskAPI.getTasksByEmployee();
       setEmployeeTaskData(response.data.data);
-      console.log("✅ Employee task data:", response.data.data);
+      console.log("Employee task data:", response.data.data);
     } catch (err) {
-      console.error("❌ Failed to fetch employee tasks:", err);
+      console.error("Failed to fetch employee tasks:", err);
       setError("Failed to load employee data.");
     } finally { setIsLoading(false); }
   };

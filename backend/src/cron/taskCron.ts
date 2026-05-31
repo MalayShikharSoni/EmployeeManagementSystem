@@ -5,7 +5,7 @@ export const startTaskCron = () => {
   // Run every hour at minute 0
   cron.schedule('0 * * * *', async () => {
     try {
-      console.log('🔄 Running cron job: Checking for overdue tasks...');
+      console.log('Running cron job: Checking for overdue tasks...');
       
       const query = `
         UPDATE tasks 
@@ -18,14 +18,14 @@ export const startTaskCron = () => {
       
       const result = await pool.query(query);
       if (result.rowCount && result.rowCount > 0) {
-        console.log(`✅ Marked ${result.rowCount} tasks as overdue.`);
+        console.log(`Marked ${result.rowCount} tasks as overdue.`);
       } else {
-        console.log('✅ No new overdue tasks found.');
+        console.log('No new overdue tasks found.');
       }
     } catch (error) {
-      console.error('❌ Error in overdue task cron job:', error);
+      console.error('Error in overdue task cron job:', error);
     }
   });
 
-  console.log('✅ Task cron job scheduled (runs every hour).');
+  console.log('Task cron job scheduled (runs every hour).');
 };

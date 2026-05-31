@@ -1,5 +1,5 @@
 // frontend/src/context/AuthProvider.tsx
-import React, { createContext, useEffect, useState, useMemo, useCallback } from "react";
+import React, { createContext, useContext, useEffect, useState, useMemo, useCallback } from "react";
 import { authAPI } from "../services/api";
 import type { UserData, AuthResult } from "../types";
 
@@ -23,31 +23,31 @@ const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
 
   // Memoize checkAuth so it doesn't change on every render
   const checkAuth = useCallback(async () => {
-    console.log('🔍 [AUTH] Starting auth check...');
-    console.log('🔍 [AUTH] Current timestamp:', new Date().toISOString());
+    console.log('[AUTH] Starting auth check...');
+    console.log('[AUTH] Current timestamp:', new Date().toISOString());
 
     const token = localStorage.getItem('accessToken');
     const refreshToken = localStorage.getItem('refreshToken');
 
-    console.log('🔍 [AUTH] Tokens in localStorage:', {
+    console.log('[AUTH] Tokens in localStorage:', {
       hasAccessToken: !!token,
       hasRefreshToken: !!refreshToken,
       accessTokenPreview: token ? token.substring(0, 30) + '...' : 'null'
     });
 
     if (!token) {
-      console.log('❌ [AUTH] No access token found - setting unauthenticated');
+      console.log('[AUTH] No access token found - setting unauthenticated');
       setIsLoading(false);
       setIsAuthenticated(false);
       return;
     }
 
     try {
-      console.log('📡 [AUTH] Calling GET /api/auth/me...');
+      console.log('[AUTH] Calling GET /api/auth/me...');
       const response = await authAPI.getMe();
       const user = response.data.data;
 
-      console.log('✅ [AUTH] Success! User:', {
+      console.log('[AUTH] Success! User:', {
         id: user.id,
         email: user.email,
         role: user.role
@@ -58,30 +58,30 @@ const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
         data: user
       });
       setIsAuthenticated(true);
-      console.log('✅ [AUTH] State updated - user is authenticated');
+      console.log('[AUTH] State updated - user is authenticated');
     } catch (error: unknown) {
-      console.error('❌ [AUTH] Auth check failed!');
+      console.error('[AUTH] Auth check failed!');
       const err = error as { constructor?: { name?: string }; message?: string; response?: { status?: number; data?: unknown } };
-      console.error('❌ [AUTH] Error type:', err.constructor?.name);
-      console.error('❌ [AUTH] Error message:', err.message);
-      console.error('❌ [AUTH] Response status:', err.response?.status);
-      console.error('❌ [AUTH] Response data:', err.response?.data);
-      console.error('❌ [AUTH] Full error:', error);
+      console.error('[AUTH] Error type:', err.constructor?.name);
+      console.error('[AUTH] Error message:', err.message);
+      console.error('[AUTH] Response status:', err.response?.status);
+      console.error('[AUTH] Response data:', err.response?.data);
+      console.error('[AUTH] Full error:', error);
 
       // Only clear on 401 (invalid token)
       if (err.response?.status === 401) {
-        console.log('🔒 [AUTH] 401 error - token invalid, clearing localStorage');
+        console.log('[AUTH] 401 error - token invalid, clearing localStorage');
         localStorage.clear();
         setUserData(null);
         setIsAuthenticated(false);
       } else {
-        console.log('⚠️ [AUTH] Non-401 error - keeping tokens but setting unauthenticated');
+        console.log('[AUTH] Non-401 error - keeping tokens but setting unauthenticated');
         // Don't clear tokens, but mark as unauthenticated so UI shows login
         setUserData(null);
         setIsAuthenticated(false);
       }
     } finally {
-      console.log('🏁 [AUTH] Auth check complete, setting isLoading = false');
+      console.log('[AUTH] Auth check complete, setting isLoading = false');
       setIsLoading(false);
     }
   }, []);
@@ -173,6 +173,14 @@ const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
+};
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
 };
 
 export default AuthProvider;

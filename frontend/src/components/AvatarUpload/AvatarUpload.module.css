@@ -1,0 +1,74 @@
+.avatarContainer {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #8b6c3e;
+  transition: all 0.3s ease;
+}
+
+.avatarContainer:hover {
+  transform: translateY(-2px);
+  border-color: #7a5622;
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.avatarFallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #8b6c3e;
+  color: #cec0ad;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(59, 49, 35, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #cec0ad;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.avatarContainer:hover .overlay {
+  opacity: 1;
+}
+
+.fileInput {
+  display: none;
+}
+
+.loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(59, 49, 35, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #cec0ad;
+  font-size: 0.8rem;
+  font-weight: 700;
+}

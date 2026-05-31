@@ -26,9 +26,9 @@ const errorHandler = (err: AppErrorLike, req: Request, res: Response, _next: Nex
 
   // Log the full error server-side
   if (statusCode >= 500) {
-    console.error(`❌ [${new Date().toISOString()}] ${req.method} ${req.originalUrl}`, err);
+    console.error(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl}`, err);
   } else {
-    console.warn(`⚠️ [${new Date().toISOString()}] ${req.method} ${req.originalUrl} — ${statusCode}: ${message}`);
+    console.warn(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl} — ${statusCode}: ${message}`);
   }
 
   // Map known error types

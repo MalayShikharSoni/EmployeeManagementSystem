@@ -7,6 +7,12 @@ export interface User {
   firstName: string;
   first_name?: string;
   role: UserRole;
+  bio?: string;
+  phone?: string;
+  designation?: string;
+  department?: string;
+  linkedin_url?: string;
+  avatar_url?: string;
   created_at?: string;
 }
 
@@ -41,8 +47,19 @@ export interface Task {
   creator_name?: string;
   assignee_name?: string;
   assignee_email?: string;
+  attachment_count?: number;
 }
 
+export interface TaskAttachment {
+  id: number;
+  task_id: number;
+  uploaded_by: number;
+  file_url: string;
+  file_name: string;
+  file_type: string;
+  file_size: number;
+  created_at: string;
+}
 export interface TaskCounts {
   active: number;
   new_task: number;
@@ -86,6 +103,9 @@ export interface TeamMember {
   id: number;
   first_name: string;
   email: string;
+  avatar_url?: string;
+  designation?: string;
+  department?: string;
   joined_at?: string;
 }
 
@@ -93,6 +113,7 @@ export interface Employee {
   id: number;
   first_name: string;
   email: string;
+  avatar_url?: string;
 }
 
 // ── API Response wrapper ──

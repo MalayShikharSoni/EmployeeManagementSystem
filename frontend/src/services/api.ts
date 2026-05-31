@@ -1,5 +1,5 @@
 import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import type { APIResponse, User, Task, TaskCounts, GroupedEmployeeTasks, Employee, Invitation, PendingInvitation, TeamMember } from '../types';
+import type { APIResponse, User, Task, TaskCounts, GroupedEmployeeTasks, Employee, Invitation, PendingInvitation, TeamMember, TaskAttachment } from '../types';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
@@ -72,6 +72,12 @@ export const authAPI = {
     api.get('/auth/me'),
   getEmployees: (): Promise<AxiosResponse<APIResponse<Employee[]>>> =>
     api.get('/auth/employees'),
+  updateProfile: (data: { first_name?: string; bio?: string; phone?: string; designation?: string; department?: string; linkedin_url?: string }): Promise<AxiosResponse<APIResponse<null>>> =>
+    api.put('/auth/profile', data),
+  uploadAvatar: (formData: FormData): Promise<AxiosResponse<APIResponse<{ avatar_url: string }>>> =>
+    api.post('/auth/avatar', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    }),
   logout: async (): Promise<void> => {
     try {
       const refreshToken = localStorage.getItem('refreshToken');
@@ -107,6 +113,20 @@ export const taskAPI = {
     api.put(`/tasks/${taskId}/complete`),
   failTask: (taskId: number | string): Promise<AxiosResponse<APIResponse<Task>>> =>
     api.put(`/tasks/${taskId}/fail`),
+
+  // Attachment endpoints
+  createTaskWithFiles: (formData: FormData): Promise<AxiosResponse<APIResponse<Task & { attachments: TaskAttachment[] }>>> =>
+    api.post('/tasks', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    }),
+  uploadAttachments: (taskId: number | string, formData: FormData): Promise<AxiosResponse<APIResponse<TaskAttachment[]>>> =>
+    api.post(`/tasks/${taskId}/attachments`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    }),
+  getAttachments: (taskId: number | string): Promise<AxiosResponse<APIResponse<TaskAttachment[]>>> =>
+    api.get(`/tasks/${taskId}/attachments`),
+  deleteAttachment: (taskId: number | string, attachmentId: number | string): Promise<AxiosResponse<APIResponse<TaskAttachment>>> =>
+    api.delete(`/tasks/${taskId}/attachments/${attachmentId}`),
 };
 
 // Invitation API

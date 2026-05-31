@@ -3,6 +3,8 @@ import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import User from '../models/userModel';
 import pool from '../config/database';
+import cloudinary from '../config/cloudinary';
+import streamifier from 'streamifier';
 
 class AuthController {
   static generateTokens(user: { id: number; email: string; role: string }) {
@@ -134,7 +136,7 @@ class AuthController {
   static async getMe(req: Request, res: Response): Promise<void> {
     try {
       const result = await pool.query(
-        'SELECT id, email, first_name, role, created_at FROM users WHERE id = $1',
+        'SELECT id, email, first_name, role, bio, phone, designation, department, linkedin_url, avatar_url, created_at FROM users WHERE id = $1',
         [req.user.id]
       );
 
@@ -263,6 +265,59 @@ class AuthController {
         success: false,
         error: 'Logout failed'
       });
+    }
+  }
+
+  static async updateProfile(req: Request, res: Response): Promise<void> {
+    try {
+      const { first_name, bio, phone, designation, department, linkedin_url } = req.body;
+      
+      await User.updateProfile(req.user.id, {
+        first_name, bio, phone, designation, department, linkedin_url
+      });
+
+      res.json({
+        success: true,
+        message: 'Profile updated successfully'
+      });
+    } catch (error) {
+      console.error('Update profile error:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to update profile'
+      });
+    }
+  }
+
+  static async uploadAvatar(req: Request, res: Response): Promise<void> {
+    try {
+      if (!req.file) {
+        res.status(400).json({ success: false, error: 'No file uploaded' });
+        return;
+      }
+
+      // Stream to cloudinary
+      const uploadStream = cloudinary.uploader.upload_stream(
+        { folder: 'workwave/avatars' },
+        async (error, result) => {
+          if (error) {
+            console.error('Cloudinary upload error:', error);
+            res.status(500).json({ success: false, error: 'Failed to upload image' });
+            return;
+          }
+
+          if (result && result.secure_url) {
+            await User.updateAvatar(req.user.id, result.secure_url);
+            res.json({ success: true, data: { avatar_url: result.secure_url } });
+          }
+        }
+      );
+
+      streamifier.createReadStream(req.file.buffer).pipe(uploadStream);
+
+    } catch (error) {
+      console.error('Avatar upload error:', error);
+      res.status(500).json({ success: false, error: 'Upload failed' });
     }
   }
 }

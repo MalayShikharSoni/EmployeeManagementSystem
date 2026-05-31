@@ -1,0 +1,231 @@
+.wrapper {
+  width: 100vw;
+  min-height: 100vh;
+  background-color: #cec0ad;
+}
+
+.pageContainer {
+  padding: 0 3vw;
+  padding-top: 24vh;
+  padding-bottom: 8vh;
+  max-width: 860px;
+  margin: 0 auto;
+  opacity: 0; /* For GSAP animation */
+  background: transparent;
+}
+
+.header {
+  margin-bottom: 5vh;
+  background: transparent;
+}
+
+.title {
+  font-size: 4.5rem;
+  line-height: 1;
+  color: #9c815a;
+  font-weight: 900;
+  margin: 0 0 1rem 0;
+  background: transparent;
+}
+
+@media (max-width: 639px) {
+  .title {
+    font-size: 40px;
+  }
+}
+
+.subtitle {
+  color: #9c815a;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin: 0;
+  opacity: 0.8;
+  background: transparent;
+}
+
+.profileCard {
+  background-color: #ad9676;
+  border-top-right-radius: 30px;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  padding: 3rem;
+}
+
+@media (max-width: 639px) {
+  .profileCard {
+    padding: 1.5rem;
+  }
+}
+
+.avatarSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2.5rem;
+  background: transparent;
+}
+
+.avatarHelp {
+  margin-top: 14px;
+  font-size: 0.85rem;
+  color: #cec0ad;
+  font-weight: 600;
+  background: transparent;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  background: transparent;
+}
+
+@media (max-width: 639px) {
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+}
+
+.fullWidth {
+  grid-column: 1 / -1;
+}
+
+.label {
+  font-weight: 900;
+  margin-bottom: 8px;
+  color: #3b3123;
+  font-size: 0.9rem;
+  background: transparent;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background-color: #cec0ad;
+  border: none;
+  border-top-right-radius: 15px;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  color: #8b6c3e;
+  font-weight: 700;
+  font-size: 1rem;
+  font-family: inherit;
+  outline: none;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: #b3a28b;
+  font-weight: 600;
+}
+
+.input:focus,
+.textarea:focus {
+  background-color: #c4b49c;
+  box-shadow: 0 0 0 3px rgba(139, 108, 62, 0.25);
+}
+
+.textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.actions {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  background: transparent;
+}
+
+.btnSubmit {
+  background-color: #8b6c3e;
+  color: #cec0ad;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-top-right-radius: 15px;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+  font-family: inherit;
+}
+
+.btnSubmit:hover:not(:disabled) {
+  background-color: #7a5622;
+  transform: translateY(-2px);
+}
+
+.btnSubmit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btnCancel {
+  background-color: #cec0ad;
+  color: #9c815a;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-top-right-radius: 15px;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-family: inherit;
+}
+
+.btnCancel:hover {
+  background-color: #c4b49e;
+}
+
+/* Loading state */
+.loadingContainer {
+  width: 100vw;
+  min-height: 100vh;
+  background-color: #cec0ad;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loadingContent {
+  text-align: center;
+}
+
+.spinner {
+  display: inline-block;
+  animation: spin 1s linear infinite;
+  border-radius: 9999px;
+  height: 4rem;
+  width: 4rem;
+  border-top: 4px solid #ad9676;
+  border-bottom: 4px solid #ad9676;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  margin-bottom: 1rem;
+}
+
+.loadingText {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 600;
+  color: #9c815a;
+}
+
+.profileWrap {
+  cursor: pointer;
+  margin-right: 20px;
+}

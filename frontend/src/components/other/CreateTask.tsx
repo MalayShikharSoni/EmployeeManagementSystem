@@ -4,6 +4,7 @@ import { taskAPI, authAPI } from "../../services/api";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import type { Employee, TaskPriority } from "../../types";
+import AvatarUpload from "../AvatarUpload/AvatarUpload";
 import styles from "./CreateTask.module.css";
 
 interface CreateTaskProps {
@@ -18,7 +19,18 @@ const CreateTask: React.FC<CreateTaskProps> = (props) => {
   const [description, setdescription] = useState("");
   const [priority, setPriority] = useState<TaskPriority>("medium");
   const [employees, setEmployees] = useState<Employee[]>([]);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const ALLOWED_TYPES = [
+    'image/jpeg', 'image/png', 'image/webp',
+    'application/pdf',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  ];
+  const MAX_FILES = 5;
+  const MAX_SIZE = 10 * 1024 * 1024; // 10MB
 
   const taskBoxRef = useRef<HTMLButtonElement>(null);
   const hoverTransitionRef = useRef<HTMLDivElement>(null);
@@ -31,8 +43,8 @@ const CreateTask: React.FC<CreateTaskProps> = (props) => {
       try {
         const response = await authAPI.getEmployees();
         setEmployees(response.data.data);
-        console.log("✅ Employees fetched:", response.data.data);
-      } catch (error) { console.error("❌ Failed to fetch employees:", error); }
+        console.log("Employees fetched:", response.data.data);
+      } catch (error) { console.error("Failed to fetch employees:", error); }
     };
     fetchEmployees();
   }, []);
@@ -79,17 +91,57 @@ const CreateTask: React.FC<CreateTaskProps> = (props) => {
     gsap.from(".titleLineLetter2", { x: 200, duration: 30, ease: "back.inOut", yoyo: true, repeat: -1 });
   });
 
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    const total = selectedFiles.length + files.length;
+    if (total > MAX_FILES) {
+      alert(`Maximum ${MAX_FILES} files allowed. You have ${selectedFiles.length} selected.`);
+      return;
+    }
+    for (const f of files) {
+      if (!ALLOWED_TYPES.includes(f.type)) {
+        alert(`File type not allowed: ${f.name}. Accepted: images, PDF, DOCX, XLSX`);
+        return;
+      }
+      if (f.size > MAX_SIZE) {
+        alert(`File too large: ${f.name}. Maximum 10MB per file.`);
+        return;
+      }
+    }
+    setSelectedFiles(prev => [...prev, ...files]);
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
+
+  const removeFile = (index: number) => {
+    setSelectedFiles(prev => prev.filter((_, i) => i !== index));
+  };
+
   const SubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const response = await taskAPI.createTask({ title, description, category, dueDate: date, priority, assignedTo: parseInt(assignTo) });
-      console.log("✅ Task created:", response.data);
+      if (selectedFiles.length > 0) {
+        // Use FormData for multipart submission
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('description', description);
+        formData.append('category', category);
+        formData.append('dueDate', date);
+        formData.append('priority', priority);
+        formData.append('assignedTo', assignTo);
+        selectedFiles.forEach(f => formData.append('files', f));
+        const response = await taskAPI.createTaskWithFiles(formData);
+        console.log("Task created with files:", response.data);
+      } else {
+        // JSON submission (no files)
+        const response = await taskAPI.createTask({ title, description, category, dueDate: date, priority, assignedTo: parseInt(assignTo) });
+        console.log("Task created:", response.data);
+      }
       alert(`Task "${title}" assigned successfully!`);
-      settitle(""); setdate(""); setassignTo(""); setcategory(""); setdescription(""); setPriority("medium");
+      settitle(""); setdate(""); setassignTo(""); setcategory(""); setdescription(""); setPriority("medium"); setSelectedFiles([]);
       if (props.onTaskCreated) { props.onTaskCreated(); }
     } catch (error: unknown) {
-      console.error("❌ Create task error:", error);
+      console.error("Create task error:", error);
       const err = error as { response?: { data?: { error?: string } } };
       alert(err.response?.data?.error || "Failed to create task. Please try again.");
     } finally { setIsSubmitting(false); }
@@ -110,9 +162,15 @@ const CreateTask: React.FC<CreateTaskProps> = (props) => {
                     <div className={styles.idCardDot}></div>
                   </div>
                   <div className={styles.idCardBody}>
-                    <div className={styles.idCardAvatar}>
-                      <div className={styles.idCardAvatarHead}></div>
-                      <div className={styles.idCardAvatarBody}></div>
+                    <div className={styles.idCardAvatar} style={{ overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      {assignTo && employees.find(e => e.id.toString() === assignTo)?.avatar_url ? (
+                        <AvatarUpload currentAvatarUrl={employees.find(e => e.id.toString() === assignTo)?.avatar_url} name={employees.find(e => e.id.toString() === assignTo)?.first_name || ''} size={60} readOnly />
+                      ) : (
+                        <>
+                          <div className={styles.idCardAvatarHead}></div>
+                          <div className={styles.idCardAvatarBody}></div>
+                        </>
+                      )}
                     </div>
                     <div className={styles.idCardInfo}>
                       <div className={styles.idCardLabel}>Assign To :</div>
@@ -212,6 +270,37 @@ const CreateTask: React.FC<CreateTaskProps> = (props) => {
                           </button>
                         ))}
                       </div>
+                    </div>
+                    <div className={styles.attachWrap}>
+                      <div className={styles.attachRow}>
+                        <div className={styles.attachLabel}>Attach Files:</div>
+                        <button
+                          type="button"
+                          className={styles.attachBtn}
+                          onClick={() => fileInputRef.current?.click()}
+                          disabled={selectedFiles.length >= MAX_FILES}
+                        >
+                          Browse
+                        </button>
+                        <input
+                          ref={fileInputRef}
+                          type="file"
+                          multiple
+                          accept="image/jpeg,image/png,image/webp,application/pdf,.docx,.xlsx"
+                          onChange={handleFileSelect}
+                          style={{ display: 'none' }}
+                        />
+                      </div>
+                      {selectedFiles.length > 0 && (
+                        <div className={styles.fileChips}>
+                          {selectedFiles.map((f, i) => (
+                            <div key={i} className={styles.fileChip}>
+                              <span className={styles.fileChipName}>{f.name}</span>
+                              <button type="button" className={styles.fileChipRemove} onClick={() => removeFile(i)}>×</button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

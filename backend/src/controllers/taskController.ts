@@ -1,7 +1,20 @@
 // src/controllers/taskController.ts
 import { Request, Response } from 'express';
 import Task from '../models/taskModel';
+import Attachment from '../models/attachmentModel';
 import pool from '../config/database';
+import cloudinary from '../config/cloudinary';
+import streamifier from 'streamifier';
+
+const ALLOWED_FILE_TYPES = [
+  'image/jpeg',
+  'image/png',
+  'image/webp',
+  'application/pdf',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+];
+const MAX_ATTACHMENTS_PER_TASK = 5;
 
 class TaskController {
   // Create a new task (Admin only)
@@ -45,9 +58,60 @@ class TaskController {
         assignedTo
       });
 
+      // Handle optional file attachments (when sent as multipart/form-data)
+      const files = req.files as Express.Multer.File[] | undefined;
+      const attachments = [];
+
+      if (files && files.length > 0) {
+        // Validate file count
+        if (files.length > MAX_ATTACHMENTS_PER_TASK) {
+          res.status(400).json({
+            success: false,
+            error: `Maximum ${MAX_ATTACHMENTS_PER_TASK} attachments allowed per task`
+          });
+          return;
+        }
+
+        // Validate file types
+        for (const file of files) {
+          if (!ALLOWED_FILE_TYPES.includes(file.mimetype)) {
+            res.status(400).json({
+              success: false,
+              error: `File type not allowed: ${file.originalname}. Accepted: images, PDF, DOCX, XLSX`
+            });
+            return;
+          }
+        }
+
+        // Upload each file to Cloudinary and save to DB
+        for (const file of files) {
+          const uploadResult = await new Promise<{ secure_url: string }>((resolve, reject) => {
+            const stream = cloudinary.uploader.upload_stream(
+              { folder: 'workwave/task-attachments', resource_type: 'auto' },
+              (error, result) => {
+                if (error) return reject(error);
+                if (result) return resolve(result);
+                reject(new Error('No result from Cloudinary'));
+              }
+            );
+            streamifier.createReadStream(file.buffer).pipe(stream);
+          });
+
+          const attachment = await Attachment.create(
+            task.id,
+            createdBy,
+            uploadResult.secure_url,
+            file.originalname,
+            file.mimetype,
+            file.size
+          );
+          attachments.push(attachment);
+        }
+      }
+
       res.status(201).json({
         success: true,
-        data: task
+        data: { ...task, attachments }
       });
     } catch (error) {
       console.error('Create task error:', error);
@@ -276,6 +340,139 @@ class TaskController {
         success: false,
         error: 'Failed to delete task'
       });
+    }
+  }
+
+  // Upload attachments to an existing task (Admin only)
+  static async uploadAttachments(req: Request, res: Response): Promise<void> {
+    try {
+      const taskId = req.params.taskId as string;
+      const userId = req.user.id;
+
+      // Verify task exists and admin created it
+      const task = await Task.getById(taskId);
+      if (!task) {
+        res.status(404).json({ success: false, error: 'Task not found' });
+        return;
+      }
+      if (task.created_by !== userId) {
+        res.status(403).json({ success: false, error: 'Only the task creator can add attachments' });
+        return;
+      }
+
+      const files = req.files as Express.Multer.File[] | undefined;
+      if (!files || files.length === 0) {
+        res.status(400).json({ success: false, error: 'No files uploaded' });
+        return;
+      }
+
+      // Check total attachment count won't exceed limit
+      const currentCount = await Attachment.countByTaskId(taskId);
+      if (currentCount + files.length > MAX_ATTACHMENTS_PER_TASK) {
+        res.status(400).json({
+          success: false,
+          error: `Task already has ${currentCount} attachment(s). Maximum is ${MAX_ATTACHMENTS_PER_TASK}. You can add ${MAX_ATTACHMENTS_PER_TASK - currentCount} more.`
+        });
+        return;
+      }
+
+      // Validate file types
+      for (const file of files) {
+        if (!ALLOWED_FILE_TYPES.includes(file.mimetype)) {
+          res.status(400).json({
+            success: false,
+            error: `File type not allowed: ${file.originalname}. Accepted: images, PDF, DOCX, XLSX`
+          });
+          return;
+        }
+      }
+
+      // Upload each file
+      const attachments = [];
+      for (const file of files) {
+        const uploadResult = await new Promise<{ secure_url: string }>((resolve, reject) => {
+          const stream = cloudinary.uploader.upload_stream(
+            { folder: 'workwave/task-attachments', resource_type: 'auto' },
+            (error, result) => {
+              if (error) return reject(error);
+              if (result) return resolve(result);
+              reject(new Error('No result from Cloudinary'));
+            }
+          );
+          streamifier.createReadStream(file.buffer).pipe(stream);
+        });
+
+        const attachment = await Attachment.create(
+          parseInt(taskId),
+          userId,
+          uploadResult.secure_url,
+          file.originalname,
+          file.mimetype,
+          file.size
+        );
+        attachments.push(attachment);
+      }
+
+      res.status(201).json({
+        success: true,
+        data: attachments
+      });
+    } catch (error) {
+      console.error('Upload attachments error:', error);
+      res.status(500).json({ success: false, error: 'Failed to upload attachments' });
+    }
+  }
+
+  // Get attachments for a task (Admin or assigned employee)
+  static async getAttachments(req: Request, res: Response): Promise<void> {
+    try {
+      const taskId = req.params.taskId as string;
+      const userId = req.user.id;
+
+      // Verify task exists and user has access
+      const task = await Task.getById(taskId);
+      if (!task) {
+        res.status(404).json({ success: false, error: 'Task not found' });
+        return;
+      }
+
+      if (task.created_by !== userId && task.assigned_to !== userId) {
+        res.status(403).json({ success: false, error: 'You do not have access to this task' });
+        return;
+      }
+
+      const attachments = await Attachment.getByTaskId(taskId);
+
+      res.json({
+        success: true,
+        data: attachments
+      });
+    } catch (error) {
+      console.error('Get attachments error:', error);
+      res.status(500).json({ success: false, error: 'Failed to fetch attachments' });
+    }
+  }
+
+  // Delete an attachment (Admin only)
+  static async deleteAttachment(req: Request, res: Response): Promise<void> {
+    try {
+      const attachmentId = req.params.attachmentId as string;
+
+      const deleted = await Attachment.delete(attachmentId);
+
+      if (!deleted) {
+        res.status(404).json({ success: false, error: 'Attachment not found' });
+        return;
+      }
+
+      res.json({
+        success: true,
+        message: 'Attachment deleted successfully',
+        data: deleted
+      });
+    } catch (error) {
+      console.error('Delete attachment error:', error);
+      res.status(500).json({ success: false, error: 'Failed to delete attachment' });
     }
   }
 }

@@ -7,6 +7,7 @@ import Login from "./components/Auth/Login";
 import Signup from "./components/Auth/Signup";
 import AdminDashboard from "./components/Dashboard/AdminDashboard";
 import EmployeeDashboard from "./components/Dashboard/EmployeeDashboard";
+import ProfilePage from "./pages/ProfilePage";
 import TVStaticEffect from "./pages/TVStaticEffect";
 import CustomCursor from "./components/CustomCursor";
 import Footer from "./pages/Footer";
@@ -41,6 +42,7 @@ const App: React.FC = () => {
           {/* Protected Routes - use Component prop */}
           <Route path="/admin-dashboard" Component={AdminDashboard} />
           <Route path="/employee-dashboard" Component={EmployeeDashboard} />
+          <Route path="/profile" Component={ProfilePage} />
 
           {/* Catch all */}
           <Route path="*" element={<Navigate to="/" replace />} />

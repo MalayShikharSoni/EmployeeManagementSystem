@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import type { Task } from "../../types";
+import TaskAttachments, { AttachmentBadge } from "./TaskAttachments";
 import styles from "./TaskCard.module.css";
 
 interface FailedTaskProps {
@@ -80,12 +81,16 @@ const FailedTask: React.FC<FailedTaskProps> = ({ data }) => {
             <span className={`${styles.priorityBadge} ${styles[`priority_${data?.priority}`]}`}>
               {data?.priority}
             </span>
+            <AttachmentBadge count={data?.attachment_count || 0} />
           </div>
 
           <h3 ref={dateRef} className={styles.date}>{data?.due_date}</h3>
         </div>
         <div ref={titleRef} className={`beforeHover ${styles.title} ${styles.titleRed}`}>{data?.title}</div>
-        <div ref={descriptionRef} className={`afterHover ${styles.description}`}>{data?.description}</div>
+        <div ref={descriptionRef} className={`afterHover ${styles.description}`}>
+          {data?.description}
+          <TaskAttachments taskId={data.id} />
+        </div>
       </div>
 
       <div ref={buttonRef} className={`afterHover ${styles.buttonWrap}`}>

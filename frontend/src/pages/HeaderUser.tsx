@@ -7,6 +7,7 @@ import HeaderWave1Black from "../assets/HeaderWave1Black.svg";
 import HeaderWave2Black from "../assets/HeaderWave2Black.svg";
 import HeaderWave3Black from "../assets/HeaderWave3Black.svg";
 import type { User } from "../types";
+import AvatarUpload from "../components/AvatarUpload/AvatarUpload";
 import styles from "./HeaderUser.module.css";
 
 interface HeaderUserProps {
@@ -41,6 +42,9 @@ const HeaderUser = React.forwardRef<unknown, HeaderUserProps>((props, ref) => {
             Welcome, {props.data.firstName || props.data.first_name}
           </div>
           <div className={styles.spacer}></div>
+          <div className={styles.profileWrap} onClick={() => navigate('/profile')} style={{ cursor: 'pointer', marginRight: '20px' }}>
+            <AvatarUpload currentAvatarUrl={props.data.avatar_url} name={props.data.firstName || props.data.first_name || ''} size={40} readOnly />
+          </div>
           <div className={styles.logoutWrap} onClick={LogOutUser}>
             <img src={LogOutBlack} alt="" className={styles.logoutImg} />
           </div>

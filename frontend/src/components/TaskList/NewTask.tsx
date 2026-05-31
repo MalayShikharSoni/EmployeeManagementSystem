@@ -3,6 +3,7 @@ import { taskAPI } from "../../services/api";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import type { Task } from "../../types";
+import TaskAttachments, { AttachmentBadge } from "./TaskAttachments";
 import styles from "./TaskCard.module.css";
 
 interface NewTaskProps {
@@ -11,7 +12,7 @@ interface NewTaskProps {
 }
 
 const NewTask: React.FC<NewTaskProps> = ({ data, refreshTasks }) => {
-  console.log('🔄 NewTask RE-RENDERED for:', data.title);
+  console.log('NewTask RE-RENDERED for:', data.title);
   
   const taskBoxRef = useRef<HTMLDivElement>(null);
   const hoverTransitionRef = useRef<HTMLDivElement>(null);
@@ -74,14 +75,14 @@ const NewTask: React.FC<NewTaskProps> = ({ data, refreshTasks }) => {
     
     try {
       await taskAPI.acceptTask(data.id);
-      console.log("✅ Task accepted:", data.title);
+      console.log("Task accepted:", data.title);
       
       // Refresh tasks from parent
       if (refreshTasks) {
         refreshTasks();
       }
     } catch (error) {
-      console.error("❌ Failed to accept task:", error);
+      console.error("Failed to accept task:", error);
       alert("Failed to accept task. Please try again.");
     } finally {
       setIsAccepting(false);
@@ -109,6 +110,7 @@ const NewTask: React.FC<NewTaskProps> = ({ data, refreshTasks }) => {
             <span className={`${styles.priorityBadge} ${styles[`priority_${data?.priority}`]}`}>
               {data?.priority}
             </span>
+            <AttachmentBadge count={data?.attachment_count || 0} />
           </div>
 
           <h3
@@ -131,6 +133,7 @@ const NewTask: React.FC<NewTaskProps> = ({ data, refreshTasks }) => {
           className={`afterHover ${styles.description}`}
         >
           {data?.description}
+          <TaskAttachments taskId={data.id} />
         </div>
       </div>
 

@@ -3,6 +3,7 @@ import { taskAPI } from "../../services/api";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import type { Task } from "../../types";
+import TaskAttachments, { AttachmentBadge } from "./TaskAttachments";
 import styles from "./TaskCard.module.css";
 
 interface AcceptedTaskProps {
@@ -66,10 +67,10 @@ const AcceptedTask: React.FC<AcceptedTaskProps> = ({ data, refreshTasks }) => {
     setIsProcessing(true);
     try {
       await taskAPI.completeTask(data.id);
-      console.log("✅ Task completed:", data.title);
+      console.log("Task completed:", data.title);
       if (refreshTasks) { refreshTasks(); }
     } catch (error) {
-      console.error("❌ Failed to complete task:", error);
+      console.error("Failed to complete task:", error);
       alert("Failed to complete task. Please try again.");
     } finally { setIsProcessing(false); }
   };
@@ -78,10 +79,10 @@ const AcceptedTask: React.FC<AcceptedTaskProps> = ({ data, refreshTasks }) => {
     setIsProcessing(true);
     try {
       await taskAPI.failTask(data.id);
-      console.log("✅ Task declined:", data.title);
+      console.log("Task declined:", data.title);
       if (refreshTasks) { refreshTasks(); }
     } catch (error) {
-      console.error("❌ Failed to decline task:", error);
+      console.error("Failed to decline task:", error);
       alert("Failed to decline task. Please try again.");
     } finally { setIsProcessing(false); }
   };
@@ -99,12 +100,16 @@ const AcceptedTask: React.FC<AcceptedTaskProps> = ({ data, refreshTasks }) => {
             <span className={`${styles.priorityBadge} ${styles[`priority_${data?.priority}`]}`}>
               {data?.priority}
             </span>
+            <AttachmentBadge count={data?.attachment_count || 0} />
           </div>
 
           <h3 ref={dateRef} className={styles.date}>{data?.due_date}</h3>
         </div>
         <div ref={titleRef} className={`beforeHover ${styles.title} ${styles.titleYellow}`}>{data?.title}</div>
-        <div ref={descriptionRef} className={`afterHover ${styles.description}`}>{data?.description}</div>
+        <div ref={descriptionRef} className={`afterHover ${styles.description}`}>
+          {data?.description}
+          <TaskAttachments taskId={data.id} />
+        </div>
       </div>
 
       <div ref={buttonRef} className={`afterHover ${styles.buttonWrapCenter}`}>
