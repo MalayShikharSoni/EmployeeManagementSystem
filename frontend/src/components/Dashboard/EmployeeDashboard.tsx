@@ -5,6 +5,7 @@ import HeaderUser from "../../pages/HeaderUser";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { AuthContext, type AuthContextType } from "../../context/AuthProvider";
+import { useSocket } from "../../context/SocketProvider";
 import { taskAPI, invitationAPI } from "../../services/api";
 import type { Task, TaskCounts, Invitation } from "../../types";
 import styles from "./EmployeeDashboard.module.css";
@@ -20,6 +21,7 @@ const EmployeeDashboard = memo(() => {
   const firstWaveRef = useRef<HTMLDivElement>(null);
   const thirdWaveRef = useRef<HTMLDivElement>(null);
   const { userData, isLoading: authLoading } = useContext(AuthContext) as AuthContextType;
+  const { refreshTrigger } = useSocket();
   const changeUser = useCallback(() => { }, []);
 
   const fetchMyTasks = useCallback(async () => {
@@ -35,14 +37,14 @@ const EmployeeDashboard = memo(() => {
 
   const refreshTasks = useCallback(() => { fetchMyTasks(); }, [fetchMyTasks]);
 
-  useEffect(() => { if (userData && userData.role === 'employee') { fetchMyTasks(); } }, [userData, fetchMyTasks]);
+  useEffect(() => { if (userData && userData.role === 'employee') { fetchMyTasks(); } }, [userData, fetchMyTasks, refreshTrigger]);
 
   const fetchInvitations = useCallback(async () => {
     try { const res = await invitationAPI.getMyInvitations(); setInvitations(res.data.data); }
     catch (err) { console.error("Failed to fetch invitations:", err); }
   }, []);
 
-  useEffect(() => { if (userData && userData.role === 'employee') { fetchInvitations(); } }, [userData, fetchInvitations]);
+  useEffect(() => { if (userData && userData.role === 'employee') { fetchInvitations(); } }, [userData, fetchInvitations, refreshTrigger]);
 
   const handleRespondInvitation = async (invitationId: number, status: string) => {
     setInvitationLoading(true);

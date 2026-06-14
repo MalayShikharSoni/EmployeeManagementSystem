@@ -57,6 +57,28 @@ async function migrate(): Promise<void> {
     `);
     console.log('task_attachments table created successfully');
 
+    console.log('Running migration: Creating notifications table...');
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS notifications (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER NOT NULL REFERENCES users(id),
+        type VARCHAR(50) NOT NULL,
+        title VARCHAR(255) NOT NULL,
+        message TEXT NOT NULL,
+        entity_id VARCHAR(50),
+        entity_type VARCHAR(50),
+        is_read BOOLEAN DEFAULT false,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+    await pool.query(`
+      CREATE INDEX IF NOT EXISTS idx_notifications_user_id ON notifications(user_id);
+    `);
+    await pool.query(`
+      CREATE INDEX IF NOT EXISTS idx_notifications_is_read ON notifications(user_id, is_read);
+    `);
+    console.log('notifications table created successfully');
+
     process.exit(0);
   } catch (error) {
     const err = error as Error;

@@ -123,3 +123,16 @@ export interface APIResponse<T> {
   message?: string;
   error?: string;
 }
+
+// ── Notifications ──
+export interface AppNotification {
+  id: number;
+  user_id: number;
+  type: string;
+  title: string;
+  message: string;
+  entity_id: string | null;
+  entity_type: string | null;
+  is_read: boolean;
+  created_at: string;
+}

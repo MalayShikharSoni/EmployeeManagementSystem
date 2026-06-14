@@ -124,3 +124,51 @@
   width: auto;
   height: 70px;
 }
+
+.bellWrap {
+  position: relative;
+  margin-right: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+}
+
+.bellImg {
+  width: auto;
+  height: 35px;
+  background: transparent;
+  transition: transform 0.2s;
+}
+
+.bellWrap:hover .bellImg {
+  transform: scale(1.1);
+}
+
+.badge {
+  position: absolute;
+  top: -2px;
+  right: -5px;
+  background-color: #ff4757;
+  color: white;
+  font-size: 10px;
+  font-weight: 800;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #cec0ad;
+}
+
+@media (max-width: 639px) {
+  .bellWrap {
+    margin-right: 10px;
+  }
+  .bellImg {
+    height: 28px;
+  }
+}
+

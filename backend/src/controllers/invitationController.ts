@@ -1,6 +1,7 @@
 // src/controllers/invitationController.ts
 import { Request, Response } from 'express';
 import pool from '../config/database';
+import socketService from '../services/socketService';
 
 class InvitationController {
   // Admin sends an invitation to an employee
@@ -71,9 +72,14 @@ class InvitationController {
              WHERE id = $1 RETURNING *`,
             [existing.id]
           );
+          const invitationData = updated.rows[0];
+
+          // Notify employee
+          socketService.emitInvitationReceived(employeeId, invitationData as any);
+
           res.status(201).json({
             success: true,
-            data: updated.rows[0],
+            data: invitationData,
             message: 'Invitation re-sent successfully'
           });
           return;
@@ -93,9 +99,14 @@ class InvitationController {
         [adminId, employeeId]
       );
 
+      const invitationData = result.rows[0];
+
+      // Notify employee
+      socketService.emitInvitationReceived(employeeId, invitationData as any);
+
       res.status(201).json({
         success: true,
-        data: result.rows[0],
+        data: invitationData,
         message: 'Invitation sent successfully'
       });
     } catch (error) {
@@ -172,9 +183,14 @@ class InvitationController {
         [status, id]
       );
 
+      const invitationData = result.rows[0];
+
+      // Notify admin
+      socketService.emitInvitationResponded(invitationData.admin_id, invitationData.id, status);
+
       res.json({
         success: true,
-        data: result.rows[0],
+        data: invitationData,
         message: `Invitation ${status} successfully`
       });
     } catch (error) {

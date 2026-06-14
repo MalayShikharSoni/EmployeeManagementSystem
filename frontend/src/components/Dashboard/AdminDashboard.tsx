@@ -4,6 +4,7 @@ import CreateTask from "../other/CreateTask";
 import AllTasks from "../other/AllTasks";
 import TeamManagement from "../other/TeamManagement";
 import { AuthContext, type AuthContextType } from "../../context/AuthProvider";
+import { useSocket } from "../../context/SocketProvider";
 import HeaderUser from "../../pages/HeaderUser";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -20,9 +21,12 @@ const AdminDashboard = memo(() => {
   const firstWaveRef = useRef<HTMLDivElement>(null);
   const thirdWaveRef = useRef<HTMLDivElement>(null);
   const { userData, isLoading: authLoading } = useContext(AuthContext) as AuthContextType;
-  const [refreshTrigger, setRefreshTrigger] = useState(0);
-  const handleTaskCreated = useCallback(() => { setRefreshTrigger(prev => prev + 1); }, []);
+  const { refreshTrigger: socketRefreshTrigger } = useSocket();
+  const [localRefreshTrigger, setLocalRefreshTrigger] = useState(0);
+  const handleTaskCreated = useCallback(() => { setLocalRefreshTrigger(prev => prev + 1); }, []);
   const changeUser = useCallback(() => { }, []);
+  
+  const combinedRefreshTrigger = localRefreshTrigger + socketRefreshTrigger;
 
   useGSAP(() => {
     if (!firstWaveRef.current || !thirdWaveRef.current) return;
@@ -43,7 +47,7 @@ const AdminDashboard = memo(() => {
       <div className={styles.dashLayout}>
         <div className={styles.mainContent}>
           <div className={`adminDashboard ${styles.dashContent}`}>
-            <TeamManagement /><CreateTask onTaskCreated={handleTaskCreated} /><AllTasks refreshTrigger={refreshTrigger} />
+            <TeamManagement /><CreateTask onTaskCreated={handleTaskCreated} /><AllTasks refreshTrigger={combinedRefreshTrigger} />
           </div>
         </div>
         <div className={styles.sidebar}>

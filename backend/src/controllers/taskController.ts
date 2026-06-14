@@ -5,6 +5,7 @@ import Attachment from '../models/attachmentModel';
 import pool from '../config/database';
 import cloudinary from '../config/cloudinary';
 import streamifier from 'streamifier';
+import socketService from '../services/socketService';
 
 const ALLOWED_FILE_TYPES = [
   'image/jpeg',
@@ -109,9 +110,14 @@ class TaskController {
         }
       }
 
+      const taskDataWithAttachments = { ...task, attachments };
+
+      // Emit socket event to the assigned employee
+      socketService.emitTaskAssigned(assignedTo, taskDataWithAttachments as any);
+
       res.status(201).json({
         success: true,
-        data: { ...task, attachments }
+        data: taskDataWithAttachments
       });
     } catch (error) {
       console.error('Create task error:', error);
@@ -204,6 +210,9 @@ class TaskController {
 
       const updatedTask = await Task.updateStatus(taskId, 'active');
 
+      // Notify admin and employee
+      socketService.emitTaskStatusChanged(task.created_by, userId, task.id, 'active');
+
       res.json({
         success: true,
         data: updatedTask
@@ -243,6 +252,9 @@ class TaskController {
 
       const updatedTask = await Task.updateStatus(taskId, 'completed');
 
+      // Notify admin and employee
+      socketService.emitTaskStatusChanged(task.created_by, userId, task.id, 'completed');
+
       res.json({
         success: true,
         data: updatedTask
@@ -281,6 +293,9 @@ class TaskController {
       }
 
       const updatedTask = await Task.updateStatus(taskId, 'failed');
+
+      // Notify admin and employee
+      socketService.emitTaskStatusChanged(task.created_by, userId, task.id, 'failed');
 
       res.json({
         success: true,

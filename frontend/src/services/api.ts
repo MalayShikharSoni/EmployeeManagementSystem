@@ -1,5 +1,5 @@
 import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import type { APIResponse, User, Task, TaskCounts, GroupedEmployeeTasks, Employee, Invitation, PendingInvitation, TeamMember, TaskAttachment } from '../types';
+import type { APIResponse, User, Task, TaskCounts, GroupedEmployeeTasks, Employee, Invitation, PendingInvitation, TeamMember, TaskAttachment, AppNotification } from '../types';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
@@ -116,13 +116,9 @@ export const taskAPI = {
 
   // Attachment endpoints
   createTaskWithFiles: (formData: FormData): Promise<AxiosResponse<APIResponse<Task & { attachments: TaskAttachment[] }>>> =>
-    api.post('/tasks', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    }),
+    api.post('/tasks', formData),
   uploadAttachments: (taskId: number | string, formData: FormData): Promise<AxiosResponse<APIResponse<TaskAttachment[]>>> =>
-    api.post(`/tasks/${taskId}/attachments`, formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    }),
+    api.post(`/tasks/${taskId}/attachments`, formData),
   getAttachments: (taskId: number | string): Promise<AxiosResponse<APIResponse<TaskAttachment[]>>> =>
     api.get(`/tasks/${taskId}/attachments`),
   deleteAttachment: (taskId: number | string, attachmentId: number | string): Promise<AxiosResponse<APIResponse<TaskAttachment>>> =>
@@ -145,6 +141,16 @@ export const invitationAPI = {
     api.get('/invitations/pending'),
 };
 
-
+// Notification API
+export const notificationAPI = {
+  getNotifications: (limit = 20, offset = 0): Promise<AxiosResponse<APIResponse<AppNotification[]>>> =>
+    api.get(`/notifications?limit=${limit}&offset=${offset}`),
+  getUnreadCount: (): Promise<AxiosResponse<APIResponse<{ count: number }>>> =>
+    api.get('/notifications/unread-count'),
+  markAsRead: (id: number): Promise<AxiosResponse<APIResponse<AppNotification>>> =>
+    api.put(`/notifications/${id}/read`),
+  markAllAsRead: (): Promise<AxiosResponse<APIResponse<{ markedCount: number }>>> =>
+    api.put('/notifications/read-all'),
+};
 
 export default api;

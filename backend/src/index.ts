@@ -7,12 +7,19 @@ import dotenv from 'dotenv';
 import authRoutes from './routes/auth';
 import taskRoutes from './routes/tasks';
 import invitationRoutes from './routes/invitations';
+import notificationRoutes from './routes/notifications';
 import { errorHandler } from './middleware/errorHandler';
 import { startTaskCron } from './cron/taskCron';
+import { createServer } from 'http';
+import socketService from './services/socketService';
 
 dotenv.config();
 
 const app = express();
+const httpServer = createServer(app);
+
+// Initialize Socket.io
+socketService.initialize(httpServer);
 
 // Trust proxy (required for Render, which runs behind a reverse proxy)
 app.set('trust proxy', 1);
@@ -46,6 +53,7 @@ app.use(limiter);
 app.use('/api/auth', authRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/invitations', invitationRoutes);
+app.use('/api/notifications', notificationRoutes);
 
 // Health check
 app.get('/health', (_req: Request, res: Response) => {
@@ -64,7 +72,7 @@ app.use('/api', (req: Request, res: Response) => {
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+httpServer.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
   startTaskCron();
 });

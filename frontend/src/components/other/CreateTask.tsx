@@ -43,8 +43,8 @@ const CreateTask: React.FC<CreateTaskProps> = (props) => {
       try {
         const response = await authAPI.getEmployees();
         setEmployees(response.data.data);
-        console.log("Employees fetched:", response.data.data);
-      } catch (error) { console.error("Failed to fetch employees:", error); }
+        console.log("✅ Employees fetched:", response.data.data);
+      } catch (error) { console.error("❌ Failed to fetch employees:", error); }
     };
     fetchEmployees();
   }, []);
@@ -131,17 +131,17 @@ const CreateTask: React.FC<CreateTaskProps> = (props) => {
         formData.append('assignedTo', assignTo);
         selectedFiles.forEach(f => formData.append('files', f));
         const response = await taskAPI.createTaskWithFiles(formData);
-        console.log("Task created with files:", response.data);
+        console.log("✅ Task created with files:", response.data);
       } else {
         // JSON submission (no files)
         const response = await taskAPI.createTask({ title, description, category, dueDate: date, priority, assignedTo: parseInt(assignTo) });
-        console.log("Task created:", response.data);
+        console.log("✅ Task created:", response.data);
       }
       alert(`Task "${title}" assigned successfully!`);
       settitle(""); setdate(""); setassignTo(""); setcategory(""); setdescription(""); setPriority("medium"); setSelectedFiles([]);
       if (props.onTaskCreated) { props.onTaskCreated(); }
     } catch (error: unknown) {
-      console.error("Create task error:", error);
+      console.error("❌ Create task error:", error);
       const err = error as { response?: { data?: { error?: string } } };
       alert(err.response?.data?.error || "Failed to create task. Please try again.");
     } finally { setIsSubmitting(false); }
@@ -260,9 +260,9 @@ const CreateTask: React.FC<CreateTaskProps> = (props) => {
                       <div className={styles.priorityLabel}>Priority:</div>
                       <div className={styles.priorityControls}>
                         {(["low", "medium", "high", "urgent"] as TaskPriority[]).map(p => (
-                          <button 
-                            key={p} 
-                            type="button" 
+                          <button
+                            key={p}
+                            type="button"
                             onClick={() => setPriority(p)}
                             className={`${styles.priorityBtn} ${priority === p ? styles[`priorityBtn_${p}_active`] : ""}`}
                           >

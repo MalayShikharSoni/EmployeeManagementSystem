@@ -1,13 +1,16 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext, type AuthContextType } from "../context/AuthProvider";
 import WorkWaveLogoBlack from "../assets/WorkWaveLogoBlack.svg";
 import LogOutBlack from "../assets/LogOutBlack.svg";
+import BellBlack from "../assets/BellBlack.svg";
 import HeaderWave1Black from "../assets/HeaderWave1Black.svg";
 import HeaderWave2Black from "../assets/HeaderWave2Black.svg";
 import HeaderWave3Black from "../assets/HeaderWave3Black.svg";
 import type { User } from "../types";
 import AvatarUpload from "../components/AvatarUpload/AvatarUpload";
+import { useNotifications } from "../hooks/useNotifications";
+import NotificationPanel from "../components/Notifications/NotificationPanel";
 import styles from "./HeaderUser.module.css";
 
 interface HeaderUserProps {
@@ -23,8 +26,11 @@ const HeaderUser = React.forwardRef<unknown, HeaderUserProps>((props, ref) => {
   const refObj = ref as unknown as { firstWaveRef?: React.RefObject<HTMLDivElement | null>; thirdWaveRef?: React.RefObject<HTMLDivElement | null> } | null;
   const firstWaveRef = props.firstWaveRef || refObj?.firstWaveRef;
   const thirdWaveRef = props.thirdWaveRef || refObj?.thirdWaveRef;
-  const { logout } = useContext(AuthContext) as AuthContextType;
+  const { isAuthenticated, logout } = useContext(AuthContext) as AuthContextType;
   const navigate = useNavigate();
+
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications(isAuthenticated);
 
   const LogOutUser = async () => {
     const confirmLogout = window.confirm("Are you sure you want to logout?");
@@ -42,6 +48,12 @@ const HeaderUser = React.forwardRef<unknown, HeaderUserProps>((props, ref) => {
             Welcome, {props.data.firstName || props.data.first_name}
           </div>
           <div className={styles.spacer}></div>
+          <div className={styles.bellWrap} onClick={() => setIsPanelOpen(true)}>
+            <img src={BellBlack} alt="Notifications" className={styles.bellImg} />
+            {unreadCount > 0 && (
+              <div className={styles.badge}>{unreadCount > 99 ? '99+' : unreadCount}</div>
+            )}
+          </div>
           <div className={styles.profileWrap} onClick={() => navigate('/profile')} style={{ cursor: 'pointer', marginRight: '20px' }}>
             <AvatarUpload currentAvatarUrl={props.data.avatar_url} name={props.data.firstName || props.data.first_name || ''} size={40} readOnly />
           </div>
@@ -60,6 +72,14 @@ const HeaderUser = React.forwardRef<unknown, HeaderUserProps>((props, ref) => {
           </div>
         </div>
       </div>
+      <NotificationPanel 
+        isOpen={isPanelOpen} 
+        onClose={() => setIsPanelOpen(false)} 
+        notifications={notifications} 
+        unreadCount={unreadCount} 
+        onMarkAsRead={markAsRead} 
+        onMarkAllAsRead={markAllAsRead} 
+      />
     </>
   );
 });
