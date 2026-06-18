@@ -3,7 +3,8 @@ import { taskAPI } from "../../services/api";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import type { Task } from "../../types";
-import TaskAttachments, { AttachmentBadge } from "./TaskAttachments";
+import TaskAttachments, { AttachmentBadge, CommentBadge } from "./TaskAttachments";
+import TaskCommentsModal from "./TaskCommentsModal";
 import styles from "./TaskCard.module.css";
 
 interface NewTaskProps {
@@ -24,6 +25,7 @@ const NewTask: React.FC<NewTaskProps> = ({ data, refreshTasks }) => {
   const hasAnimatedRef = useRef(false);
 
   const [isAccepting, setIsAccepting] = useState(false);
+  const [showComments, setShowComments] = useState(false);
 
   useGSAP(() => {
     const box = taskBoxRef.current;
@@ -111,6 +113,7 @@ const NewTask: React.FC<NewTaskProps> = ({ data, refreshTasks }) => {
               {data?.priority}
             </span>
             <AttachmentBadge count={data?.attachment_count || 0} />
+            <CommentBadge count={data?.comment_count || 0} onClick={() => setShowComments(true)} />
           </div>
 
           <h3
@@ -154,6 +157,12 @@ const NewTask: React.FC<NewTaskProps> = ({ data, refreshTasks }) => {
         ref={hoverTransitionRef}
         className={`hoverTransition ${styles.hoverCircle}`}
       ></div>
+
+      <TaskCommentsModal 
+        taskId={data.id} 
+        isOpen={showComments} 
+        onClose={() => setShowComments(false)} 
+      />
     </div>
   );
 };

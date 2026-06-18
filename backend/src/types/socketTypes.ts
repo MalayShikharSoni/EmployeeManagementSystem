@@ -41,13 +41,23 @@ export interface ClientNotification {
   created_at: string;
 }
 
+export interface ClientComment {
+  id: number;
+  task_id: number;
+  author_id: number;
+  content: string;
+  created_at: string;
+  author_name?: string;
+  author_avatar?: string;
+}
+
 export interface ServerToClientEvents {
   'task:assigned': (task: ClientTask) => void;
   'task:statusChanged': (update: { taskId: number; status: string }) => void;
   'invitation:received': (invitation: ClientInvitation) => void;
   'invitation:responded': (response: { invitationId: number; status: string }) => void;
   'notification:new': (notification: ClientNotification) => void;
-  'comment:new': (comment: any) => void; // for feature 6
+  'comment:new': (comment: ClientComment) => void;
 }
 
 export interface ClientToServerEvents {

@@ -194,3 +194,153 @@
 .retryBtn:hover {
   background-color: #8b6c3e;
 }
+
+.taskRowExpanded {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-bottom: 0;
+  border-bottom: 2px solid rgba(206, 192, 173, 0.3);
+}
+
+.expandArrow {
+  font-size: 12px;
+  margin-left: 8px;
+  opacity: 0.6;
+}
+
+.expandedPanel {
+  background-color: rgba(173, 150, 118, 0.35);
+  padding: 1rem;
+  margin-bottom: 10px;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 1000px;
+  }
+}
+
+.noTasksText {
+  text-align: center;
+  color: #9c815a;
+  font-weight: 600;
+  padding: 1rem 0;
+}
+
+.taskDetailRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #cec0ad;
+  padding: 12px 16px;
+  border-top-right-radius: 12px;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.taskDetailRow:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.taskDetailLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+}
+
+.taskDetailTitle {
+  font-weight: 700;
+  font-size: 15px;
+  color: #3b3123;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 250px;
+  background: transparent;
+}
+
+.taskDetailPriority {
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+.taskDetailStatus {
+  font-size: 12px;
+  font-weight: 700;
+  color: #8b6c3e;
+  background-color: rgba(139, 108, 62, 0.15);
+  padding: 2px 8px;
+  border-radius: 9999px;
+  flex-shrink: 0;
+}
+
+.taskDetailOverdue {
+  font-size: 11px;
+  font-weight: 800;
+  color: #d62828;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+.taskDetailRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  background: transparent;
+}
+
+.taskDetailDate {
+  font-size: 13px;
+  font-weight: 600;
+  color: #9c815a;
+  background: transparent;
+}
+
+.commentBtn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background-color: #ad9676;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.15s;
+}
+
+.commentBtn:hover {
+  background-color: #8b6c3e;
+  transform: scale(1.05);
+}
+
+.commentBtn svg {
+  flex-shrink: 0;
+}

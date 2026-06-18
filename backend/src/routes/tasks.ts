@@ -2,6 +2,7 @@
 import { Router } from 'express';
 import multer from 'multer';
 import TaskController from '../controllers/taskController';
+import CommentController from '../controllers/commentController';
 import { authenticate, requireRole } from '../middleware/auth';
 
 const upload = multer({
@@ -27,6 +28,11 @@ router.put('/:taskId/fail', TaskController.failTask);
 router.get('/:taskId/attachments', TaskController.getAttachments);
 router.post('/:taskId/attachments', requireRole('admin'), upload.array('files', 5), TaskController.uploadAttachments);
 router.delete('/:taskId/attachments/:attachmentId', requireRole('admin'), TaskController.deleteAttachment);
+
+// Comment routes
+router.get('/:taskId/comments', CommentController.getComments);
+router.post('/:taskId/comments', CommentController.createComment);
+router.delete('/:taskId/comments/:commentId', CommentController.deleteComment);
 
 // Admin routes - manage all tasks
 router.post('/', requireRole('admin'), upload.array('files', 5), TaskController.createTask);

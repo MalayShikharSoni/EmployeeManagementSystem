@@ -77,7 +77,8 @@ class Task {
         t.*,
         creator.first_name as creator_name,
         assignee.first_name as assignee_name,
-        (SELECT COUNT(*)::int FROM task_attachments ta WHERE ta.task_id = t.id) as attachment_count
+        (SELECT COUNT(*)::int FROM task_attachments ta WHERE ta.task_id = t.id) as attachment_count,
+        (SELECT COUNT(*)::int FROM task_comments tc WHERE tc.task_id = t.id) as comment_count
       FROM tasks t
       LEFT JOIN users creator ON t.created_by = creator.id
       LEFT JOIN users assignee ON t.assigned_to = assignee.id
@@ -97,7 +98,8 @@ class Task {
         creator.first_name as creator_name,
         assignee.first_name as assignee_name,
         assignee.email as assignee_email,
-        (SELECT COUNT(*)::int FROM task_attachments ta WHERE ta.task_id = t.id) as attachment_count
+        (SELECT COUNT(*)::int FROM task_attachments ta WHERE ta.task_id = t.id) as attachment_count,
+        (SELECT COUNT(*)::int FROM task_comments tc WHERE tc.task_id = t.id) as comment_count
       FROM tasks t
       LEFT JOIN users creator ON t.created_by = creator.id
       LEFT JOIN users assignee ON t.assigned_to = assignee.id
@@ -173,7 +175,8 @@ class Task {
               'is_overdue', t.is_overdue,
               'status', t.status,
               'created_at', t.created_at,
-              'attachment_count', (SELECT COUNT(*)::int FROM task_attachments ta WHERE ta.task_id = t.id)
+              'attachment_count', (SELECT COUNT(*)::int FROM task_attachments ta WHERE ta.task_id = t.id),
+              'comment_count', (SELECT COUNT(*)::int FROM task_comments tc WHERE tc.task_id = t.id)
             ) ORDER BY t.created_at DESC
           ) FILTER (WHERE t.id IS NOT NULL),
           '[]'

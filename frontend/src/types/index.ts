@@ -48,6 +48,7 @@ export interface Task {
   assignee_name?: string;
   assignee_email?: string;
   attachment_count?: number;
+  comment_count?: number;
 }
 
 export interface TaskAttachment {
@@ -135,4 +136,15 @@ export interface AppNotification {
   entity_type: string | null;
   is_read: boolean;
   created_at: string;
+}
+
+// ── Comments ──
+export interface TaskComment {
+  id: number;
+  task_id: number;
+  author_id: number;
+  content: string;
+  created_at: string;
+  author_name?: string;
+  author_avatar?: string;
 }

@@ -3,7 +3,8 @@ import { taskAPI } from "../../services/api";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import type { Task } from "../../types";
-import TaskAttachments, { AttachmentBadge } from "./TaskAttachments";
+import TaskAttachments, { AttachmentBadge, CommentBadge } from "./TaskAttachments";
+import TaskCommentsModal from "./TaskCommentsModal";
 import styles from "./TaskCard.module.css";
 
 interface AcceptedTaskProps {
@@ -22,6 +23,7 @@ const AcceptedTask: React.FC<AcceptedTaskProps> = ({ data, refreshTasks }) => {
   const hasAnimatedRef = useRef(false);
 
   const [isProcessing, setIsProcessing] = useState(false);
+  const [showComments, setShowComments] = useState(false);
 
   useGSAP(() => {
     const box = taskBoxRef.current;
@@ -101,6 +103,7 @@ const AcceptedTask: React.FC<AcceptedTaskProps> = ({ data, refreshTasks }) => {
               {data?.priority}
             </span>
             <AttachmentBadge count={data?.attachment_count || 0} />
+            <CommentBadge count={data?.comment_count || 0} onClick={() => setShowComments(true)} />
           </div>
 
           <h3 ref={dateRef} className={styles.date}>{data?.due_date}</h3>
@@ -118,6 +121,12 @@ const AcceptedTask: React.FC<AcceptedTaskProps> = ({ data, refreshTasks }) => {
       </div>
 
       <div ref={hoverTransitionRef} className={`hoverTransition ${styles.hoverCircle}`}></div>
+
+      <TaskCommentsModal 
+        taskId={data.id} 
+        isOpen={showComments} 
+        onClose={() => setShowComments(false)} 
+      />
     </div>
   );
 };

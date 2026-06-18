@@ -1,5 +1,5 @@
 import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import type { APIResponse, User, Task, TaskCounts, GroupedEmployeeTasks, Employee, Invitation, PendingInvitation, TeamMember, TaskAttachment, AppNotification } from '../types';
+import type { APIResponse, User, Task, TaskCounts, GroupedEmployeeTasks, Employee, Invitation, PendingInvitation, TeamMember, TaskAttachment, AppNotification, TaskComment } from '../types';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
@@ -151,6 +151,16 @@ export const notificationAPI = {
     api.put(`/notifications/${id}/read`),
   markAllAsRead: (): Promise<AxiosResponse<APIResponse<{ markedCount: number }>>> =>
     api.put('/notifications/read-all'),
+};
+
+// Comment API
+export const commentAPI = {
+  getComments: (taskId: number | string): Promise<AxiosResponse<APIResponse<TaskComment[]>>> =>
+    api.get(`/tasks/${taskId}/comments`),
+  createComment: (taskId: number | string, content: string): Promise<AxiosResponse<APIResponse<TaskComment>>> =>
+    api.post(`/tasks/${taskId}/comments`, { content }),
+  deleteComment: (taskId: number | string, commentId: number | string): Promise<AxiosResponse<APIResponse<TaskComment>>> =>
+    api.delete(`/tasks/${taskId}/comments/${commentId}`),
 };
 
 export default api;

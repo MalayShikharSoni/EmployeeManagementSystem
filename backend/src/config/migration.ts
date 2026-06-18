@@ -79,6 +79,21 @@ async function migrate(): Promise<void> {
     `);
     console.log('notifications table created successfully');
 
+    console.log('Running migration: Creating task_comments table...');
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS task_comments (
+        id SERIAL PRIMARY KEY,
+        task_id INTEGER NOT NULL REFERENCES tasks(id) ON DELETE CASCADE,
+        author_id INTEGER NOT NULL REFERENCES users(id),
+        content TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+    await pool.query(`
+      CREATE INDEX IF NOT EXISTS idx_task_comments_task_id ON task_comments(task_id);
+    `);
+    console.log('task_comments table created successfully');
+
     process.exit(0);
   } catch (error) {
     const err = error as Error;
