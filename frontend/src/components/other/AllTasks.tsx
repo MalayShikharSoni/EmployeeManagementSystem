@@ -175,6 +175,14 @@ const AllTasks: React.FC<AllTasksProps> = ({ refreshTrigger }) => {
                 
                 {expandedEmployee === emp.user_id && (
                   <div className={styles.expandedPanel}>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '10px' }}>
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); window.location.href = `/employees/${emp.user_id}`; }}
+                        style={{ background: 'transparent', border: 'none', color: '#3b3123', fontWeight: 800, cursor: 'pointer', fontSize: '13px', textDecoration: 'underline' }}
+                      >
+                        View Full Profile
+                      </button>
+                    </div>
                     {emp.tasks.length === 0 ? (
                       <div className={styles.noTasksText}>No tasks match the current filters.</div>
                     ) : (

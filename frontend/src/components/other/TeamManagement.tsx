@@ -165,7 +165,13 @@ const TeamManagement: React.FC = () => {
                     ) : (
                         <div className={styles.memberList}>
                             {teamMembers.map((member) => (
-                                <div key={member.id} className={styles.memberCard}>
+                                <div 
+                                    key={member.id} 
+                                    className={styles.memberCard}
+                                    onClick={() => window.location.href = `/employees/${member.id}`}
+                                    style={{ cursor: 'pointer', transition: 'transform 0.2s', ...{ ':hover': { transform: 'translateY(-2px)' } } as any }}
+                                    title="View Profile"
+                                >
                                     <div className={styles.memberInfo}>
                                         <div className={styles.avatar} style={{ marginRight: '10px' }}>
                                             <AvatarUpload currentAvatarUrl={member.avatar_url} name={member.first_name || ''} size={40} readOnly />
@@ -176,7 +182,10 @@ const TeamManagement: React.FC = () => {
                                             {member.designation && <span style={{ fontSize: '0.8rem', color: '#666' }}>{member.designation}</span>}
                                         </div>
                                     </div>
-                                    <span className={styles.activeBadge}>✓ Active</span>
+                                    <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                                      <span style={{ fontSize: '0.8rem', color: '#3b3123', fontWeight: 'bold', textDecoration: 'underline' }}>View Profile</span>
+                                      <span className={styles.activeBadge}>✓ Active</span>
+                                    </div>
                                 </div>
                             ))}
                         </div>

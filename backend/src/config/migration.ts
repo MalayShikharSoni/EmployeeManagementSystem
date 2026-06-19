@@ -94,6 +94,22 @@ async function migrate(): Promise<void> {
     `);
     console.log('task_comments table created successfully');
 
+    console.log('Running migration: Creating eom_records table...');
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS eom_records (
+        id SERIAL PRIMARY KEY,
+        admin_id INTEGER NOT NULL REFERENCES users(id),
+        employee_id INTEGER NOT NULL REFERENCES users(id),
+        month DATE NOT NULL,
+        score INTEGER NOT NULL,
+        snapshot_stats JSONB NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(admin_id, month)
+      );
+    `);
+    console.log('eom_records table created successfully');
+
+    console.log('All migrations completed successfully');
     process.exit(0);
   } catch (error) {
     const err = error as Error;

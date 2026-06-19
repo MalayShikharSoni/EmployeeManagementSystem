@@ -8,6 +8,8 @@ import authRoutes from './routes/auth';
 import taskRoutes from './routes/tasks';
 import invitationRoutes from './routes/invitations';
 import notificationRoutes from './routes/notifications';
+import employeeRoutes from './routes/employees';
+import leaderboardRoutes from './routes/leaderboard';
 import { errorHandler } from './middleware/errorHandler';
 import { startTaskCron } from './cron/taskCron';
 import { createServer } from 'http';
@@ -54,6 +56,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/invitations', invitationRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/employees', employeeRoutes);
+app.use('/api/leaderboard', leaderboardRoutes);
 
 // Health check
 app.get('/health', (_req: Request, res: Response) => {

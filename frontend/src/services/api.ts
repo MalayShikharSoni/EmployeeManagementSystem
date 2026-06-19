@@ -1,5 +1,5 @@
 import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import type { APIResponse, User, Task, TaskCounts, GroupedEmployeeTasks, Employee, Invitation, PendingInvitation, TeamMember, TaskAttachment, AppNotification, TaskComment } from '../types';
+import type { APIResponse, User, Task, TaskCounts, GroupedEmployeeTasks, Employee, Invitation, PendingInvitation, TeamMember, TaskAttachment, AppNotification, TaskComment, EmployeeStats, LeaderboardEntry, EomRecord } from '../types';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
@@ -161,6 +161,22 @@ export const commentAPI = {
     api.post(`/tasks/${taskId}/comments`, { content }),
   deleteComment: (taskId: number | string, commentId: number | string): Promise<AxiosResponse<APIResponse<TaskComment>>> =>
     api.delete(`/tasks/${taskId}/comments/${commentId}`),
+};
+
+// Employee API
+export const employeeAPI = {
+  getStats: (employeeId: number | string): Promise<AxiosResponse<APIResponse<EmployeeStats>>> =>
+    api.get(`/employees/${employeeId}/stats`),
+};
+
+// Leaderboard API
+export const leaderboardAPI = {
+  getLiveLeaderboard: (): Promise<AxiosResponse<APIResponse<LeaderboardEntry[]>>> =>
+    api.get('/leaderboard'),
+  getHistory: (): Promise<AxiosResponse<APIResponse<EomRecord[]>>> =>
+    api.get('/leaderboard/history'),
+  archiveWinner: (employeeId: number, snapshotStats: LeaderboardEntry): Promise<AxiosResponse<APIResponse<EomRecord>>> =>
+    api.post('/leaderboard/archive', { employeeId, snapshotStats }),
 };
 
 export default api;

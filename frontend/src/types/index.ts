@@ -16,6 +16,50 @@ export interface User {
   created_at?: string;
 }
 
+export interface EmployeeStats {
+  employee: User;
+  totalTasks: number;
+  completedTasks: number;
+  failedTasks: number;
+  activeTasks: number;
+  newTasks: number;
+  completionRate: number;
+  onTimeRate: number;
+  tasksThisMonth: number;
+  monthlyTrend: { month: string; count: number }[];
+  priorityBreakdown: { priority: string; count: number }[];
+  currentTasks: { id: number; title: string; status: string; due_date: string; priority: string; is_overdue: boolean; comment_count?: number }[];
+}
+
+export interface LeaderboardEntry {
+  employee_id: number;
+  first_name: string;
+  email: string;
+  avatar_url?: string;
+  department?: string;
+  designation?: string;
+  score: number;
+  tasks_completed_this_month: number;
+  on_time_completions: number;
+  high_priority_completions: number;
+  urgent_priority_completions: number;
+  overdue_tasks: number;
+  completion_rate: number;
+}
+
+export interface EomRecord {
+  id: number;
+  admin_id: number;
+  employee_id: number;
+  month: string;
+  score: number;
+  snapshot_stats: LeaderboardEntry;
+  created_at: string;
+  first_name?: string;
+  email?: string;
+  avatar_url?: string;
+}
+
 export interface UserData {
   role: UserRole;
   data: User;

@@ -47,6 +47,12 @@ class User {
     return result.rows[0];
   }
 
+  static async findById(id: number | string): Promise<UserRow | undefined> {
+    const query = 'SELECT * FROM users WHERE id = $1';
+    const result = await pool.query(query, [id]);
+    return result.rows[0];
+  }
+
   static async verifyPassword(plainPassword: string, hashedPassword: string): Promise<boolean> {
     return await bcrypt.compare(plainPassword, hashedPassword);
   }
