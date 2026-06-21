@@ -109,6 +109,61 @@ async function migrate(): Promise<void> {
     `);
     console.log('eom_records table created successfully');
 
+    console.log('Running migration: Creating project_groups table...');
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS project_groups (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        description TEXT,
+        admin_id INTEGER NOT NULL REFERENCES users(id),
+        github_repo_url VARCHAR(500),
+        status VARCHAR(20) DEFAULT 'active',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+    console.log('project_groups table created successfully');
+
+    console.log('Running migration: Creating project_group_members table...');
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS project_group_members (
+        id SERIAL PRIMARY KEY,
+        group_id INTEGER NOT NULL REFERENCES project_groups(id) ON DELETE CASCADE,
+        employee_id INTEGER NOT NULL REFERENCES users(id),
+        role_in_group VARCHAR(100),
+        joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(group_id, employee_id)
+      );
+    `);
+    await pool.query(`
+      CREATE INDEX IF NOT EXISTS idx_pgm_group_id ON project_group_members(group_id);
+    `);
+    console.log('project_group_members table created successfully');
+
+    console.log('Running migration: Creating project_tasks table...');
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS project_tasks (
+        id SERIAL PRIMARY KEY,
+        group_id INTEGER NOT NULL REFERENCES project_groups(id) ON DELETE CASCADE,
+        assigned_to INTEGER NOT NULL REFERENCES users(id),
+        title VARCHAR(255) NOT NULL,
+        description TEXT,
+        priority VARCHAR(20) DEFAULT 'medium',
+        status VARCHAR(20) DEFAULT 'new',
+        due_date TIMESTAMP,
+        is_overdue BOOLEAN DEFAULT false,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+    await pool.query(`
+      CREATE INDEX IF NOT EXISTS idx_project_tasks_group_id ON project_tasks(group_id);
+    `);
+    await pool.query(`
+      CREATE INDEX IF NOT EXISTS idx_project_tasks_assigned_to ON project_tasks(assigned_to);
+    `);
+    console.log('project_tasks table created successfully');
+
     console.log('All migrations completed successfully');
     process.exit(0);
   } catch (error) {
