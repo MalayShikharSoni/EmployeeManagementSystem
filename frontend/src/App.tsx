@@ -10,6 +10,8 @@ import EmployeeDashboard from "./components/Dashboard/EmployeeDashboard";
 import ProfilePage from "./pages/ProfilePage";
 import EmployeeProfilePage from "./pages/EmployeeProfilePage";
 import LeaderboardPage from "./pages/LeaderboardPage";
+import ProjectGroupsPage from "./pages/ProjectGroupsPage";
+import GroupDetailPage from "./pages/GroupDetailPage";
 import TVStaticEffect from "./pages/TVStaticEffect";
 import CustomCursor from "./components/CustomCursor";
 import Footer from "./pages/Footer";
@@ -47,6 +49,8 @@ const App: React.FC = () => {
           <Route path="/profile" Component={ProfilePage} />
           <Route path="/employees/:id" Component={EmployeeProfilePage} />
           <Route path="/leaderboard" Component={LeaderboardPage} />
+          <Route path="/groups" Component={ProjectGroupsPage} />
+          <Route path="/groups/:groupId" Component={GroupDetailPage} />
 
           {/* Catch all */}
           <Route path="*" element={<Navigate to="/" replace />} />

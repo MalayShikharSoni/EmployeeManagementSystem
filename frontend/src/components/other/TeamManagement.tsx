@@ -68,29 +68,54 @@ const TeamManagement: React.FC = () => {
         <div className={styles.container}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', marginBottom: '1rem' }}>
                 <div className={styles.title} style={{ marginBottom: 0 }}>Your Team</div>
-                <button 
-                  onClick={() => window.location.href = '/leaderboard'}
-                  style={{ 
-                    background: '#f4a261', 
-                    color: '#fff', 
-                    border: 'none', 
-                    padding: '12px 24px', 
-                    borderRadius: '12px', 
-                    fontWeight: 900, 
-                    fontSize: '1.1rem', 
-                    cursor: 'pointer', 
-                    boxShadow: '0 4px 15px rgba(244, 162, 97, 0.4)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    transition: 'transform 0.2s'
-                  }}
-                  onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
-                  onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
-                >
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                  View EOM Leaderboard
-                </button>
+                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                  <button 
+                    onClick={() => window.location.href = '/groups'}
+                    style={{ 
+                      background: '#8b6c3e', 
+                      color: '#fff', 
+                      border: 'none', 
+                      padding: '12px 24px', 
+                      borderRadius: '12px', 
+                      fontWeight: 900, 
+                      fontSize: '1.1rem', 
+                      cursor: 'pointer', 
+                      boxShadow: '0 4px 15px rgba(139, 108, 62, 0.4)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      transition: 'transform 0.2s'
+                    }}
+                    onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+                    onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+                  >
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                    Project Groups
+                  </button>
+                  <button 
+                    onClick={() => window.location.href = '/leaderboard'}
+                    style={{ 
+                      background: '#f4a261', 
+                      color: '#fff', 
+                      border: 'none', 
+                      padding: '12px 24px', 
+                      borderRadius: '12px', 
+                      fontWeight: 900, 
+                      fontSize: '1.1rem', 
+                      cursor: 'pointer', 
+                      boxShadow: '0 4px 15px rgba(244, 162, 97, 0.4)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      transition: 'transform 0.2s'
+                    }}
+                    onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+                    onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+                  >
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    EOM Leaderboard
+                  </button>
+                </div>
             </div>
             <div className={styles.content}>
                 {error && (<div className={styles.errorMsg}>{error}</div>)}

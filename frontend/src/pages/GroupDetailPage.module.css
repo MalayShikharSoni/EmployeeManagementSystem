@@ -1,0 +1,492 @@
+.container {
+  min-height: 100vh;
+  background-color: #cec0ad;
+  padding: 8vh 3vw 16vh 3vw;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.loadingContainer, .errorContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #cec0ad;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(139, 108, 62, 0.3);
+  border-top-color: #8b6c3e;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loadingText, .errorText {
+  color: #8b6c3e;
+  font-weight: 700;
+  font-size: 1.25rem;
+  text-align: center;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.backBtn {
+  background: none;
+  border: none;
+  color: #8b6c3e;
+  font-weight: 800;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: color 0.2s;
+}
+
+.backBtn:hover {
+  color: #3b3123;
+}
+
+.title {
+  color: #9c815a;
+  font-size: 3.5rem;
+  line-height: 1;
+  font-weight: 900;
+  margin: 0;
+}
+
+.groupDesc {
+  color: #8b6c3e;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.headerMeta {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.statusBadge {
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-weight: 800;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background-color: rgba(42, 157, 143, 0.15);
+  color: #2a9d8f;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.tabBtn {
+  background: transparent;
+  border: 2px solid #ad9676;
+  color: #ad9676;
+  padding: 10px 20px;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  font-weight: 800;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tabBtn.active {
+  background-color: #ad9676;
+  color: #fff;
+}
+
+.tabBtn:hover:not(.active) {
+  background-color: rgba(173, 150, 118, 0.2);
+}
+
+/* Section Card */
+.section {
+  background-color: #fff;
+  border-top-right-radius: 30px;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.sectionTitle {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: #3b3123;
+  margin-bottom: 1.5rem;
+}
+
+/* Progress Grid */
+.progressGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.memberCard {
+  background-color: #cec0ad;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  padding: 1.5rem;
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+
+.memberCard:hover {
+  transform: translateY(-3px);
+}
+
+.memberCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1rem;
+}
+
+.memberCardName {
+  font-weight: 900;
+  font-size: 1.1rem;
+  color: #3b3123;
+}
+
+.memberCardEmail {
+  font-size: 0.85rem;
+  color: #8b6c3e;
+  font-weight: 600;
+}
+
+.memberStatsRow {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.memberStat {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #8b6c3e;
+}
+
+.memberStat span {
+  font-weight: 900;
+  color: #3b3123;
+}
+
+.progressBarWrap {
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progressBarFill {
+  height: 100%;
+  background: linear-gradient(90deg, #8b6c3e, #f4a261);
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.progressLabel {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #ad9676;
+  text-align: right;
+  margin-top: 4px;
+}
+
+/* Task Form */
+.taskForm {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background-color: #faf8f5;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+@media (max-width: 768px) {
+  .taskForm {
+    grid-template-columns: 1fr;
+  }
+}
+
+.taskFormGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.taskFormGroup.full {
+  grid-column: 1 / -1;
+}
+
+.taskFormLabel {
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: #8b6c3e;
+}
+
+.taskFormInput, .taskFormTextarea, .taskFormSelect {
+  padding: 10px 14px;
+  border: 2px solid #cec0ad;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background-color: #fff;
+  color: #3b3123;
+  font-weight: 700;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.taskFormInput:focus, .taskFormTextarea:focus, .taskFormSelect:focus {
+  border-color: #8b6c3e;
+}
+
+.taskFormTextarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.assignBtn {
+  background-color: #8b6c3e;
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-top-right-radius: 12px;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  font-weight: 900;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 12px rgba(139, 108, 62, 0.3);
+  grid-column: 1 / -1;
+  justify-self: start;
+}
+
+.assignBtn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.assignBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Tasks List */
+.tasksList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.taskItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  background-color: #cec0ad;
+  border-top-right-radius: 14px;
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
+  transition: transform 0.2s;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.taskItem:hover {
+  transform: translateX(5px);
+}
+
+.taskLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.taskTitle {
+  font-weight: 800;
+  color: #3b3123;
+  font-size: 1rem;
+}
+
+.taskAssignee {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #8b6c3e;
+}
+
+.priorityBadge {
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.taskStatusBadge {
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  background-color: rgba(255,255,255,0.5);
+  color: #3b3123;
+}
+
+.taskRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.taskDue {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #8b6c3e;
+}
+
+.overdueBadge {
+  color: #d62828;
+  font-weight: 900;
+  font-size: 0.75rem;
+}
+
+.emptyText {
+  text-align: center;
+  padding: 2rem;
+  color: #8b6c3e;
+  font-weight: 700;
+}
+
+/* GitHub Section */
+.githubHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.refreshBtn {
+  background-color: #ad9676;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.refreshBtn:hover {
+  background-color: #8b6c3e;
+}
+
+.lastFetched {
+  font-size: 0.8rem;
+  color: #ad9676;
+  font-weight: 600;
+}
+
+.chartWrapper {
+  width: 100%;
+  height: 300px;
+  margin-bottom: 2rem;
+}
+
+.chartTitle {
+  font-weight: 900;
+  font-size: 1.2rem;
+  color: #3b3123;
+  margin-bottom: 1rem;
+}
+
+.githubInputRow {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-end;
+  margin-bottom: 1.5rem;
+}
+
+.githubInputRow input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 2px solid #cec0ad;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background-color: #fff;
+  color: #3b3123;
+  font-weight: 700;
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.githubInputRow button {
+  background-color: #8b6c3e;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.customTooltip {
+  background-color: #3b3123;
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.tooltipLabel {
+  font-weight: 900;
+  margin-bottom: 3px;
+}
+
+.tooltipData {
+  color: #f4a261;
+}

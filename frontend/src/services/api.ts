@@ -1,5 +1,5 @@
 import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import type { APIResponse, User, Task, TaskCounts, GroupedEmployeeTasks, Employee, Invitation, PendingInvitation, TeamMember, TaskAttachment, AppNotification, TaskComment, EmployeeStats, LeaderboardEntry, EomRecord } from '../types';
+import type { APIResponse, User, Task, TaskCounts, GroupedEmployeeTasks, Employee, Invitation, PendingInvitation, TeamMember, TaskAttachment, AppNotification, TaskComment, EmployeeStats, LeaderboardEntry, EomRecord, ProjectGroup, ProjectTask, MemberProgress, GitHubStatsResult, EmployeeGroupTasks } from '../types';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
@@ -177,6 +177,30 @@ export const leaderboardAPI = {
     api.get('/leaderboard/history'),
   archiveWinner: (employeeId: number, snapshotStats: LeaderboardEntry): Promise<AxiosResponse<APIResponse<EomRecord>>> =>
     api.post('/leaderboard/archive', { employeeId, snapshotStats }),
+};
+
+// Group API
+export const groupAPI = {
+  createGroup: (data: { name: string; description?: string; memberIds: number[]; githubRepoUrl?: string }): Promise<AxiosResponse<APIResponse<ProjectGroup>>> =>
+    api.post('/groups', data),
+  getGroups: (): Promise<AxiosResponse<APIResponse<ProjectGroup[]>>> =>
+    api.get('/groups'),
+  getGroupDetail: (groupId: number): Promise<AxiosResponse<APIResponse<ProjectGroup>>> =>
+    api.get(`/groups/${groupId}`),
+  createGroupTask: (groupId: number, data: { assignedTo: number; title: string; description?: string; priority?: string; dueDate?: string }): Promise<AxiosResponse<APIResponse<ProjectTask>>> =>
+    api.post(`/groups/${groupId}/tasks`, data),
+  getGroupTasks: (groupId: number): Promise<AxiosResponse<APIResponse<ProjectTask[]>>> =>
+    api.get(`/groups/${groupId}/tasks`),
+  getGroupProgress: (groupId: number): Promise<AxiosResponse<APIResponse<MemberProgress[]>>> =>
+    api.get(`/groups/${groupId}/progress`),
+  updateGithubUrl: (groupId: number, githubRepoUrl: string): Promise<AxiosResponse<APIResponse<ProjectGroup>>> =>
+    api.put(`/groups/${groupId}/github`, { githubRepoUrl }),
+  getGithubStats: (groupId: number): Promise<AxiosResponse<APIResponse<GitHubStatsResult>>> =>
+    api.get(`/groups/${groupId}/github-stats`),
+  updateTaskStatus: (groupId: number, taskId: number, status: string): Promise<AxiosResponse<APIResponse<ProjectTask>>> =>
+    api.put(`/groups/${groupId}/tasks/${taskId}/status`, { status }),
+  getMyGroupTasks: (): Promise<AxiosResponse<APIResponse<EmployeeGroupTasks[]>>> =>
+    api.get('/groups/my-tasks'),
 };
 
 export default api;

@@ -6,8 +6,8 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { AuthContext, type AuthContextType } from "../../context/AuthProvider";
 import { useSocket } from "../../context/SocketProvider";
-import { taskAPI, invitationAPI } from "../../services/api";
-import type { Task, TaskCounts, Invitation } from "../../types";
+import { taskAPI, invitationAPI, groupAPI } from "../../services/api";
+import type { Task, TaskCounts, Invitation, EmployeeGroupTasks } from "../../types";
 import styles from "./EmployeeDashboard.module.css";
 
 const EmployeeDashboard = memo(() => {
@@ -18,6 +18,7 @@ const EmployeeDashboard = memo(() => {
   const [error, setError] = useState("");
   const [invitations, setInvitations] = useState<Invitation[]>([]);
   const [invitationLoading, setInvitationLoading] = useState(false);
+  const [myGroups, setMyGroups] = useState<EmployeeGroupTasks[]>([]);
   const firstWaveRef = useRef<HTMLDivElement>(null);
   const thirdWaveRef = useRef<HTMLDivElement>(null);
   const { userData, isLoading: authLoading } = useContext(AuthContext) as AuthContextType;
@@ -44,7 +45,14 @@ const EmployeeDashboard = memo(() => {
     catch (err) { console.error("Failed to fetch invitations:", err); }
   }, []);
 
-  useEffect(() => { if (userData && userData.role === 'employee') { fetchInvitations(); } }, [userData, fetchInvitations, refreshTrigger]);
+  useEffect(() => { if (userData && userData.role === 'employee') { fetchInvitations(); fetchMyGroups(); } }, [userData, fetchInvitations, refreshTrigger]);
+
+  const fetchMyGroups = async () => {
+    try {
+      const res = await groupAPI.getMyGroupTasks();
+      setMyGroups(res.data.data);
+    } catch (err) { console.error('Failed to fetch group tasks:', err); }
+  };
 
   const handleRespondInvitation = async (invitationId: number, status: string) => {
     setInvitationLoading(true);
@@ -108,6 +116,46 @@ const EmployeeDashboard = memo(() => {
           </div>
         )}
         <TaskList tasks={tasks} taskCounts={taskCounts} refreshTasks={refreshTasks} data={userData?.data} />
+
+        {/* My Groups Section */}
+        {myGroups.length > 0 && (
+          <div className={styles.invitationsSection} style={{ marginTop: '2rem' }}>
+            <div className={styles.invitationsTitle}>My Project Groups</div>
+            {myGroups.map(group => (
+              <div key={group.group_id} style={{ marginBottom: '1.5rem' }}>
+                <div 
+                  style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', marginBottom: '8px' }}
+                  onClick={() => window.location.href = `/groups/${group.group_id}`}
+                >
+                  <span style={{ fontWeight: 900, fontSize: '1.2rem', color: '#3b3123' }}>{group.group_name}</span>
+                  <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#ad9676', textDecoration: 'underline' }}>View Details</span>
+                </div>
+                {group.tasks.length === 0 ? (
+                  <div style={{ color: '#ad9676', fontWeight: 700, fontSize: '0.95rem' }}>No active tasks in this group.</div>
+                ) : (
+                  group.tasks.map(task => (
+                    <div key={task.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', backgroundColor: '#cec0ad', borderRadius: '10px', marginBottom: '6px', flexWrap: 'wrap', gap: '8px' }}>
+                      <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
+                        <span style={{ fontWeight: 800, color: '#3b3123' }}>{task.title}</span>
+                        <span style={{ padding: '2px 10px', borderRadius: '12px', fontWeight: 800, fontSize: '0.7rem', textTransform: 'uppercase', color: '#fff', backgroundColor: task.priority === 'urgent' ? '#d62828' : task.priority === 'high' ? '#e07b39' : task.priority === 'medium' ? '#f4a261' : '#8b6c3e' }}>{task.priority}</span>
+                        <span style={{ fontWeight: 700, fontSize: '0.8rem', color: '#8b6c3e', textTransform: 'uppercase' }}>{task.status}</span>
+                      </div>
+                      <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                        {task.due_date && <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#8b6c3e' }}>{new Date(task.due_date).toLocaleDateString()}</span>}
+                        {task.status === 'new' && (
+                          <button onClick={async (e) => { e.stopPropagation(); await groupAPI.updateTaskStatus(group.group_id, task.id, 'active'); fetchMyGroups(); }} style={{ background: '#2a9d8f', color: '#fff', border: 'none', padding: '5px 12px', borderRadius: '8px', fontWeight: 800, cursor: 'pointer', fontSize: '0.8rem' }}>Accept</button>
+                        )}
+                        {task.status === 'active' && (
+                          <button onClick={async (e) => { e.stopPropagation(); await groupAPI.updateTaskStatus(group.group_id, task.id, 'completed'); fetchMyGroups(); }} style={{ background: '#2a9d8f', color: '#fff', border: 'none', padding: '5px 12px', borderRadius: '8px', fontWeight: 800, cursor: 'pointer', fontSize: '0.8rem' }}>Complete</button>
+                        )}
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

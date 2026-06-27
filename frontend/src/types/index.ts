@@ -192,3 +192,88 @@ export interface TaskComment {
   author_name?: string;
   author_avatar?: string;
 }
+
+// ── Project Groups ──
+export interface ProjectGroup {
+  id: number;
+  name: string;
+  description: string | null;
+  admin_id: number;
+  github_repo_url: string | null;
+  status: 'active' | 'completed' | 'archived';
+  created_at: string;
+  updated_at: string;
+  member_count?: number;
+  task_count?: number;
+  completed_task_count?: number;
+  members?: ProjectGroupMember[];
+}
+
+export interface ProjectGroupMember {
+  id: number;
+  group_id: number;
+  employee_id: number;
+  role_in_group: string | null;
+  joined_at: string;
+  first_name?: string;
+  email?: string;
+  avatar_url?: string;
+  designation?: string;
+}
+
+export interface ProjectTask {
+  id: number;
+  group_id: number;
+  assigned_to: number;
+  title: string;
+  description: string | null;
+  priority: string;
+  status: string;
+  due_date: string | null;
+  is_overdue: boolean;
+  created_at: string;
+  updated_at: string;
+  assignee_name?: string;
+  assignee_email?: string;
+  assignee_avatar?: string;
+}
+
+export interface MemberProgress {
+  employee_id: number;
+  first_name: string;
+  email: string;
+  avatar_url: string | null;
+  total_tasks: number;
+  completed_tasks: number;
+  active_tasks: number;
+  new_tasks: number;
+  failed_tasks: number;
+  completion_rate: number;
+}
+
+export interface GitHubContributor {
+  username: string;
+  avatar_url: string;
+  commits: number;
+  additions: number;
+  deletions: number;
+}
+
+export interface CommitTimelineEntry {
+  date: string;
+  commits: number;
+}
+
+export interface GitHubStatsResult {
+  contributors: GitHubContributor[];
+  commitTimeline: CommitTimelineEntry[];
+  totalCommits: number;
+  lastFetched: string;
+  repoUrl: string;
+}
+
+export interface EmployeeGroupTasks {
+  group_name: string;
+  group_id: number;
+  tasks: ProjectTask[];
+}
