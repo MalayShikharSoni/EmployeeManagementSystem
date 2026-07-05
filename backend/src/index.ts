@@ -11,6 +11,7 @@ import notificationRoutes from './routes/notifications';
 import employeeRoutes from './routes/employees';
 import leaderboardRoutes from './routes/leaderboard';
 import groupRoutes from './routes/groups';
+import adminRoutes from './routes/admin';
 import { errorHandler } from './middleware/errorHandler';
 import { startTaskCron } from './cron/taskCron';
 import { createServer } from 'http';
@@ -60,6 +61,7 @@ app.use('/api/notifications', notificationRoutes);
 app.use('/api/employees', employeeRoutes);
 app.use('/api/leaderboard', leaderboardRoutes);
 app.use('/api/groups', groupRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Health check
 app.get('/health', (_req: Request, res: Response) => {

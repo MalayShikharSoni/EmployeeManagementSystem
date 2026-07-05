@@ -1,0 +1,317 @@
+.container {
+  min-height: 100vh;
+  background-color: #cec0ad;
+  padding: 8vh 3vw 16vh 3vw;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #cec0ad;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(139, 108, 62, 0.3);
+  border-top-color: #8b6c3e;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loadingText {
+  color: #8b6c3e;
+  font-weight: 700;
+  font-size: 1.25rem;
+  text-align: center;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.title {
+  color: #9c815a;
+  font-size: 4.5rem;
+  line-height: 1;
+  font-weight: 900;
+  margin: 0;
+}
+
+.backBtn {
+  background: none;
+  border: none;
+  color: #8b6c3e;
+  font-weight: 800;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: color 0.2s;
+  margin-bottom: 0.5rem;
+}
+
+.backBtn:hover {
+  color: #3b3123;
+}
+
+/* Stat Cards */
+.statCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.statCard {
+  background-color: #fff;
+  border-top-right-radius: 24px;
+  border-bottom-left-radius: 24px;
+  border-bottom-right-radius: 24px;
+  padding: 1.8rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.statCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #8b6c3e, #f4a261);
+}
+
+.statLabel {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #ad9676;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.statValue {
+  font-size: 2.8rem;
+  font-weight: 900;
+  color: #3b3123;
+  line-height: 1;
+}
+
+.statSuffix {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #8b6c3e;
+  margin-left: 4px;
+}
+
+/* Section */
+.section {
+  background-color: #fff;
+  border-top-right-radius: 30px;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #3b3123;
+  margin-bottom: 1.5rem;
+}
+
+/* Chart */
+.chartWrapper {
+  width: 100%;
+  height: 320px;
+}
+
+.customTooltip {
+  background-color: #3b3123;
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.tooltipLabel {
+  font-weight: 900;
+  margin-bottom: 3px;
+}
+
+.tooltipData {
+  color: #f4a261;
+}
+
+/* MVP section */
+.mvpCard {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background-color: #cec0ad;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 2rem;
+}
+
+.mvpInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.mvpName {
+  font-weight: 900;
+  font-size: 1.4rem;
+  color: #3b3123;
+}
+
+.mvpEmail {
+  font-weight: 600;
+  color: #8b6c3e;
+  font-size: 0.9rem;
+}
+
+.mvpStat {
+  font-weight: 900;
+  color: #f4a261;
+  font-size: 1.1rem;
+  margin-top: 4px;
+}
+
+.mvpLabel {
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: #ad9676;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Two-column layout */
+.twoCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .twoCol {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Status bars */
+.statusGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.statusRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.statusLabel {
+  width: 90px;
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: #8b6c3e;
+  text-transform: capitalize;
+}
+
+.statusBarTrack {
+  flex: 1;
+  height: 12px;
+  background-color: #e8e2d8;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.statusBarFill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.6s ease;
+}
+
+.statusCount {
+  font-weight: 900;
+  font-size: 0.9rem;
+  color: #3b3123;
+  width: 40px;
+  text-align: right;
+}
+
+/* Employee bar chart row */
+.employeeRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.employeeName {
+  width: 120px;
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: #3b3123;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.employeeBarTrack {
+  flex: 1;
+  height: 20px;
+  background-color: #e8e2d8;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.employeeBarFill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.6s ease;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 8px;
+  font-size: 0.7rem;
+  font-weight: 900;
+  color: #fff;
+  min-width: 30px;
+}
+
+.noData {
+  text-align: center;
+  padding: 2rem;
+  color: #ad9676;
+  font-weight: 700;
+  font-size: 1.1rem;
+}

@@ -115,6 +115,29 @@ const TeamManagement: React.FC = () => {
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
                     EOM Leaderboard
                   </button>
+                  <button 
+                    onClick={() => window.location.href = '/analytics'}
+                    style={{ 
+                      background: '#2a9d8f', 
+                      color: '#fff', 
+                      border: 'none', 
+                      padding: '12px 24px', 
+                      borderRadius: '12px', 
+                      fontWeight: 900, 
+                      fontSize: '1.1rem', 
+                      cursor: 'pointer', 
+                      boxShadow: '0 4px 15px rgba(42, 157, 143, 0.4)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      transition: 'transform 0.2s'
+                    }}
+                    onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+                    onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+                  >
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    Analytics
+                  </button>
                 </div>
             </div>
             <div className={styles.content}>

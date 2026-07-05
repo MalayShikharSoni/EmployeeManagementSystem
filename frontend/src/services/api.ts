@@ -1,5 +1,5 @@
 import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import type { APIResponse, User, Task, TaskCounts, GroupedEmployeeTasks, Employee, Invitation, PendingInvitation, TeamMember, TaskAttachment, AppNotification, TaskComment, EmployeeStats, LeaderboardEntry, EomRecord, ProjectGroup, ProjectTask, MemberProgress, GitHubStatsResult, EmployeeGroupTasks } from '../types';
+import type { APIResponse, User, Task, TaskCounts, GroupedEmployeeTasks, Employee, Invitation, PendingInvitation, TeamMember, TaskAttachment, AppNotification, TaskComment, EmployeeStats, LeaderboardEntry, EomRecord, ProjectGroup, ProjectTask, MemberProgress, GitHubStatsResult, EmployeeGroupTasks, AdminAnalytics } from '../types';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
@@ -201,6 +201,12 @@ export const groupAPI = {
     api.put(`/groups/${groupId}/tasks/${taskId}/status`, { status }),
   getMyGroupTasks: (): Promise<AxiosResponse<APIResponse<EmployeeGroupTasks[]>>> =>
     api.get('/groups/my-tasks'),
+};
+
+// Admin Analytics API
+export const adminAPI = {
+  getAnalytics: (): Promise<AxiosResponse<APIResponse<AdminAnalytics>>> =>
+    api.get('/admin/analytics'),
 };
 
 export default api;

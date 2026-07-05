@@ -277,3 +277,35 @@ export interface EmployeeGroupTasks {
   group_id: number;
   tasks: ProjectTask[];
 }
+
+// ── Admin Analytics ──
+export interface AdminAnalytics {
+  totalTeamMembers: number;
+  tasksAssignedThisMonth: number;
+  totalTasks: number;
+  completionRate: number;
+  overdueCount: number;
+  avgCompletionDays: number;
+  tasksByStatus: {
+    new: number;
+    active: number;
+    completed: number;
+    failed: number;
+  };
+  tasksByPriority: { priority: string; count: number }[];
+  mostActiveEmployee: {
+    id: number;
+    first_name: string;
+    email: string;
+    avatar_url?: string;
+    completed_count: number;
+  } | null;
+  completionsPerDay: { date: string; count: number }[];
+  perEmployeeStats: {
+    first_name: string;
+    email: string;
+    avatar_url?: string;
+    total_tasks: number;
+    completed: number;
+  }[];
+}
