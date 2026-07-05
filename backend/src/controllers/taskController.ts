@@ -329,10 +329,28 @@ class TaskController {
     }
   }
 
-  // Delete task (Admin only)
+  // Delete task (Admin only, and only tasks the admin created)
   static async deleteTask(req: Request, res: Response): Promise<void> {
     try {
       const taskId = req.params.taskId as string;
+      const userId = req.user.id;
+
+      // Verify the task exists and that this admin created it
+      const task = await Task.getById(taskId);
+      if (!task) {
+        res.status(404).json({
+          success: false,
+          error: 'Task not found'
+        });
+        return;
+      }
+      if (task.created_by !== userId) {
+        res.status(403).json({
+          success: false,
+          error: 'You do not have permission to delete this task'
+        });
+        return;
+      }
 
       const deletedTask = await Task.delete(taskId);
 
