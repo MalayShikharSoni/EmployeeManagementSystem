@@ -147,10 +147,11 @@ class TaskController {
     }
   }
 
-  // Get all tasks (Admin only)
-  static async getAllTasks(_req: Request, res: Response): Promise<void> {
+  // Get all tasks (Admin only — scoped to the requesting admin's own tasks)
+  static async getAllTasks(req: Request, res: Response): Promise<void> {
     try {
-      const tasks = await Task.getAll();
+      const adminId = req.user.id;
+      const tasks = await Task.getAll(adminId);
 
       res.json({
         success: true,

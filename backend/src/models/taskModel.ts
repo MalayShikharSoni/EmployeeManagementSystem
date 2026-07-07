@@ -90,8 +90,8 @@ class Task {
     return result.rows;
   }
 
-  // Get all tasks (admin view)
-  static async getAll(): Promise<TaskRow[]> {
+  // Get all tasks created by a given admin (admin view — scoped to the requester)
+  static async getAll(adminId: number): Promise<TaskRow[]> {
     const query = `
       SELECT 
         t.*,
@@ -103,10 +103,11 @@ class Task {
       FROM tasks t
       LEFT JOIN users creator ON t.created_by = creator.id
       LEFT JOIN users assignee ON t.assigned_to = assignee.id
+      WHERE t.created_by = $1
       ORDER BY t.created_at DESC
     `;
 
-    const result = await pool.query(query);
+    const result = await pool.query(query, [adminId]);
     return result.rows;
   }
 
