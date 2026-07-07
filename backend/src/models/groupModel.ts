@@ -214,6 +214,14 @@ class GroupModel {
     return result.rows[0] || null;
   }
 
+  static async getTaskById(taskId: number): Promise<ProjectTask | null> {
+    const result = await pool.query(
+      `SELECT * FROM project_tasks WHERE id = $1`,
+      [taskId]
+    );
+    return result.rows[0] || null;
+  }
+
   static async updateTaskStatus(taskId: number, status: string): Promise<ProjectTask | null> {
     const result = await pool.query(
       `UPDATE project_tasks SET status = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2 RETURNING *`,

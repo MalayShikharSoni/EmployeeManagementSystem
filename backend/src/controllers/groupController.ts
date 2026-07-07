@@ -1,8 +1,32 @@
 import { Request, Response } from 'express';
-import GroupModel from '../models/groupModel';
+import GroupModel, { ProjectGroup } from '../models/groupModel';
 import { getGitHubStats, clearGitHubCache } from '../services/githubService';
 
 class GroupController {
+  // Shared access check for a group. A user may access a group if they are its
+  // admin-owner OR a member of it. This is the exact rule originally inlined in
+  // getGroupDetail (admin => must own it, employee => must be a member).
+  // Returns the fetched group so callers can distinguish 404 (missing) from
+  // 403 (exists but no access) and reuse group fields without re-querying.
+  private static async checkGroupAccess(
+    groupId: number,
+    userId: number,
+    role: string
+  ): Promise<{ group: ProjectGroup | null; authorized: boolean }> {
+    const group = await GroupModel.getGroupDetail(groupId);
+    if (!group) {
+      return { group: null, authorized: false };
+    }
+
+    let authorized: boolean;
+    if (role === 'admin') {
+      authorized = group.admin_id === userId;
+    } else {
+      authorized = await GroupModel.isGroupMember(groupId, userId);
+    }
+
+    return { group, authorized };
+  }
   // POST /api/groups — admin creates group
   static async createGroup(req: Request, res: Response): Promise<void> {
     try {
@@ -54,25 +78,16 @@ class GroupController {
   static async getGroupDetail(req: Request, res: Response): Promise<void> {
     try {
       const groupId = parseInt(req.params.groupId as string, 10);
-      const group = await GroupModel.getGroupDetail(groupId);
 
+      // Check access: admin must own it, employee must be a member
+      const { group, authorized } = await GroupController.checkGroupAccess(groupId, req.user.id, req.user.role);
       if (!group) {
         res.status(404).json({ success: false, error: 'Group not found' });
         return;
       }
-
-      // Check access: admin must own it, employee must be a member
-      if (req.user.role === 'admin') {
-        if (group.admin_id !== req.user.id) {
-          res.status(403).json({ success: false, error: 'Access denied' });
-          return;
-        }
-      } else {
-        const isMember = await GroupModel.isGroupMember(groupId, req.user.id);
-        if (!isMember) {
-          res.status(403).json({ success: false, error: 'Access denied' });
-          return;
-        }
+      if (!authorized) {
+        res.status(403).json({ success: false, error: 'Access denied' });
+        return;
       }
 
       const members = await GroupModel.getGroupMembers(groupId);
@@ -132,6 +147,17 @@ class GroupController {
   static async getGroupTasks(req: Request, res: Response): Promise<void> {
     try {
       const groupId = parseInt(req.params.groupId as string, 10);
+
+      const { group, authorized } = await GroupController.checkGroupAccess(groupId, req.user.id, req.user.role);
+      if (!group) {
+        res.status(404).json({ success: false, error: 'Group not found' });
+        return;
+      }
+      if (!authorized) {
+        res.status(403).json({ success: false, error: 'You do not have access to this group' });
+        return;
+      }
+
       const tasks = await GroupModel.getGroupTasks(groupId);
       res.json({ success: true, data: tasks });
     } catch (error) {
@@ -144,6 +170,17 @@ class GroupController {
   static async getGroupProgress(req: Request, res: Response): Promise<void> {
     try {
       const groupId = parseInt(req.params.groupId as string, 10);
+
+      const { group, authorized } = await GroupController.checkGroupAccess(groupId, req.user.id, req.user.role);
+      if (!group) {
+        res.status(404).json({ success: false, error: 'Group not found' });
+        return;
+      }
+      if (!authorized) {
+        res.status(403).json({ success: false, error: 'You do not have access to this group' });
+        return;
+      }
+
       const progress = await GroupModel.getGroupProgress(groupId);
       res.json({ success: true, data: progress });
     } catch (error) {
@@ -184,10 +221,14 @@ class GroupController {
   static async getGithubStats(req: Request, res: Response): Promise<void> {
     try {
       const groupId = parseInt(req.params.groupId as string, 10);
-      const group = await GroupModel.getGroupDetail(groupId);
 
+      const { group, authorized } = await GroupController.checkGroupAccess(groupId, req.user.id, req.user.role);
       if (!group) {
         res.status(404).json({ success: false, error: 'Group not found' });
+        return;
+      }
+      if (!authorized) {
+        res.status(403).json({ success: false, error: 'You do not have access to this group' });
         return;
       }
 
@@ -204,10 +245,12 @@ class GroupController {
     }
   }
 
-  // PUT /api/groups/:groupId/tasks/:taskId/status — update task status (for employees)
+  // PUT /api/groups/:groupId/tasks/:taskId/status — update task status
   static async updateTaskStatus(req: Request, res: Response): Promise<void> {
     try {
+      const groupId = parseInt(req.params.groupId as string, 10);
       const taskId = parseInt(req.params.taskId as string, 10);
+      const userId = req.user.id;
       const { status } = req.body;
 
       if (!status || !['new', 'active', 'completed', 'failed'].includes(status)) {
@@ -215,13 +258,49 @@ class GroupController {
         return;
       }
 
-      const task = await GroupModel.updateTaskStatus(taskId, status);
+      // Fetch the task and verify it actually belongs to the group in the URL
+      // (prevents ID-confusion: updating a task via an unrelated groupId).
+      const task = await GroupModel.getTaskById(taskId);
       if (!task) {
         res.status(404).json({ success: false, error: 'Task not found' });
         return;
       }
+      if (task.group_id !== groupId) {
+        res.status(400).json({ success: false, error: 'Task does not belong to this group' });
+        return;
+      }
 
-      res.json({ success: true, data: task, message: 'Task status updated' });
+      // The requester must have access to the group at all (owner or member).
+      const { group, authorized } = await GroupController.checkGroupAccess(groupId, userId, req.user.role);
+      if (!group) {
+        res.status(404).json({ success: false, error: 'Group not found' });
+        return;
+      }
+      if (!authorized) {
+        res.status(403).json({ success: false, error: 'You do not have access to this group' });
+        return;
+      }
+
+      // Further restriction: only the task's assignee or the group's admin-owner
+      // may change its status. This mirrors the assignee-only rule used by
+      // taskController.accept/complete/failTask, extended to also allow the
+      // group owner (who created/assigned the task). See flagged note in the
+      // audit summary — this is the one point where the intended access model
+      // was ambiguous.
+      const isOwner = group.admin_id === userId;
+      const isAssignee = task.assigned_to === userId;
+      if (!isOwner && !isAssignee) {
+        res.status(403).json({ success: false, error: 'You do not have permission to update this task' });
+        return;
+      }
+
+      const updatedTask = await GroupModel.updateTaskStatus(taskId, status);
+      if (!updatedTask) {
+        res.status(404).json({ success: false, error: 'Task not found' });
+        return;
+      }
+
+      res.json({ success: true, data: updatedTask, message: 'Task status updated' });
     } catch (error) {
       console.error('Update task status error:', error);
       res.status(500).json({ success: false, error: 'Failed to update task status' });
