@@ -83,7 +83,7 @@ const LeaderboardPage: React.FC = () => {
 
     try {
       setIsCrowning(true);
-      await leaderboardAPI.archiveWinner(winner.employee_id, winner);
+      await leaderboardAPI.archiveWinner(winner.employee_id);
       alert('Winner successfully crowned!');
       setActiveTab('history');
     } catch (err: any) {

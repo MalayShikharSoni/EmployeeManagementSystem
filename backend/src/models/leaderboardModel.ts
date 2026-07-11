@@ -141,7 +141,26 @@ class LeaderboardModel {
     }));
   }
 
-  static async archiveWinner(adminId: number, employeeId: number, snapshotStats: LeaderboardEntry): Promise<EomRecord> {
+  // Compute a single employee's leaderboard entry server-side, reusing the
+  // exact same scoring logic as getLiveLeaderboardSafe (single source of truth —
+  // no parallel formula). Scoped to this admin's accepted, active team members,
+  // so an employee not on the admin's team yields null.
+  static async getEmployeeLeaderboardEntry(adminId: number, employeeId: number): Promise<LeaderboardEntry | null> {
+    const leaderboard = await this.getLiveLeaderboardSafe(adminId);
+    return leaderboard.find(entry => entry.employee_id === employeeId) || null;
+  }
+
+  // Archive the Employee-of-the-Month winner. The client only chooses WHICH
+  // employee to crown; the score and stats snapshot are ALWAYS recomputed
+  // server-side and persisted — client-supplied scores/snapshots are ignored.
+  // Returns null if the employee has no server-computed entry (e.g. not on the
+  // admin's team), so the caller can surface a 404 rather than forge a record.
+  static async archiveWinner(adminId: number, employeeId: number): Promise<EomRecord | null> {
+    const entry = await this.getEmployeeLeaderboardEntry(adminId, employeeId);
+    if (!entry) {
+      return null;
+    }
+
     const month = new Date();
     month.setDate(1); // first day of month
     const query = `
@@ -151,7 +170,7 @@ class LeaderboardModel {
       SET employee_id = EXCLUDED.employee_id, score = EXCLUDED.score, snapshot_stats = EXCLUDED.snapshot_stats
       RETURNING *
     `;
-    const values = [adminId, employeeId, month, snapshotStats.score, JSON.stringify(snapshotStats)];
+    const values = [adminId, employeeId, month, entry.score, JSON.stringify(entry)];
     const result = await pool.query(query, values);
     return result.rows[0];
   }

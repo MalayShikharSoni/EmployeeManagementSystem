@@ -164,6 +164,32 @@ async function migrate(): Promise<void> {
     `);
     console.log('project_tasks table created successfully');
 
+    console.log('Running migration: Ensuring refresh_tokens table + rotation columns...');
+    // Guard: refresh_tokens has historically had no committed DDL. Create it if
+    // missing so this migration is self-sufficient on a fresh database.
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS refresh_tokens (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER NOT NULL REFERENCES users(id),
+        token TEXT NOT NULL,
+        expires_at TIMESTAMP NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+    // Rotation + reuse-detection columns.
+    await pool.query(`
+      ALTER TABLE refresh_tokens
+      ADD COLUMN IF NOT EXISTS revoked_at TIMESTAMP,
+      ADD COLUMN IF NOT EXISTS replaced_by INTEGER REFERENCES refresh_tokens(id);
+    `);
+    await pool.query(`
+      CREATE INDEX IF NOT EXISTS idx_refresh_tokens_token ON refresh_tokens(token);
+    `);
+    await pool.query(`
+      CREATE INDEX IF NOT EXISTS idx_refresh_tokens_user_id ON refresh_tokens(user_id);
+    `);
+    console.log('refresh_tokens table ensured/updated successfully');
+
     console.log('All migrations completed successfully');
     process.exit(0);
   } catch (error) {

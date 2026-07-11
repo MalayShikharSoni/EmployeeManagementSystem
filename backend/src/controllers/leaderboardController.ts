@@ -51,15 +51,23 @@ class LeaderboardController {
       }
       
       const adminId = req.user.id;
-      const { employeeId, snapshotStats } = req.body;
-      
-      if (!employeeId || !snapshotStats) {
-        res.status(400).json({ success: false, error: 'Missing employeeId or snapshotStats' });
+      const { employeeId } = req.body;
+
+      // Only the target employee is accepted from the client. The score and
+      // stats snapshot are recomputed server-side inside the model — any
+      // client-supplied score/snapshot is deliberately ignored.
+      if (!employeeId) {
+        res.status(400).json({ success: false, error: 'Missing employeeId' });
         return;
       }
 
-      const record = await LeaderboardModel.archiveWinner(adminId, employeeId, snapshotStats);
-      
+      const record = await LeaderboardModel.archiveWinner(adminId, employeeId);
+
+      if (!record) {
+        res.status(404).json({ success: false, error: 'Employee not found on your team leaderboard' });
+        return;
+      }
+
       res.json({
         success: true,
         data: record,

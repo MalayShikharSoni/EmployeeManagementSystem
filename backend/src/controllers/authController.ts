@@ -187,16 +187,45 @@ class AuthController {
         return;
       }
 
-      // Check the token exists in DB and hasn't been revoked
+      // Look up the presented token for this user WITHOUT pre-filtering on
+      // revoked/expiry, so we can distinguish "reused a rotated-out token"
+      // (reuse detection) from "never existed".
       const tokenResult = await pool.query(
-        'SELECT * FROM refresh_tokens WHERE token = $1 AND user_id = $2 AND expires_at > NOW()',
+        'SELECT id, revoked_at, expires_at FROM refresh_tokens WHERE token = $1 AND user_id = $2',
         [refreshToken, decoded.id]
       );
 
       if (tokenResult.rows.length === 0) {
         res.status(401).json({
           success: false,
-          error: 'Refresh token not found or expired'
+          error: 'Refresh token not found'
+        });
+        return;
+      }
+
+      const stored = tokenResult.rows[0];
+
+      // Reuse detection: the token exists but was already revoked (rotated out
+      // or logged out). This is a strong token-theft signal — revoke EVERY
+      // active refresh token for this user, forcing re-login on all devices.
+      if (stored.revoked_at !== null) {
+        await pool.query(
+          'UPDATE refresh_tokens SET revoked_at = NOW() WHERE user_id = $1 AND revoked_at IS NULL',
+          [decoded.id]
+        );
+        console.error(`[SECURITY] refresh token reuse detected for user ${decoded.id} — all sessions revoked`);
+        res.status(401).json({
+          success: false,
+          error: 'Refresh token has been revoked'
+        });
+        return;
+      }
+
+      // DB row is the source of truth for the revocation window.
+      if (new Date(stored.expires_at) <= new Date()) {
+        res.status(401).json({
+          success: false,
+          error: 'Refresh token expired'
         });
         return;
       }
@@ -217,16 +246,35 @@ class AuthController {
 
       const user = userResult.rows[0];
 
-      // Issue a new access token (refresh token stays the same)
-      const accessToken = jwt.sign(
-        { id: user.id, email: user.email, role: user.role },
-        process.env.JWT_SECRET as string,
-        { expiresIn: '15m' }
-      );
+      // Rotate: mint a brand-new access + refresh token, persist the new refresh
+      // token, and revoke the old one (linking it to its replacement). Wrapped in
+      // a transaction so the insert-new + revoke-old pair is atomic.
+      const { accessToken, refreshToken: newRefreshToken } = AuthController.generateTokens(user);
+
+      const client = await pool.connect();
+      try {
+        await client.query('BEGIN');
+        const insertResult = await client.query(
+          `INSERT INTO refresh_tokens (user_id, token, expires_at)
+           VALUES ($1, $2, NOW() + INTERVAL '7 days') RETURNING id`,
+          [user.id, newRefreshToken]
+        );
+        const newTokenId = insertResult.rows[0].id;
+        await client.query(
+          'UPDATE refresh_tokens SET revoked_at = NOW(), replaced_by = $1 WHERE id = $2',
+          [newTokenId, stored.id]
+        );
+        await client.query('COMMIT');
+      } catch (txError) {
+        await client.query('ROLLBACK');
+        throw txError;
+      } finally {
+        client.release();
+      }
 
       res.json({
         success: true,
-        data: { accessToken }
+        data: { accessToken, refreshToken: newRefreshToken }
       });
     } catch (error) {
       console.error('Refresh token error:', error);
@@ -242,15 +290,16 @@ class AuthController {
       const { refreshToken } = req.body;
 
       if (refreshToken) {
-        // Delete the specific refresh token from DB
+        // Revoke (not delete) the specific token, keeping the row so a later
+        // reuse of this rotated-out/logged-out token is still detectable.
         await pool.query(
-          'DELETE FROM refresh_tokens WHERE token = $1 AND user_id = $2',
+          'UPDATE refresh_tokens SET revoked_at = NOW() WHERE token = $1 AND user_id = $2 AND revoked_at IS NULL',
           [refreshToken, req.user.id]
         );
       } else {
-        // If no token provided, revoke ALL refresh tokens for this user
+        // If no token provided, revoke ALL active refresh tokens for this user.
         await pool.query(
-          'DELETE FROM refresh_tokens WHERE user_id = $1',
+          'UPDATE refresh_tokens SET revoked_at = NOW() WHERE user_id = $1 AND revoked_at IS NULL',
           [req.user.id]
         );
       }
