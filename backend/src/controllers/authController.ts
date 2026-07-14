@@ -1,10 +1,22 @@
 // src/controllers/authController.ts
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
 import User from '../models/userModel';
 import pool from '../config/database';
 import cloudinary from '../config/cloudinary';
 import streamifier from 'streamifier';
+
+// Refresh tokens are stored HASHED so a DB leak does not expose usable bearer
+// credentials (previously the raw JWT was stored, effectively plaintext). We use
+// SHA-256 (fast, deterministic, unsalted) rather than bcrypt on purpose: a JWT
+// refresh token is already long and high-entropy, so the threat is DB-read-and-
+// reuse, not offline guessing. Deterministic hashing is also required so the
+// refresh/logout endpoints can look a token up by exact value (bcrypt's per-row
+// salt would make that lookup impossible without scanning every row).
+function hashRefreshToken(token: string): string {
+  return crypto.createHash('sha256').update(token).digest('hex');
+}
 
 class AuthController {
   static generateTokens(user: { id: number; email: string; role: string }) {
@@ -50,7 +62,7 @@ class AuthController {
       // Store refresh token
       await pool.query(
         'INSERT INTO refresh_tokens (user_id, token, expires_at) VALUES ($1, $2, NOW() + INTERVAL \'7 days\')',
-        [user.id, refreshToken]
+        [user.id, hashRefreshToken(refreshToken)]
       );
 
       res.status(201).json({
@@ -108,7 +120,7 @@ class AuthController {
       // Store refresh token
       await pool.query(
         'INSERT INTO refresh_tokens (user_id, token, expires_at) VALUES ($1, $2, NOW() + INTERVAL \'7 days\')',
-        [user.id, refreshToken]
+        [user.id, hashRefreshToken(refreshToken)]
       );
 
       res.json({
@@ -192,7 +204,7 @@ class AuthController {
       // (reuse detection) from "never existed".
       const tokenResult = await pool.query(
         'SELECT id, revoked_at, expires_at FROM refresh_tokens WHERE token = $1 AND user_id = $2',
-        [refreshToken, decoded.id]
+        [hashRefreshToken(refreshToken), decoded.id]
       );
 
       if (tokenResult.rows.length === 0) {
@@ -257,7 +269,7 @@ class AuthController {
         const insertResult = await client.query(
           `INSERT INTO refresh_tokens (user_id, token, expires_at)
            VALUES ($1, $2, NOW() + INTERVAL '7 days') RETURNING id`,
-          [user.id, newRefreshToken]
+          [user.id, hashRefreshToken(newRefreshToken)]
         );
         const newTokenId = insertResult.rows[0].id;
         await client.query(
@@ -294,7 +306,7 @@ class AuthController {
         // reuse of this rotated-out/logged-out token is still detectable.
         await pool.query(
           'UPDATE refresh_tokens SET revoked_at = NOW() WHERE token = $1 AND user_id = $2 AND revoked_at IS NULL',
-          [refreshToken, req.user.id]
+          [hashRefreshToken(refreshToken), req.user.id]
         );
       } else {
         // If no token provided, revoke ALL active refresh tokens for this user.

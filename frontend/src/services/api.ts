@@ -1,4 +1,5 @@
 import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import { refreshAccessToken } from './tokenRefresh';
 import type { APIResponse, User, Task, TaskCounts, GroupedEmployeeTasks, Employee, Invitation, PendingInvitation, TeamMember, TaskAttachment, AppNotification, TaskComment, EmployeeStats, LeaderboardEntry, EomRecord, ProjectGroup, ProjectTask, MemberProgress, GitHubStatsResult, EmployeeGroupTasks, AdminAnalytics } from '../types';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
@@ -23,31 +24,6 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Single-flight refresh guard: refresh tokens now ROTATE on every use (the old
-// one is revoked server-side). If multiple requests 401 at once and each fired
-// its own refresh, the 2nd+ would present the just-rotated (revoked) token and
-// trip server-side reuse detection, force-logging the user out everywhere. So
-// concurrent 401s must all await the SAME in-flight refresh.
-let refreshPromise: Promise<string> | null = null;
-
-const performTokenRefresh = async (): Promise<string> => {
-  const refreshToken = localStorage.getItem('refreshToken');
-  if (!refreshToken) {
-    throw new Error('No refresh token available');
-  }
-
-  const response = await axios.post(`${API_URL}/auth/refresh`, { refreshToken });
-
-  // The endpoint now returns a NEW access token AND a NEW (rotated) refresh
-  // token. Persist both so the next refresh uses the rotated token.
-  const { accessToken, refreshToken: newRefreshToken } = response.data.data;
-  localStorage.setItem('accessToken', accessToken);
-  if (newRefreshToken) {
-    localStorage.setItem('refreshToken', newRefreshToken);
-  }
-  return accessToken;
-};
-
 // Response interceptor
 api.interceptors.response.use(
   (response) => response,
@@ -61,15 +37,8 @@ api.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        // Reuse an in-flight refresh if one is already running; otherwise start
-        // one and clear the shared promise when it settles.
-        if (!refreshPromise) {
-          refreshPromise = performTokenRefresh().finally(() => {
-            refreshPromise = null;
-          });
-        }
-
-        const accessToken = await refreshPromise;
+        // Shared single-flight refresh (see tokenRefresh.ts).
+        const accessToken = await refreshAccessToken();
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
         return api(originalRequest);
       } catch (refreshError) {

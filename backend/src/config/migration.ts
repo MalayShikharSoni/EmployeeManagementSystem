@@ -190,6 +190,22 @@ async function migrate(): Promise<void> {
     `);
     console.log('refresh_tokens table ensured/updated successfully');
 
+    console.log('Running migration: Soft-revoking legacy raw (unhashed) refresh tokens...');
+    // Refresh tokens are now stored as SHA-256 hex digests. Any pre-existing row
+    // still holding a raw JWT (which contains '.' separators: header.payload.
+    // signature) is a plaintext bearer credential and must be invalidated. A
+    // 64-char [a-f0-9] SHA-256 digest never contains '.', so this pattern targets
+    // ONLY legacy raw-token rows. We soft-revoke (set revoked_at) rather than
+    // delete, keeping the row for reuse-detection/audit history (per S6).
+    // Idempotent: after this runs, no row matches token LIKE '%.%' anymore (all
+    // future tokens are hashes), so re-running this migration is a safe no-op.
+    const revokedLegacy = await pool.query(`
+      UPDATE refresh_tokens
+      SET revoked_at = NOW()
+      WHERE token LIKE '%.%' AND revoked_at IS NULL;
+    `);
+    console.log(`Soft-revoked ${revokedLegacy.rowCount ?? 0} legacy raw refresh token(s).`);
+
     console.log('All migrations completed successfully');
     process.exit(0);
   } catch (error) {

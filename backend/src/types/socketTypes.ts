@@ -58,6 +58,7 @@ export interface ServerToClientEvents {
   'invitation:responded': (response: { invitationId: number; status: string }) => void;
   'notification:new': (notification: ClientNotification) => void;
   'comment:new': (comment: ClientComment) => void;
+  'auth:expired': () => void;
 }
 
 export interface ClientToServerEvents {
@@ -71,4 +72,5 @@ export interface InterServerEvents {
 export interface SocketData {
   userId: number;
   role: string;
+  tokenExp: number; // access-token `exp` claim (seconds since epoch)
 }

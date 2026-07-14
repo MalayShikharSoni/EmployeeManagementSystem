@@ -48,9 +48,12 @@ class SocketService {
       }
 
       try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { id: number; role: string };
+        const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { id: number; role: string; exp: number };
         socket.data.userId = decoded.id;
         socket.data.role = decoded.role;
+        // Stash the token's expiry so we can enforce it after the handshake
+        // (the handshake itself already rejects an already-expired token).
+        socket.data.tokenExp = decoded.exp;
         next();
       } catch (err) {
         next(new Error('Authentication error: Invalid token'));
@@ -71,7 +74,31 @@ class SocketService {
         socket.join(`admin:${userId}`);
       }
 
+      // Enforce the access token's own expiry on the live connection: schedule a
+      // one-shot timer for the moment the token expires. When it fires, tell the
+      // client (so it can refresh + reconnect) then force-disconnect. This avoids
+      // a socket outliving its token without any periodic re-verification.
+      const msUntilExpiry = socket.data.tokenExp * 1000 - Date.now();
+      let expiryTimer: NodeJS.Timeout | undefined;
+
+      const expireSocket = () => {
+        socket.emit('auth:expired');
+        socket.disconnect(true);
+      };
+
+      if (msUntilExpiry > 0) {
+        expiryTimer = setTimeout(expireSocket, msUntilExpiry);
+      } else {
+        // Defensive: handshake should already reject expired tokens, but if we
+        // somehow got here with no time left, expire immediately.
+        expireSocket();
+      }
+
       socket.on('disconnect', () => {
+        // Clear the timer so normal disconnects don't leak pending timers.
+        if (expiryTimer) {
+          clearTimeout(expiryTimer);
+        }
         console.log(`Socket disconnected: User ${userId}`);
       });
     });

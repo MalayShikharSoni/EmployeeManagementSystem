@@ -28,7 +28,9 @@ export const SocketProvider: React.FC<React.PropsWithChildren> = ({ children }) 
     if (isAuthenticated) {
       const token = localStorage.getItem('accessToken');
       if (token) {
-        const newSocket = connectSocket(token);
+        // connectSocket reads the token fresh from localStorage (callback-form
+        // auth), so it always uses the current/rotated token on every connect.
+        const newSocket = connectSocket();
         setSocket(newSocket);
 
         // --- Setup event listeners for notifications ---
