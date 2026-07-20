@@ -2,7 +2,10 @@
 import { io, Socket } from 'socket.io-client';
 import { refreshAccessToken } from './tokenRefresh';
 
-const SOCKET_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+// REST and Socket.io share the same host/port; only REST routes use the /api prefix.
+// VITE_API_URL is the REST base (includes /api) — strip that suffix for Socket.io.
+const REST_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const SOCKET_URL = REST_BASE_URL.replace(/\/api\/?$/, '');
 
 let socket: Socket | null = null;
 
