@@ -7,13 +7,26 @@ import gsap from "gsap";
 import { AuthContext, type AuthContextType } from "../../context/AuthProvider";
 import { useSocket } from "../../context/SocketProvider";
 import { taskAPI, invitationAPI, groupAPI } from "../../services/api";
-import type { Task, TaskCounts, Invitation, EmployeeGroupTasks } from "../../types";
+import type { Task, TaskCounts, TaskStatus, Invitation, EmployeeGroupTasks } from "../../types";
 import styles from "./EmployeeDashboard.module.css";
+
+const emptyCounts = (): TaskCounts => ({ active: 0, new_task: 0, completed: 0, failed: 0 });
+
+/** Derive category bubble counts from the single tasks array (status-filtered views). */
+const countsFromTasks = (list: Task[]): TaskCounts =>
+  list.reduce<TaskCounts>((acc, t) => {
+    if (t.status === 'new') acc.new_task += 1;
+    else if (t.status === 'active') acc.active += 1;
+    else if (t.status === 'completed') acc.completed += 1;
+    else if (t.status === 'failed') acc.failed += 1;
+    return acc;
+  }, emptyCounts());
 
 const EmployeeDashboard = memo(() => {
   console.log('EmployeeDashboard RE-RENDERED');
+  // One flat array; TaskList filters into New/Active/Completed/Failed by status.
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [taskCounts, setTaskCounts] = useState<TaskCounts>({ active: 0, new_task: 0, completed: 0, failed: 0 });
+  const [taskCounts, setTaskCounts] = useState<TaskCounts>(emptyCounts());
   const [isLoadingTasks, setIsLoadingTasks] = useState(true);
   const [error, setError] = useState("");
   const [invitations, setInvitations] = useState<Invitation[]>([]);
@@ -22,23 +35,28 @@ const EmployeeDashboard = memo(() => {
   const firstWaveRef = useRef<HTMLDivElement>(null);
   const thirdWaveRef = useRef<HTMLDivElement>(null);
   const { userData, isLoading: authLoading } = useContext(AuthContext) as AuthContextType;
-  const { refreshTrigger } = useSocket();
+  // socket: local optimistic updates for task events; refreshTrigger: invitations/groups only
+  const { socket, refreshTrigger } = useSocket();
   const changeUser = useCallback(() => { }, []);
 
-  const fetchMyTasks = useCallback(async () => {
+  const fetchMyTasks = useCallback(async (opts?: { silent?: boolean }) => {
     try {
-      setIsLoadingTasks(true); setError("");
+      // Full-page "Loading tasks" only on initial/explicit loads — never for socket safety-net refetches
+      if (!opts?.silent) { setIsLoadingTasks(true); }
+      setError("");
       const [tasksResponse, countsResponse] = await Promise.all([taskAPI.getMyTasks(), taskAPI.getMyTaskCounts()]);
       setTasks(tasksResponse.data.data); setTaskCounts(countsResponse.data.data);
       console.log("Tasks fetched:", tasksResponse.data.data);
       console.log("Task counts:", countsResponse.data.data);
     } catch (err) { console.error("Failed to fetch tasks:", err); setError("Failed to load tasks. Please refresh."); }
-    finally { setIsLoadingTasks(false); }
+    finally { if (!opts?.silent) { setIsLoadingTasks(false); } }
   }, []);
 
   const refreshTasks = useCallback(() => { fetchMyTasks(); }, [fetchMyTasks]);
 
-  useEffect(() => { if (userData && userData.role === 'employee') { fetchMyTasks(); } }, [userData, fetchMyTasks, refreshTrigger]);
+  // Initial fetch on mount/auth-ready only — task socket events update state locally (below).
+  // Invitations/groups still use refreshTrigger (separate effect).
+  useEffect(() => { if (userData && userData.role === 'employee') { fetchMyTasks(); } }, [userData, fetchMyTasks]);
 
   const fetchInvitations = useCallback(async () => {
     try { const res = await invitationAPI.getMyInvitations(); setInvitations(res.data.data); }
@@ -46,6 +64,49 @@ const EmployeeDashboard = memo(() => {
   }, []);
 
   useEffect(() => { if (userData && userData.role === 'employee') { fetchInvitations(); fetchMyGroups(); } }, [userData, fetchInvitations, refreshTrigger]);
+
+  // Keep a ref so socket handlers can decide refetch-vs-local without reading stale closures
+  // or calling side effects inside a setState updater.
+  const tasksRef = useRef(tasks);
+  tasksRef.current = tasks;
+
+  // Apply task:assigned / task:statusChanged locally — payload already has enough data; no full refetch.
+  useEffect(() => {
+    if (!socket || !userData || userData.role !== 'employee') return;
+
+    const onTaskAssigned = (task: Task) => {
+      setTasks(prev => {
+        if (prev.some(t => t.id === task.id)) return prev;
+        // Prepend so it appears at the start of the "New Tasks" filtered row
+        const next = [{ ...task, status: (task.status || 'new') as TaskStatus }, ...prev];
+        setTaskCounts(countsFromTasks(next));
+        return next;
+      });
+    };
+
+    const onTaskStatusChanged = ({ taskId, status }: { taskId: number; status: string }) => {
+      // Not in local state yet (e.g. race with initial fetch) — silent full refetch as safety net
+      if (!tasksRef.current.some(t => t.id === taskId)) {
+        void fetchMyTasks({ silent: true });
+        return;
+      }
+      // Same single array: update status in place; TaskList re-filters into the destination category
+      setTasks(prev => {
+        const next = prev.map(t =>
+          t.id === taskId ? { ...t, status: status as TaskStatus } : t
+        );
+        setTaskCounts(countsFromTasks(next));
+        return next;
+      });
+    };
+
+    socket.on('task:assigned', onTaskAssigned);
+    socket.on('task:statusChanged', onTaskStatusChanged);
+    return () => {
+      socket.off('task:assigned', onTaskAssigned);
+      socket.off('task:statusChanged', onTaskStatusChanged);
+    };
+  }, [socket, userData, fetchMyTasks]);
 
   const fetchMyGroups = async () => {
     try {
@@ -91,7 +152,7 @@ const EmployeeDashboard = memo(() => {
         {error && (
           <div className={styles.errorBox}>
             <span>{error}</span>
-            <button onClick={fetchMyTasks} className={styles.retryBtn}>Retry</button>
+            <button onClick={() => fetchMyTasks()} className={styles.retryBtn}>Retry</button>
           </div>
         )}
         {invitations.length > 0 && (
